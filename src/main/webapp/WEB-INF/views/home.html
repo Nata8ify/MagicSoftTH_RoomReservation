@@ -23,6 +23,11 @@
     <!-- <link href="css/css-index-orange.css" rel="stylesheet" media="screen"> -->
     <!-- <link href="css/css-index-yellow.css" rel="stylesheet" media="screen"> -->
 
+    <!--Full Calendar-->
+    <link href="../../resources/fullcalendar/fullcalendar.min.css" rel="stylesheet">
+    <link href="../../resources/fullcalendar/fullcalendar.print.css" rel="stylesheet">
+
+
     <!-- Google Fonts -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"
     />
@@ -62,7 +67,7 @@
                         <!-- /.header button -->
                         <div class="head-btn wow fadeInLeft">
                             <a href="#schedule" class="btn-primary">Schedules</a>
-                            <a href="#available" class="btn-default">Available -L</a>
+                            <a href="#available" class="btn-default">My Booking -L</a>
                         </div>
                     </div>
 
@@ -110,7 +115,7 @@
                 <div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard navbar-right">
                     <ul class="nav navbar-nav">
                         <li><a href="#schedule">Schedule</a></li>
-                        <li><a href="#available">See Available Room</a></li>
+                        <li><a href="#available">My Booking</a></li>
                         <li><a href="#facilities">Facilities</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
@@ -127,18 +132,19 @@
             <div class="row">
                 <!-- /.schedule image -->
                 <div class="col-md-2 intro-pic wow slideInLeft">
+                    <br/>
                     <div class="form-group">
                         <label class='form-label'>Room: </label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                            <input class='form-control' id='schedule-search-room' placeholder="Room's' Name" />
+                            <input class='form-control' id='schedule-search-room' placeholder="" />
                         </div>
                     </div>
                     <hr/>
-                    <img src="../../resources/user_backyard/images/intro-image.jpg" alt="image" class="img-responsive">
+                    <input type="date" id="schedule-search-date-room" class='form-control' />
                 </div>
                 <div class="col-md-10 intro-pic wow slideInRight">
-                    <img src="../../resources/user_backyard/images/intro-image.jpg" alt="image" class="img-responsive">
+                    <div id="schedule-reservation-result"></div>
                 </div>
                 <!--Room Schedule content-->
             </div>
@@ -253,9 +259,19 @@
     <script src="../../resources/user_backyard/js/jquery.sticky.js"></script>
     <script src="../../resources/user_backyard/js/wow.min.js"></script>
     <script src="../../resources/user_backyard/js/owl.carousel.min.js"></script>
+    <script src="../../resources/fullcalendar/lib/moment.min.js"></script>
+    <script src="../../resources/fullcalendar/fullcalendar.min.js"></script>
+    <!--Full Calender Scripts-->
+    <script>
+        $('#schedule-reservation-result').fullCalendar({
+            // put your options and callbacks here
+        });
+    </script>
     <script>
         new WOW().init();
     </script>
+
+
 </body>
 
 </html>
