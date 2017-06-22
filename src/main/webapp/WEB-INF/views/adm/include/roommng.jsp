@@ -1,54 +1,97 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div class="main">
-    <div class="main-inner">
-      <div class="container">
-        <div class="row">
-          <div class="span12">
-            <div class="widget">
-              <div class="widget-header"> <i class="icon-pencil"></i>
-                <h3> Room Management</h3>
-              </div>
-              <!-- /widget-header -->
-              <div class="widget-content">
-                
-                <form:form modelAttribute="formObj" method='post' action="addroom">
-                  <form:input path="roomCode" type="text" placeholder="roomCode"  />
-                  <form:input path="roomName" type="text" placeholder="roomName"  />
-                  <form:input path="description" type="text" placeholder="description" />
-                  <form:input path="floor" type="number" placeholder="floor" />
-                  <form:input path="building" type="text" placeholder="building" />
-                  Available? : <form:checkbox path="isAvailable"/><br/>
-                  <input type="submit" />
-                </form:form>
-                <hr/>
-                
-                <form method='post'>
-                  <input type="text" name="roomId" placeholder="roomId" type="number" />
-                  <input type="text" name="roomName" placeholder="roomName" />
-                  <input type="text" name="description" placeholder="description" />
-                   <input type="number" name="floor" placeholder="floor" />
-                  <input type="text" name="building" placeholder="building" />
-                  Available : <input type="radio" name="isAvailable" value="true" />
-                  Not Available : <input type="radio" name="isAvailable" value="name" />
-                  <input type="submit" />
-                </form>
-                <hr/>
-                <form method='post'>
-                  <input type="text" name="roomId" placeholder="roomId" type="number" />
-                  <input type="submit"  value="delete" />
-                </form>
-                <hr/>
-                --Better DataTable Here
-              </div>
-              <!-- /widget-content -->
-            </div>
-            <!-- /widget -->
-          </div>
-        </div>
-        <!-- /row -->
-      </div>
-      <!-- /container -->
-    </div>
-    <!-- /main-inner -->
-  </div>
-  <!-- /main -->
+	<div class="main-inner">
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<div class="widget">
+						<div class="widget-header">
+							<i class="icon-pencil"></i>
+							<h3>Room Management</h3>
+						</div>
+						<!-- /widget-header -->
+						<div class="widget-content">
+
+							<form:form modelAttribute="formObj" method='post'
+								action="addroom">
+								<form:input path="roomCode" type="text" placeholder="roomCode" />
+								<form:input path="roomName" type="text" placeholder="roomName" />
+								<form:input path="description" type="text"
+									placeholder="description" />
+								<form:input path="floor" type="number" placeholder="floor" />
+								<form:input path="building" type="text" placeholder="building" />
+                  Available? : <form:checkbox path="isAvailable" />
+								<br />
+								<input type="submit" />
+							</form:form>
+							<hr />
+							<div>
+								<table id="table-room"
+									class="table table-responsive table-stripted">
+									<thead>
+										<tr>
+											<th>Room code</th>
+											<th>Room Name</th>
+											<th>Building</th>
+											<th>Floor</th>
+											<th>Edit</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+						<!-- /widget-content -->
+					</div>
+					<!-- /widget -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /main-inner -->
+</div>
+<jsp:include page="modal_roomeditor.jsp"></jsp:include>
+<!-- /main -->
+<script>
+var rooms;
+	var roomDataTable = $("#table-room").DataTable({
+		"ajax" : {
+			"url" : "findAll",
+			"dataSrc" : function(json){
+				rooms = json;
+				console.log(rooms);
+				return rooms;
+			}
+		},
+		"columns" : [
+			{"data" : "roomCode", "width" : "20%"},
+			{"data" : "roomName", "width" : "30%"},
+			{"data" : "building", "width" : "20%"},
+			{"data" : "floor", "width" : "20%"},
+			{"width" : "10%"}
+		],
+		"columnDefs" : [ {
+			"targets" : -1,
+			"data" : "",
+			"searchable" : false,
+			"defaultContent" : "<button class='btnEditRoom btn btn-default'><i class='glyphicon glyphicon-pencil'></i>Edit</button>"
+		} ]
+	});
+	
+	$("table tbody").on("click", "tr .btnEditRoom", function(evt){
+		var rowData = roomDataTable.row($(this).parents("tr")).data();
+		$("#input-edit-room-id").val(rowData.roomId);
+		$("#input-edit-room-code").val(rowData.roomCode);
+		$("#input-edit-room-name").val(rowData.roomName);
+		$("#input-edit-room-floor").val(rowData.floor);
+		$("#input-edit-room-building").val(rowData.roomCode);
+		$("#input-edit-room-desc").val(rowData.description);
+		if(rowData.isAvailable){$("#input-edit-room-available").prop("checked", true);}
+		else{$("#input-edit-room-available").prop("checked", false);}
+		$("#modal-room-editor").modal();
+		$("")
+	});
+	
+</script>

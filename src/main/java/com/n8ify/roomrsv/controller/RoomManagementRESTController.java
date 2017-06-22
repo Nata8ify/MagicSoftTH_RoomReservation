@@ -1,5 +1,7 @@
 package com.n8ify.roomrsv.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -10,32 +12,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.n8ify.roomrsv.dealer.RoomManagement;
 import com.n8ify.roomrsv.model.Room;
 
-@Controller
-public class RoomManagementController {
+@RestController
+public class RoomManagementRESTController {
 
-	private static final Logger logger = LoggerFactory.getLogger(RoomManagementController.class);
-	
-	private final String ROOM_MNG = "adm/roommng";
+	private static final Logger logger = LoggerFactory.getLogger(RoomManagementRESTController.class);
 	
 	@Autowired
 	@Qualifier("roomMng")
 	private RoomManagement roomMng;
 	
-	@RequestMapping(value = "/adm/addroom")
-	public String roomMngAddRoom(Model model, HttpServletRequest request,
-			@ModelAttribute("addRoom")Room room){
-		logger.info(room.toString());
-		roomMng.addRoom(room);
-		return ROOM_MNG;
-	}
-	
-	@RequestMapping(value = "/adm/updateroom")
-	public String roomMngUpdateRoom(Model model, HttpServletRequest request){
-		roomMng.addRoom(null);
-		return ROOM_MNG;
+	@RequestMapping(value = "/adm/findAll", method = RequestMethod.GET)
+	public List<Room> roomMngAddRoom(){
+		return roomMng.findAll();
 	}
 }
