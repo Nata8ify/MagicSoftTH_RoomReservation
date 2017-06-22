@@ -62,8 +62,8 @@ public class Room {
 	}
 
 	public void setAvailable(boolean isAvailable) {
-			this.isAvailable = isAvailable;
-		
+		this.isAvailable = isAvailable;
+
 	}
 
 	@Override

@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true"%>
+<c:set var="resPath" value="${pageContext.request.contextPath}/resources" />
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
 
@@ -8,15 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
     <!-- CSS Files -->
-    <link th:href="@{/resources/user_backyard/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/resources/user_backyard/css/font-awesome.min.css}" rel="stylesheet"/>
-    <link th:href="@{/resources/user_backyard/fonts/icon-7-stroke/css/pe-icon-7-stroke.css}" rel="stylesheet"/>
-    <link th:href="@{/resources/user_backyard/css/animate.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/resources/user_backyard/css/owl.theme.css}" rel="stylesheet"/>
-    <link th:href="@{/resources/user_backyard/css/owl.carousel.css}" rel="stylesheet"/>
+    <link href="${resPath}/user_backyard/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="${resPath}/user_backyard/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="${resPath}/user_backyard/fonts/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet"/>
+    <link href="${resPath}/user_backyard/css/animate.css" rel="stylesheet" media="screen"/>
+    <link href="${resPath}/user_backyard/css/owl.theme.css" rel="stylesheet"/>
+    <link href="${resPath}/user_backyard/css/owl.carousel.css" rel="stylesheet"/>
 
     <!-- Colors -->
-    <link th:href="@{/resources/user_backyard/css/css-index.css}" rel="stylesheet" media="screen"/>
+    <link href="${resPath}/user_backyard/css/css-index.css" rel="stylesheet" media="screen"/>
     <!-- <link href="css/css-index-green.css" rel="stylesheet" media="screen"> -->
     <!-- <link href="css/css-index-purple.css" rel="stylesheet" media="screen"> -->
     <!-- <link href="css/css-index-red.css" rel="stylesheet" media="screen"> -->
@@ -24,8 +27,8 @@
     <!-- <link href="css/css-index-yellow.css" rel="stylesheet" media="screen"> -->
 
     <!--Full Calendar-->
-    <link th:href="@{/resources/fullcalendar/fullcalendar.min.css}" rel="stylesheet"/>
-    <link th:href="@{/resources/fullcalendar/fullcalendar.print.css}" rel="stylesheet"/>
+    <link href="${resPath}/fullcalendar/fullcalendar.min.css" rel="stylesheet"/>
+    <link href="${resPath}/fullcalendar/fullcalendar.print.css" rel="stylesheet"/>
 
 
     <!-- Google Fonts -->
@@ -253,14 +256,14 @@
     </footer>
 
     <!-- /.javascript files -->
-    <script th:src="@{/resources/user_backyard/js/jquery.js}"></script>
-    <script th:src="@{/resources/user_backyard/js/bootstrap.min.js}"></script>
-    <script th:src="@{/resources/user_backyard/js/custom.js}"></script>
-    <script th:src="@{/resources/user_backyard/js/jquery.sticky.js}"></script>
-    <script th:src="@{/resources/user_backyard/js/wow.min.js}"></script>
-    <script th:src="@{/resources/user_backyard/js/owl.carousel.min.js}"></script>
-    <script th:src="@{/resources/fullcalendar/lib/moment.min.js}"></script>
-    <script th:src="@{/resources/fullcalendar/fullcalendar.min.js}"></script>
+    <script src="${resPath}/user_backyard/js/jquery.js"></script>
+    <script src="${resPath}/user_backyard/js/bootstrap.min.js"></script>
+    <script src="${resPath}/user_backyard/js/custom.js"></script>
+    <script src="${resPath}/user_backyard/js/jquery.sticky.js"></script>
+    <script src="${resPath}/user_backyard/js/wow.min.js"></script>
+    <script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
+    <script src="${resPath}/fullcalendar/lib/moment.min.js"></script>
+    <script src="${resPath}/fullcalendar/fullcalendar.min.js"></script>
     <!--Full Calender Scripts-->
     <script>
         $('#schedule-reservation-result').fullCalendar({

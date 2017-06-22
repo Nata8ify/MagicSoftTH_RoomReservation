@@ -1,25 +1,4 @@
 
-  <div class="subnavbar">
-    <div class="subnavbar-inner">
-      <div class="container">
-        <ul class="mainnav">
-          <li class="active"><a href="index.html"><i class="icon-list-alt"></i><span>Dashboard</span> </a> </li>
-          <li><a href="charts.html"><i class="icon-bar-chart"></i><span>Report</span> </a> </li>
-          <li><a href="shortcodes.html"><i class="icon-facetime-video"></i><span>Facilities</span> </a> </li>
-          <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-pencil"></i></i><span>Room Management</span> <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="icons.html">View Rooms</a></li>
-              <li><a href="faq.html">Create New Room</a></li>
-              <li><a href="faq.html">Advances</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <!-- /container -->
-    </div>
-    <!-- /subnavbar-inner -->
-  </div>
-  <!-- /subnavbar -->
   <div class="main">
     <div class="main-inner">
       <div class="container">

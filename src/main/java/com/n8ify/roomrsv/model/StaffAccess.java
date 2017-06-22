@@ -29,7 +29,7 @@ public class StaffAccess {
 		this.staffId = staffId;
 		this.password = password;
 	}
-	
+
 	public String getStaffId() {
 		return staffId;
 	}
@@ -45,7 +45,6 @@ public class StaffAccess {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public String getRoomrsvRole() {
 		return roomrsvRole;

@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true"%>
+<c:set var="resPath" value="${pageContext.request.contextPath}/resources" />
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
@@ -7,20 +10,22 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<link th:href="@{../resources/admin_vamp/css/bootstrap.min.css}"
+<link href="${resPath}/admin_vamp/css/bootstrap.min.css"
 	rel="stylesheet" />
 <link
-	th:href="@{../resources/admin_vamp/css/bootstrap-responsive.min.css}"
+	href="${resPath}/admin_vamp/css/bootstrap-responsive.min.css"
 	rel="stylesheet" />
 <link
 	href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
 	rel="stylesheet" />
-<link th:href="@{../resources/admin_vamp/css/font-awesome.css}"
+<link href="${resPath}/admin_vamp/css/font-awesome.css"
 	rel="stylesheet" />
-<link th:href="@{../resources/admin_vamp/css/style.css}"
+<link href="${resPath}/admin_vamp/css/style.css"
 	rel="stylesheet" />
-<link th:href="@{../resources/admin_vamp/css/pages/dashboard.css}"
+<link href="${resPath}/admin_vamp/css/pages/dashboard.css"
 	rel="stylesheet" />
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+
 </head>
 
 <body>
@@ -63,13 +68,13 @@
 		<div class="subnavbar-inner">
 			<div class="container">
 				<ul class="mainnav">
-					<li class="active"><a href="index.html"><i
+					<li class="active"><a href="dashboard"><i
 							class="icon-list-alt"></i><span>Dashboard</span> </a></li>
-					<li><a href="charts.html"><i class="icon-bar-chart"></i><span>Report</span>
+					<li><a href="report"><i class="icon-bar-chart"></i><span>Report</span>
 					</a></li>
-					<li><a href="shortcodes.html"><i class="icon-pencil"></i><span>Room
+					<li><a href="roommng"><i class="icon-pencil"></i><span>Room
 								Management</span> </a></li>
-					<li><a href="shortcodes.html"><i
+					<li><a href="facilimng"><i
 							class="icon-facetime-video"></i><span>Facilities</span> </a></li>
 
 				</ul>
@@ -78,7 +83,7 @@
 		</div>
 		<!-- /subnavbar-inner -->
 	</div>
-	<div th:insert="dashboard :: copy"></div>
+		<jsp:include page="include/${include}.jsp"></jsp:include>
 	<div class="extra">
 		<div class="extra-inner">
 			<div class="container">
@@ -120,14 +125,18 @@
 	<!-- Le javascript
 ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script th:src="@{../resources/admin_vamp/js/jquery-1.7.2.min.js}"></script>
-	<script th:src="@{../resources/admin_vamp/js/excanvas.min.js}"></script>
-	<script th:src="@{../resources/admin_vamp/js/chart.min.js}"
+	<script>
+		w3.includeHTML();
+	</script>
+
+	<script src="${resPath}/admin_vamp/js/jquery-1.7.2.min.js"></script>
+	<script src="${resPath}/admin_vamp/js/excanvas.min.js"></script>
+	<script src="${resPath}/admin_vamp/js/chart.min.js"
 		type="text/javascript"></script>
-	<script th:src="@{../resources/admin_vamp/js/bootstrap.js}"></script>
+	<script src="${resPath}/admin_vamp/js/bootstrap.js"></script>
 	<script language="javascript" type="text/javascript"
-		th:src="@{../resources/admin_vamp/js/full-calendar/fullcalendar.min.js}"></script>
-	<script th:src="@{../resources/admin_vamp/js/base.js}"></script>
+		src="${resPath}/admin_vamp/js/full-calendar/fullcalendar.min.js"></script>
+	<script src="${resPath}/admin_vamp/js/base.js"></script>
 </body>
 
 </html>

@@ -34,8 +34,6 @@ public class Staff {
 		super();
 	}
 
-	
-
 	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,
 			String division, String position, String protraitPath, String hostManagerId, String honorific,
 			String staffType) {
@@ -157,7 +155,5 @@ public class Staff {
 				+ ", protraitPath=" + protraitPath + ", hostManagerId=" + hostManagerId + ", honorific=" + honorific
 				+ ", staffType=" + staffType + "]";
 	}
-
-	
 
 }

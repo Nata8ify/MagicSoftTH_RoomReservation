@@ -2,7 +2,6 @@ package com.n8ify.roomrsv.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.spi.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +15,7 @@ public class AdminHomeController {
 
 	private final String ADM_REL_PATH = "/adm/";
 	private final String ADM_HOME = "/adm/admhome";
+
 	private enum enumAttr {
 		to, include
 	};
@@ -23,12 +23,13 @@ public class AdminHomeController {
 	private enum enumTo {
 		dashboard, report, roommng, facilimng
 	};
+
 	@RequestMapping("/adm/admhome")
-	public String admhome(Model model, HttpServletRequest request){
+	public String admhome(Model model, HttpServletRequest request) {
 		model.addAttribute(enumAttr.include.toString(), enumTo.dashboard.toString());
 		return ADM_HOME;
 	}
-	
+
 	@RequestMapping(value = "/adm/{admTo}")
 	public String toAdminPagePart(Model model, @PathVariable(value = "admTo") enumTo to) {
 		model.addAttribute(enumAttr.include.toString(), to.toString());

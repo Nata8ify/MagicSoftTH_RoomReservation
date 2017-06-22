@@ -1,7 +1,5 @@
 
-<html xmlns:th="http://www.thymeleaf.org">
-<body>
-	<div class="main" th:fragment="copy">
+	<div class="main">
 		<div class="main-inner">
 			<div class="container">
 				<div class="row">
@@ -135,5 +133,3 @@
 		<!-- /main-inner -->
 	</div>
 	<!-- /main -->
-</body>
-</html>
