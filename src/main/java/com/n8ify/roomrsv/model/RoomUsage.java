@@ -5,7 +5,7 @@ import java.sql.Time;
 
 public class RoomUsage {
 	private int usageId;
-	private short roomId;
+	private int roomId;
 	private String byStaffId;
 	private String purpose;
 	private String note;
@@ -21,11 +21,11 @@ public class RoomUsage {
 		this.usageId = usageId;
 	}
 
-	public short getRoomId() {
+	public int getRoomId() {
 		return roomId;
 	}
 
-	public void setRoomId(short roomId) {
+	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
 

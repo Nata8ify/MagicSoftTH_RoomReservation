@@ -1,7 +1,7 @@
 package com.n8ify.roomrsv.model;
 
 public class Room {
-	private short roomId;
+	private int roomId;
 	private String roomName;
 	private String roomCode;
 	private String description;
@@ -9,11 +9,34 @@ public class Room {
 	private String building;
 	private boolean isAvailable;
 
-	public short getRoomId() {
+	public Room() {
+	}
+
+	public Room(String roomName, String roomCode, String description, int floor, String building, boolean isAvailable) {
+		this.roomName = roomName;
+		this.roomCode = roomCode;
+		this.description = description;
+		this.floor = floor;
+		this.building = building;
+		this.isAvailable = isAvailable;
+	}
+
+	public Room(int roomId, String roomName, String roomCode, String description, int floor, String building,
+			boolean isAvailable) {
+		this.roomId = roomId;
+		this.roomName = roomName;
+		this.roomCode = roomCode;
+		this.description = description;
+		this.floor = floor;
+		this.building = building;
+		this.isAvailable = isAvailable;
+	}
+
+	public int getRoomId() {
 		return roomId;
 	}
 
-	public void setRoomId(short roomId) {
+	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
 
@@ -57,13 +80,14 @@ public class Room {
 		this.building = building;
 	}
 
-	public boolean isAvailable() {
+
+
+	public boolean getIsAvailable() {
 		return isAvailable;
 	}
 
-	public void setAvailable(boolean isAvailable) {
+	public void setIsAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
-
 	}
 
 	@Override

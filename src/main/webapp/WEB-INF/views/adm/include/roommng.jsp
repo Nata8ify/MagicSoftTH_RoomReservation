@@ -1,5 +1,5 @@
-
-  <div class="main">
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<div class="main">
     <div class="main-inner">
       <div class="container">
         <div class="row">
@@ -11,32 +11,22 @@
               <!-- /widget-header -->
               <div class="widget-content">
                 
-                <form method='post'>
-                  <input type="text" name="roomName" placeholder="roomName" />
-                  <input type="text" name="description" placeholder="description" />
-                  <select name="floor">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                    </select>
-                  <input type="text" name="building" placeholder="building" />
-                  Available : <input type="radio" name="isAvailable" value="true" />
-                  Not Available : <input type="radio" name="isAvailable" value="name" />
+                <form:form modelAttribute="formObj" method='post' action="addroom">
+                  <form:input path="roomCode" type="text" placeholder="roomCode"  />
+                  <form:input path="roomName" type="text" placeholder="roomName"  />
+                  <form:input path="description" type="text" placeholder="description" />
+                  <form:input path="floor" type="number" placeholder="floor" />
+                  <form:input path="building" type="text" placeholder="building" />
+                  Available? : <form:checkbox path="isAvailable"/><br/>
                   <input type="submit" />
-                </form>
+                </form:form>
                 <hr/>
                 
                 <form method='post'>
                   <input type="text" name="roomId" placeholder="roomId" type="number" />
                   <input type="text" name="roomName" placeholder="roomName" />
                   <input type="text" name="description" placeholder="description" />
-                  <select name="floor">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                    </select>
+                   <input type="number" name="floor" placeholder="floor" />
                   <input type="text" name="building" placeholder="building" />
                   Available : <input type="radio" name="isAvailable" value="true" />
                   Not Available : <input type="radio" name="isAvailable" value="name" />

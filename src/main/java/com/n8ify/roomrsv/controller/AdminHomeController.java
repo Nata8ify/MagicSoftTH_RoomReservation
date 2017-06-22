@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.n8ify.roomrsv.model.Room;
 
 @Controller
 public class AdminHomeController {
@@ -17,7 +20,7 @@ public class AdminHomeController {
 	private final String ADM_HOME = "/adm/admhome";
 
 	private enum enumAttr {
-		to, include
+		to, include, formObj
 	};
 
 	private enum enumTo {
@@ -33,6 +36,22 @@ public class AdminHomeController {
 	@RequestMapping(value = "/adm/{admTo}")
 	public String toAdminPagePart(Model model, @PathVariable(value = "admTo") enumTo to) {
 		model.addAttribute(enumAttr.include.toString(), to.toString());
+		switch (to) {
+		case dashboard:
+
+			break;
+		case report:
+
+			break;
+		case roommng:
+			model.addAttribute(enumAttr.formObj.toString(), new Room());
+			break;
+		case facilimng:
+
+			break;
+		default:
+			break;
+		}
 		return ADM_HOME;
 	}
 

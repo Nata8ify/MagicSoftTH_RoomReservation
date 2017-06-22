@@ -31,7 +31,6 @@ public class Staff {
 	}
 
 	public Staff() {
-		super();
 	}
 
 	public Staff(String staffId, String name, String nameLocale, String email, String tel, String mobileTel,

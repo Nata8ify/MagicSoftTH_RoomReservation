@@ -1,8 +1,9 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
 <c:set var="resPath" value="${pageContext.request.contextPath}/resources" />
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
 <meta charset="utf-8" />
@@ -24,7 +25,6 @@
 	rel="stylesheet" />
 <link href="${resPath}/admin_vamp/css/pages/dashboard.css"
 	rel="stylesheet" />
-<script src="https://www.w3schools.com/lib/w3.js"></script>
 
 </head>
 
@@ -125,9 +125,6 @@
 	<!-- Le javascript
 ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script>
-		w3.includeHTML();
-	</script>
 
 	<script src="${resPath}/admin_vamp/js/jquery-1.7.2.min.js"></script>
 	<script src="${resPath}/admin_vamp/js/excanvas.min.js"></script>

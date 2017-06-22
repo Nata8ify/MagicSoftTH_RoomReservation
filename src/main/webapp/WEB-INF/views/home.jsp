@@ -216,13 +216,13 @@
                         <div class="col-sm-7 contact-right">
                             <form method="POST" id="contact-form" class="form-horizontal" action="contactengine.php" onSubmit="alert( 'Thank you for your feedback!' );">
                                 <div class="form-group">
-                                    <input type="text" name="Name" id="Name" class="form-control wow fadeInUp" placeholder="Name" required="required" />
+                                    <input type="text" name="username" id="Name" class="form-control wow fadeInUp" placeholder="Name" required="required" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="Email" id="Email" class="form-control wow fadeInUp" placeholder="Email" required="required" />
+                                    <input type="text" name="email" id="Email" class="form-control wow fadeInUp" placeholder="Email" required="required" />
                                 </div>
                                 <div class="form-group">
-                                    <textarea name="Message" rows="20" cols="20" id="Message" class="form-control input-message wow fadeInUp" placeholder="Message"
+                                    <textarea name="message" rows="20" cols="20" id="Message" class="form-control input-message wow fadeInUp" placeholder="Message"
                                         required="required"></textarea>
                                 </div>
                                 <div class="form-group">
@@ -256,6 +256,7 @@
     </footer>
 
     <!-- /.javascript files -->
+    <script src="${resPath}/jslib/angular.min.js"></script>
     <script src="${resPath}/user_backyard/js/jquery.js"></script>
     <script src="${resPath}/user_backyard/js/bootstrap.min.js"></script>
     <script src="${resPath}/user_backyard/js/custom.js"></script>

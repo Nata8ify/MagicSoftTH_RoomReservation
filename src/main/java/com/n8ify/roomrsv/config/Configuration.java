@@ -2,16 +2,23 @@ package com.n8ify.roomrsv.config;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import com.n8ify.roomrsv.controller.AdminHomeController;
+import com.n8ify.roomrsv.dealer.RoomManagement;
+import com.n8ify.roomrsv.dealer.RoomrsvAccess;
+
 @org.springframework.context.annotation.Configuration
 @PropertySource("classpath:properties.properties")
 public class Configuration {
 
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(Configuration.class);
+	
 	@Autowired
 	Environment env;
 
@@ -22,6 +29,17 @@ public class Configuration {
 		dataSource.setUrl(env.getProperty("datasource.url"));
 		dataSource.setUsername(env.getProperty("datasource.username"));
 		dataSource.setPassword(env.getProperty("datasource.password"));
+		logger.info(dataSource.getUsername());
 		return dataSource;
+	}
+	
+	@Bean(name = "roomrsvAccess")
+	public RoomrsvAccess roomrsvAccess(){
+		return new RoomrsvAccess(dataSource());
+	}
+	
+	@Bean(name = "roomMng")
+	public RoomManagement roomMng(){
+		return new RoomManagement(dataSource());
 	}
 }
