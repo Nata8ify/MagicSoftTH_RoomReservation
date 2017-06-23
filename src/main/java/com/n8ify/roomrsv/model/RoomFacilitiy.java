@@ -1,18 +1,30 @@
 package com.n8ify.roomrsv.model;
 
 public class RoomFacilitiy {
-	private int roomFacilityIdPrimary;
+	private int roomFacilityId;
 	private String facility;
 	private String description;
 	private boolean isDevice;
 	private int quantity;
 
+	public RoomFacilitiy() {
+	}
+
+	public RoomFacilitiy(int roomFacilityId, String facility, String description, boolean isDevice, int quantity) {
+		super();
+		this.roomFacilityId = roomFacilityId;
+		this.facility = facility;
+		this.description = description;
+		this.isDevice = isDevice;
+		this.quantity = quantity;
+	}
+
 	public int getRoomFacilityIdPrimary() {
-		return roomFacilityIdPrimary;
+		return roomFacilityId;
 	}
 
 	public void setRoomFacilityIdPrimary(int roomFacilityIdPrimary) {
-		this.roomFacilityIdPrimary = roomFacilityIdPrimary;
+		this.roomFacilityId = roomFacilityIdPrimary;
 	}
 
 	public String getFacility() {
@@ -31,11 +43,11 @@ public class RoomFacilitiy {
 		this.description = description;
 	}
 
-	public boolean isDevice() {
+	public boolean getIsDevice() {
 		return isDevice;
 	}
 
-	public void setDevice(boolean isDevice) {
+	public void setIsDevice(boolean isDevice) {
 		this.isDevice = isDevice;
 	}
 
@@ -49,8 +61,8 @@ public class RoomFacilitiy {
 
 	@Override
 	public String toString() {
-		return "RoomFacilitiy [roomFacilityIdPrimary=" + roomFacilityIdPrimary + ", facility=" + facility
-				+ ", description=" + description + ", isDevice=" + isDevice + ", quantity=" + quantity + "]";
+		return "RoomFacilitiy [roomFacilityId=" + roomFacilityId + ", facility=" + facility + ", description="
+				+ description + ", isDevice=" + isDevice + ", quantity=" + quantity + "]";
 	}
 
 }

@@ -11,7 +11,7 @@ public interface RoomFacilityManagementInterface {
 	public boolean deleteFacility(int facilitiyId);
 	
 	public List<RoomFacilitiy> findAll();
-	public List<RoomFacilitiy> findByRoomUsage(int roomUsageId);
+	public RoomFacilitiy findById(int id);
 	public List<RoomFacilitiy> findAllforNonDevice();
 	public List<RoomFacilitiy> findAllforDevice();
 }
