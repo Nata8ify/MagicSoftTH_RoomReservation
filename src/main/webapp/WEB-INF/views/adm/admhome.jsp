@@ -1,6 +1,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
+<%@page contentType="text/html; charset=UTF-8"%>
 <c:set var="resPath"
 	value="${pageContext.request.contextPath}/resources" />
 <!DOCTYPE html>
@@ -14,13 +15,16 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <link href="${resPath}/admin_vamp/css/bootstrap.min.css"
 	rel="stylesheet" />
-<link href="${resPath}/admin_vamp/css/bootstrap-responsive.min.css"
+<link
+	href="${resPath}/admin_vamp/css/bootstrap-responsive.min.css"
 	rel="stylesheet" />
 <link
 	href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
 	rel="stylesheet" />
-<link href="${resPath}/admin_vamp/css/font-awesome.css" rel="stylesheet" />
-<link href="${resPath}/admin_vamp/css/style.css" rel="stylesheet" />
+<link href="${resPath}/admin_vamp/css/font-awesome.css"
+	rel="stylesheet" />
+<link href="${resPath}/admin_vamp/css/style.css"
+	rel="stylesheet" />
 <link href="${resPath}/admin_vamp/css/pages/dashboard.css"
 	rel="stylesheet" />
 <link href="${resPath}/datatable/jquery.dataTables.min.css" rel="stylesheet" />

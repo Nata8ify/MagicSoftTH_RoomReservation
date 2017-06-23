@@ -12,18 +12,15 @@
 						<!-- /widget-header -->
 						<div class="widget-content">
 
-							<form:form modelAttribute="formObj" method='post'
-								action="addroom">
-								<form:input path="roomCode" type="text" placeholder="roomCode" />
-								<form:input path="roomName" type="text" placeholder="roomName" />
-								<form:input path="description" type="text"
-									placeholder="description" />
-								<form:input path="floor" type="number" placeholder="floor" />
-								<form:input path="building" type="text" placeholder="building" />
-                  Available? : <form:checkbox path="isAvailable" />
-								<br />
+							<form method='post' action="addroom" accept-charset="UTF-8">
+								<input name="roomCode" type="text" placeholder="roomCode" /> <input
+									name="roomName" type="text" placeholder="roomName" /> <input
+									name="description" type="text" placeholder="description" /> <input
+									name="floor" type="number" placeholder="floor" /> <input
+									name="building" type="text" placeholder="building" />
+								Available? : <input type="checkbox" name="isAvailable" /> <br />
 								<input type="submit" />
-							</form:form>
+							</form>
 							<hr />
 							<div>
 								<table id="table-room"
@@ -55,43 +52,55 @@
 <jsp:include page="modal_roomeditor.jsp"></jsp:include>
 <!-- /main -->
 <script>
-var rooms;
-	var roomDataTable = $("#table-room").DataTable({
-		"ajax" : {
-			"url" : "findAll",
-			"dataSrc" : function(json){
-				rooms = json;
-				console.log(rooms);
-				return rooms;
-			}
-		},
-		"columns" : [
-			{"data" : "roomCode", "width" : "20%"},
-			{"data" : "roomName", "width" : "30%"},
-			{"data" : "building", "width" : "20%"},
-			{"data" : "floor", "width" : "20%"},
-			{"width" : "10%"}
-		],
-		"columnDefs" : [ {
-			"targets" : -1,
-			"data" : "",
-			"searchable" : false,
-			"defaultContent" : "<button class='btnEditRoom btn btn-default'><i class='glyphicon glyphicon-pencil'></i>Edit</button>"
-		} ]
-	});
-	
-	$("table tbody").on("click", "tr .btnEditRoom", function(evt){
+	var rooms;
+	var roomDataTable = $("#table-room")
+			.DataTable(
+					{
+						"ajax" : {
+							"url" : "findAll",
+							"dataSrc" : function(json) {
+								rooms = json;
+								console.log(rooms);
+								return rooms;
+							}
+						},
+						"columns" : [ {
+							"data" : "roomCode",
+							"width" : "20%"
+						}, {
+							"data" : "roomName",
+							"width" : "30%"
+						}, {
+							"data" : "building",
+							"width" : "20%"
+						}, {
+							"data" : "floor",
+							"width" : "20%"
+						}, {
+							"width" : "10%"
+						} ],
+						"columnDefs" : [ {
+							"targets" : -1,
+							"data" : "",
+							"searchable" : false,
+							"defaultContent" : "<button class='btnEditRoom btn btn-default'><i class='glyphicon glyphicon-pencil'></i>Edit</button>"
+						} ]
+					});
+
+	$("table tbody").on("click", "tr .btnEditRoom", function(evt) {
 		var rowData = roomDataTable.row($(this).parents("tr")).data();
 		$("#input-edit-room-id").val(rowData.roomId);
 		$("#input-edit-room-code").val(rowData.roomCode);
 		$("#input-edit-room-name").val(rowData.roomName);
 		$("#input-edit-room-floor").val(rowData.floor);
-		$("#input-edit-room-building").val(rowData.roomCode);
+		$("#input-edit-room-building").val(rowData.building);
 		$("#input-edit-room-desc").val(rowData.description);
-		if(rowData.isAvailable){$("#input-edit-room-available").prop("checked", true);}
-		else{$("#input-edit-room-available").prop("checked", false);}
+		if (rowData.isAvailable) {
+			$("#input-edit-room-available").prop("checked", true);
+		} else {
+			$("#input-edit-room-available").prop("checked", false);
+		}
 		$("#modal-room-editor").modal();
 		$("")
 	});
-	
 </script>

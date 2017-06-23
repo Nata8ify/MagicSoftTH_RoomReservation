@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.n8ify.roomrsv.model.Room;
+import com.n8ify.roomrsv.utils.Attrs;
 
 @Controller
 public class AdminHomeController {
@@ -19,23 +20,18 @@ public class AdminHomeController {
 	private final String ADM_REL_PATH = "/adm/";
 	private final String ADM_HOME = "/adm/admhome";
 
-	private enum enumAttr {
-		to, include, formObj
-	};
 
-	private enum enumTo {
-		dashboard, report, roommng, facilimng
-	};
+
 
 	@RequestMapping("/adm/admhome")
 	public String admhome(Model model, HttpServletRequest request) {
-		model.addAttribute(enumAttr.include.toString(), enumTo.dashboard.toString());
+		model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.dashboard.toString());
 		return ADM_HOME;
 	}
 
 	@RequestMapping(value = "/adm/{admTo}")
-	public String toAdminPagePart(Model model, @PathVariable(value = "admTo") enumTo to) {
-		model.addAttribute(enumAttr.include.toString(), to.toString());
+	public String toAdminPagePart(Model model, @PathVariable(value = "admTo") Attrs.getAdminDestinationAttr to) {
+		model.addAttribute(Attrs.getOptionAttr.include.toString(), to.toString());
 		switch (to) {
 		case dashboard:
 
@@ -44,7 +40,7 @@ public class AdminHomeController {
 
 			break;
 		case roommng:
-			model.addAttribute(enumAttr.formObj.toString(), new Room());
+
 			break;
 		case facilimng:
 

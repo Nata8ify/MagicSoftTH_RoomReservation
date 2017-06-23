@@ -29,7 +29,6 @@ public class Configuration {
 		dataSource.setUrl(env.getProperty("datasource.url"));
 		dataSource.setUsername(env.getProperty("datasource.username"));
 		dataSource.setPassword(env.getProperty("datasource.password"));
-		logger.info(dataSource.getUsername());
 		return dataSource;
 	}
 	

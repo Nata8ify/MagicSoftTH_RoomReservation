@@ -10,32 +10,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.roomrsv.dealer.RoomManagement;
+import com.n8ify.roomrsv.excp.PrimaryIdNotFoundException;
 import com.n8ify.roomrsv.model.Room;
+import com.n8ify.roomrsv.utils.Attrs;
 
 @Controller
 public class RoomManagementController {
 
 	private static final Logger logger = LoggerFactory.getLogger(RoomManagementController.class);
-	
-	private final String ROOM_MNG = "adm/roommng";
-	
+
+	private final String ADM_HOME = "adm/admhome";
+
 	@Autowired
 	@Qualifier("roomMng")
 	private RoomManagement roomMng;
-	
+
 	@RequestMapping(value = "/adm/addroom")
-	public String roomMngAddRoom(Model model, HttpServletRequest request,
-			@ModelAttribute("addRoom")Room room){
+	public String roomMngAddRoom(Model model, HttpServletRequest request, Room room) {
 		logger.info(room.toString());
-		roomMng.addRoom(room);
-		return ROOM_MNG;
+		if (roomMng.addRoom(room)) {
+			model.addAttribute(Attrs.getOptionAttr.include.toString(),
+					Attrs.getAdminDestinationAttr.roommng.toString());
+			return ADM_HOME;
+		}
+		return "";
 	}
-	
+
 	@RequestMapping(value = "/adm/updateroom")
-	public String roomMngUpdateRoom(Model model, HttpServletRequest request){
-		roomMng.addRoom(null);
-		return ROOM_MNG;
+	public String roomMngUpdateRoom(Model model, HttpServletRequest request, Room room) {
+		logger.info(room.toString() + "");
+		if (roomMng.updateRoom(room)) {
+			model.addAttribute(Attrs.getOptionAttr.include.toString(),
+					Attrs.getAdminDestinationAttr.roommng.toString());
+			return ADM_HOME;
+		}
+		return "";
+	}
+
+	@RequestMapping(value = "/adm/deleteroom")
+	public String roomMngDeleteRoom(Model model, HttpServletRequest request,
+			@RequestParam(value = "roomId", required = true) int roomId) throws PrimaryIdNotFoundException {
+		if (roomMng.deleteRoom(roomId)) {
+			model.addAttribute(Attrs.getOptionAttr.include.toString(),
+					Attrs.getAdminDestinationAttr.roommng.toString());
+			return ADM_HOME;
+		}
+		throw new PrimaryIdNotFoundException();
 	}
 }
