@@ -7,7 +7,7 @@
 			</div>
 			<div class="modal-body">
 				<form method="post" action="updateroom">
-					<input type="hidden" id="input-edit-room-id" name="roomId" />
+					<input type="hidden" id="input-edit-room-id" name="z" />
 					<table class='table table-responsive' id='table-room-edit-form'>
 						<tbody>
 							<tr>

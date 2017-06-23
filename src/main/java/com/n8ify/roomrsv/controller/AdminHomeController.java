@@ -7,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.n8ify.roomrsv.model.Room;
 import com.n8ify.roomrsv.utils.Attrs;
 
 @Controller
@@ -18,7 +15,6 @@ public class AdminHomeController {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AdminHomeController.class);
 
 	private final String ADM_REL_PATH = "/adm/";
-	private final String ADM_HOME = "/adm/admhome";
 
 
 
@@ -26,7 +22,7 @@ public class AdminHomeController {
 	@RequestMapping("/adm/admhome")
 	public String admhome(Model model, HttpServletRequest request) {
 		model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.dashboard.toString());
-		return ADM_HOME;
+		return Attrs.ADMIN_HOME;
 	}
 
 	@RequestMapping(value = "/adm/{admTo}")
@@ -48,7 +44,7 @@ public class AdminHomeController {
 		default:
 			break;
 		}
-		return ADM_HOME;
+		return Attrs.ADMIN_HOME;
 	}
 
 }

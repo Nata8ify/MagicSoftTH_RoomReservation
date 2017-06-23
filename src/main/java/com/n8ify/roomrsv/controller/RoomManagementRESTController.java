@@ -2,15 +2,10 @@ package com.n8ify.roomrsv.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +22,8 @@ public class RoomManagementRESTController {
 	@Qualifier("roomMng")
 	private RoomManagement roomMng;
 	
-	@RequestMapping(value = "/adm/findAll", method = RequestMethod.GET)
-	public List<Room> roomMngAddRoom(){
+	@RequestMapping(value = "/adm/findAllRooms", method = RequestMethod.GET)
+	public List<Room> getAllRooms(){
 		return roomMng.findAll();
 	}
 }

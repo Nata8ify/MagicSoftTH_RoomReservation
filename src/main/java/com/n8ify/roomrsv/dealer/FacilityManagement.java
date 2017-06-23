@@ -32,14 +32,14 @@ public class FacilityManagement implements RoomFacilityManagementInterface{
 	@Override
 	public boolean updateFacility(RoomFacilitiy facilitiy) {
 		String sqlUpdateFacili = "UPDATE `RoomFacilitiy` SET `facility`= ?,`description`=  ?,`isDevice`= ?,`quantity`= ? WHERE `roomFacilityId` = ?;";
-		return jdbc.update(sqlUpdateFacili, new Object[]{facilitiy.getFacility(), facilitiy.getDescription(), facilitiy.getIsDevice(), facilitiy.getQuantity()})
+		return jdbc.update(sqlUpdateFacili, new Object[]{facilitiy.getFacility(), facilitiy.getDescription(), facilitiy.getIsDevice(), facilitiy.getQuantity(), facilitiy.getRoomFacilityId()})
 				== 1;
 	}
 
 	@Override
-	public boolean updateFacilityQuatity(int facilitiyId, int quantity) {
+	public boolean updateFacilityQuantity(int facilitiyId, int quantity) {
 		String sqlUpdateQFacili = "UPDATE `RoomFacilitiy` SET `quantity`= ? WHERE `roomFacilityId` = ?;";
-		return jdbc.update(sqlUpdateQFacili, new Object[]{facilitiyId, quantity})
+		return jdbc.update(sqlUpdateQFacili, new Object[]{quantity, facilitiyId})
 				== 1;
 	}
 
@@ -53,7 +53,7 @@ public class FacilityManagement implements RoomFacilityManagementInterface{
 	@Override
 	public List<RoomFacilitiy> findAll() {
 		String sqlfindAll = "SELECT * FROM `RoomFacilitiy`;";
-		return jdbc.queryForList(sqlfindAll, RoomFacilitiy.class);
+		return jdbc.query(sqlfindAll, new FacilityMapper());
 	}
 
 	@Override
@@ -65,13 +65,13 @@ public class FacilityManagement implements RoomFacilityManagementInterface{
 	@Override
 	public List<RoomFacilitiy> findAllforNonDevice() {
 		String  sqlfindAllNonDevice= "SELECT * FROM `RoomFacilitiy` WHERE `isDevice` == 0;";
-		return jdbc.queryForList(sqlfindAllNonDevice, RoomFacilitiy.class);
+		return jdbc.query(sqlfindAllNonDevice, new FacilityMapper());
 	}
 
 	@Override
 	public List<RoomFacilitiy> findAllforDevice() {
 		String sqlfindAllDevice  = "SELECT * FROM `RoomFacilitiy` WHERE `isDevice` == 1;";
-		return jdbc.queryForList(sqlfindAllDevice, RoomFacilitiy.class);
+		return jdbc.query(sqlfindAllDevice, new FacilityMapper());
 	}
 	
 	private class FacilityMapper implements RowMapper<RoomFacilitiy>{

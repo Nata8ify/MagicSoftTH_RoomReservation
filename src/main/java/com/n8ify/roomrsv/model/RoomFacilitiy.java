@@ -19,12 +19,12 @@ public class RoomFacilitiy {
 		this.quantity = quantity;
 	}
 
-	public int getRoomFacilityIdPrimary() {
+	public int getRoomFacilityId() {
 		return roomFacilityId;
 	}
 
-	public void setRoomFacilityIdPrimary(int roomFacilityIdPrimary) {
-		this.roomFacilityId = roomFacilityIdPrimary;
+	public void setRoomFacilityId(int roomFacilityId) {
+		this.roomFacilityId = roomFacilityId;
 	}
 
 	public String getFacility() {

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import com.n8ify.roomrsv.controller.AdminHomeController;
+import com.n8ify.roomrsv.dealer.FacilityManagement;
 import com.n8ify.roomrsv.dealer.RoomManagement;
 import com.n8ify.roomrsv.dealer.RoomrsvAccess;
 
@@ -40,5 +40,10 @@ public class Configuration {
 	@Bean(name = "roomMng")
 	public RoomManagement roomMng(){
 		return new RoomManagement(dataSource());
+	}
+	
+	@Bean(name = "faciliMng")
+	public FacilityManagement facilityMng(){
+		return new FacilityManagement(dataSource());
 	}
 }
