@@ -13,7 +13,9 @@ public class Attrs {
 	public static enum getPathAttr {
 		to, include, formObj
 	};
-	
+
+	public static String ADMIN_SIGNIN = "adm/admlogin";
 	public static String ADMIN_HOME = "adm/admhome";
+	public static String HOME = "home";
 	
 }

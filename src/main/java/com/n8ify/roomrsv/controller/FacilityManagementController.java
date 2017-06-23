@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.n8ify.roomrsv.dealer.FacilityManagement;
@@ -24,7 +25,7 @@ public class FacilityManagementController {
 	@Qualifier("faciliMng")
 	private FacilityManagement faciliMng;
 	
-	@RequestMapping(value = "/adm/addfacili")
+	@RequestMapping(value = "/adm/addfacili", method = RequestMethod.POST)
 	public String roomMngAddFacility(Model model, HttpServletRequest request, RoomFacilitiy roomFacilitiy) {
 		if(faciliMng.addFacility(roomFacilitiy)){
 			model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.facilimng.toString());
@@ -33,7 +34,7 @@ public class FacilityManagementController {
 		return "";
 	}
 	
-	@RequestMapping(value = "/adm/updatefacili")
+	@RequestMapping(value = "/adm/updatefacili", method = RequestMethod.POST)
 	public String roomMngUpdateFacility(Model model, HttpServletRequest request, RoomFacilitiy roomFacilitiy) {
 		logger.info(roomFacilitiy.toString());
 		if(faciliMng.updateFacility(roomFacilitiy)){
@@ -43,7 +44,7 @@ public class FacilityManagementController {
 		return "";
 	}
 	
-	@RequestMapping(value = "/adm/updatefaciliQuan")
+	@RequestMapping(value = "/adm/updatefaciliQuan", method = RequestMethod.POST)
 	public String roomMngUpdateQuantityFacility(Model model, HttpServletRequest request,
 			@RequestParam(value="facilitiyId")int facilitiyId,
 			@RequestParam(value="quantity")int quantity) {
@@ -54,7 +55,7 @@ public class FacilityManagementController {
 		return "";
 	}
 	
-	@RequestMapping(value = "/adm/deletefacili")
+	@RequestMapping(value = "/adm/deletefacili", method = RequestMethod.POST)
 	public String roomMngDeleteFacility(Model model, HttpServletRequest request, 
 			@RequestParam(value="facilityId")int facilitiyId) {
 		if(faciliMng.deleteFacility(facilitiyId)){

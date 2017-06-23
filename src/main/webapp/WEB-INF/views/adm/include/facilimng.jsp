@@ -13,10 +13,10 @@
 						<!-- /widget-header -->
 						<div class="widget-content">
 							<form method='post' action="addfacili">
-								<input type="text" name="facility" placeholder="facility"
+								<input type="text" name="facility" placeholder="facility" readonly
 									maxlength="30" /> <input type="text" name="description"
 									placeholder="description" maxlength="100" /><input
-									type="number" name="quantity" placeholder="quantity"
+									type="number" name="quantity" placeholder="quantity" value="0"
 									maxlength="5" /> Is a Device : <input type="checkbox"
 									name="isDevice" /> <input type="submit" />
 							</form>

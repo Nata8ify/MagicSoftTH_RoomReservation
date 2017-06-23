@@ -26,7 +26,7 @@ public class Staff {
 
 	public static Staff getStaffInstance() {
 		if (Staff.staff == null)
-			Staff.staff = new Staff();
+			return null;
 		return Staff.staff;
 	}
 

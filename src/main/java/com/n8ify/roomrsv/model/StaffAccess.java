@@ -9,7 +9,7 @@ public class StaffAccess {
 
 	public static StaffAccess getAccessInstance() {
 		if (StaffAccess.staffAccess == null)
-			throw new NullPointerException("No Staff Access Instance By Now.");
+			return null;
 		return StaffAccess.staffAccess;
 	}
 
@@ -56,7 +56,8 @@ public class StaffAccess {
 
 	@Override
 	public String toString() {
-		return "StaffAccess [staffId=" + staffId + ", password=" + password + "]";
+		return "StaffAccess [staffId=" + staffId + ", password=" + password + ", roomrsvRole=" + roomrsvRole + "]";
 	}
 
+	
 }

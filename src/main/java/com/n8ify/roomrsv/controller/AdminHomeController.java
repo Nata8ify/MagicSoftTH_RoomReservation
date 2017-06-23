@@ -16,11 +16,13 @@ public class AdminHomeController {
 
 	private final String ADM_REL_PATH = "/adm/";
 
-
-
+	@RequestMapping("/adm/admlogin")
+	public String toAdminSignIn(Model model, HttpServletRequest request) {
+		return Attrs.ADMIN_SIGNIN;
+	}
 
 	@RequestMapping("/adm/admhome")
-	public String admhome(Model model, HttpServletRequest request) {
+	public String toAdminHome(Model model, HttpServletRequest request) {
 		model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.dashboard.toString());
 		return Attrs.ADMIN_HOME;
 	}

@@ -14,7 +14,7 @@
 
 							<form method='post' action="addroom" accept-charset="UTF-8">
 								<input name="roomCode" type="text" placeholder="roomCode" /> <input
-									name="roomName" type="text" placeholder="roomName" /> <input
+									name="roomName" type="text" placeholder="roomName" readonly /> <input
 									name="description" type="text" placeholder="description" /> <input
 									name="floor" type="number" placeholder="floor" /> <input
 									name="building" type="text" placeholder="building" />

@@ -59,7 +59,7 @@
 
                         <!-- /.main title -->
                         <h1 class="wow fadeInLeft">
-                            MST Room Reservation
+                            MST Room Reservation ${thisAccess}
                         </h1>
 
                         <!-- /.header paragraph -->
@@ -79,11 +79,11 @@
 
                         <div class="signup-header wow fadeInUp">
                             <h3 class="form-title text-center">GET STARTED</h3>
-                            <form class="form-header" action="http://moxdesign.us10.list-manage.com/subscribe/post" role="form" method="POST" id="#">
+                            <form class="form-header" action="login" role="form" method="POST" id="#">
                                 <input type="hidden" name="u" value="503bdae81fde8612ff4944435"/>
                                 <input type="hidden" name="id" value="bfdba52708"/>
                                 <div class="form-group">
-                                    <input class="form-control input-lg" name="staffid" id="input-signin-staffid" type="text" placeholder="Staff ID" required="required" />
+                                    <input class="form-control input-lg" name="staffId" id="input-signin-staffid" type="text" placeholder="Staff ID" required="required" />
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control input-lg" name="password" id="input-signin-password" type="password" placeholder="Password" required="required" />

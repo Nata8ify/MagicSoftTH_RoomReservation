@@ -8,6 +8,8 @@ import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.n8ify.roomrsv.intf.RoomsrvAccessInterface;
 import com.n8ify.roomrsv.model.Staff;
@@ -16,20 +18,23 @@ import com.n8ify.roomrsv.model.StaffAccess;
 public class RoomrsvAccess implements RoomsrvAccessInterface {
 
 	private JdbcTemplate jdbc;
-	
+
 	public RoomrsvAccess(DataSource dataSource) {
 		this.jdbc = new JdbcTemplate(dataSource);
 	}
 
 	@Override
 	public Staff login(String staffId, String password) {
-		String sqlQueryStaff = "SELECT * FROM `Staff` s WHERE UPPER(sa.staffId) = ?;";
-		String sqlQueryAccess = "SELECT `rmreservRole` FROM `StaffAccess` WHERE `staffId` = ?;";
 		try {
-			StaffAccess.setAccessInstance(jdbc.queryForObject(sqlQueryAccess, new Object[]{staffId}, new StaffAccessMapper()));
-			if(Staff.getStaffInstance() == null) {return null;}
-			Staff.setStaffInstance(jdbc.queryForObject(sqlQueryStaff, new Object[] { staffId}, new StaffMapper()));
-			return Staff.getStaffInstance();
+			String sqlQueryStaff = "SELECT * FROM `Staff` WHERE staffId = ?;";
+			String sqlQueryAccess = "SELECT `rmreservRole` FROM `StaffAccess` WHERE `staffId` = ?;";
+
+			StaffAccess.setAccessInstance(new StaffAccess(staffId, password,
+					jdbc.queryForObject(sqlQueryAccess, new Object[] { staffId }, String.class)));
+			if (StaffAccess.getAccessInstance() == null) {
+				return null;
+			}
+			return jdbc.queryForObject(sqlQueryStaff, new Object[] { staffId }, new StaffMapper());
 		} catch (EmptyResultDataAccessException erex) {
 			return null; // <-- Please Change Handle Thing.
 		}
@@ -43,11 +48,14 @@ public class RoomrsvAccess implements RoomsrvAccessInterface {
 
 	@Override
 	public boolean isRoomReservationAdmin(String staffId) {
-		String sqlStaffRole = "SELECT `rmreservRole` FROM `StaffAccess` WHERE `staffId` = ?";
-		String role = jdbc.queryForObject(sqlStaffRole, new Object[]{staffId}, String.class);
-		if(role == null) return false;
-		if(role.equals(Staff.TYPE_ADMINISTRATOR)){
-			return true;
+		try {
+			String sqlStaffRole = "SELECT `rmreservRole` FROM `StaffAccess` WHERE `staffId` = ?";
+			String role = jdbc.queryForObject(sqlStaffRole, new Object[] { staffId }, String.class);
+			if (role.equals(Staff.TYPE_ADMINISTRATOR)) {
+				return true;
+			}
+		} catch (EmptyResultDataAccessException erex) {
+			 // <-- Please Change Handle Thing.
 		}
 		return false;
 	}
@@ -59,6 +67,7 @@ public class RoomrsvAccess implements RoomsrvAccessInterface {
 	}
 
 	private String tempStaffRole;
+
 	class StaffMapper implements RowMapper<Staff> {
 
 		@Override
@@ -88,5 +97,5 @@ public class RoomrsvAccess implements RoomsrvAccessInterface {
 			return new StaffAccess(rs.getString("staffId"), rs.getString("password"), rs.getString("stffpsRole"));
 		}
 	}
-	
+
 }
