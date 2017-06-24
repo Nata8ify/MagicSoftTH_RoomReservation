@@ -5,6 +5,19 @@ public class RoomFacilitiyUsage {
 	private int roomFacilityId;
 	private int accessedQuantity;
 
+	
+	
+	public RoomFacilitiyUsage() {
+		super();
+	}
+
+	public RoomFacilitiyUsage(int roomUsageId, int roomFacilityId, int accessedQuantity) {
+		super();
+		this.roomUsageId = roomUsageId;
+		this.roomFacilityId = roomFacilityId;
+		this.accessedQuantity = accessedQuantity;
+	}
+
 	public int getRoomUsageId() {
 		return roomUsageId;
 	}

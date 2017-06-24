@@ -48,6 +48,9 @@ public class RoomrsvAccessController {
 	public String adminLogin(Model model, HttpServletRequest request,
 			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "password", required = true) String password) {
+		
+		//Session Purge
+		
 		if (!rsvAccess.isRoomReservationAdmin(staffId)) {
 			return Attrs.ADMIN_SIGNIN;
 		}

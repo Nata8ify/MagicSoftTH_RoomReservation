@@ -80,7 +80,7 @@ public class RoomManagement implements RoomManagementInterface {
 	@Override
 	public List<Room> findByName(String roomName) {
 		String sqlFindByBuilding  = "SELECT * FROM `Room` WHERE `roomName` like ?;";
-		return jdbc.query(sqlFindByBuilding, new RoomMapper());
+		return jdbc.query(sqlFindByBuilding, new Object[]{"%".concat(roomName).concat("%")}, new RoomMapper());
 	}
 	
 	private class RoomMapper implements RowMapper<Room>{

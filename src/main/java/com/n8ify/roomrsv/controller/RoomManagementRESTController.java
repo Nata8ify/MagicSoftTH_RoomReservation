@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.n8ify.roomrsv.dealer.RoomManagement;
@@ -25,5 +26,10 @@ public class RoomManagementRESTController {
 	@RequestMapping(value = "/adm/findAllRooms", method = RequestMethod.GET)
 	public List<Room> getAllRooms(){
 		return roomMng.findAll();
+	}
+	
+	@RequestMapping(value = "/find/byRoomsName", method = RequestMethod.GET)
+	public List<Room> getRoomsByName(@RequestParam(value = "name", required = true, defaultValue = "")String roomName){
+		return roomMng.findByName(roomName);
 	}
 }

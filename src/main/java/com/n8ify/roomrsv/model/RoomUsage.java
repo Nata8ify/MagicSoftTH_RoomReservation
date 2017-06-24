@@ -13,6 +13,23 @@ public class RoomUsage {
 	private Time accessBegin;
 	private Time accessUntil;
 
+	
+	
+	public RoomUsage() {
+	}
+
+	public RoomUsage(int usageId, int roomId, String byStaffId, String purpose, String note, Date reservedDate,
+			Time accessBegin, Time accessUntil) {
+		this.usageId = usageId;
+		this.roomId = roomId;
+		this.byStaffId = byStaffId;
+		this.purpose = purpose;
+		this.note = note;
+		this.reservedDate = reservedDate;
+		this.accessBegin = accessBegin;
+		this.accessUntil = accessUntil;
+	}
+
 	public int getUsageId() {
 		return usageId;
 	}
