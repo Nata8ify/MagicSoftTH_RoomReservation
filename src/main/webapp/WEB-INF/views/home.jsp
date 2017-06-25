@@ -73,6 +73,11 @@
 <!-- Initial Script -->
 <script>
 	var calendar; //Holding Calendar Object.
+	var events = [{
+		title: 'Meeting',
+		start: '2017-06-12T10:30:00',
+		end: '2017-06-12T12:30:00'
+	}]; //Hold a Total Room Usages.
 	$("document").ready(function() {
 		calendar = $('#schedule-reservation-result').fullCalendar({
 			header : {
@@ -80,14 +85,11 @@
 				center : 'title',
 				right : 'month,agendaWeek,agendaDay,listWeek'
 			},
-			defaultDate : '2017-05-12',
+			defaultDate : '2017-06-12',
 			navLinks : true, // can click day/week names to navigate views
 			editable : true,
 			eventLimit : true, // allow "more" link when too many events
-			events : [ {
-				title : 'All Day Event',
-				start : '2017-05-01'
-			}]
+			events : events
 		});
 	});
 </script>
@@ -390,17 +392,17 @@
 	<!-- Function -->
 	<script>
 		function renderCalendar(calendar, room, roomUsages) {
-			var events = []; //Hold a Total Room Usages.
+			events = []; //Empty Pervious.
+			console.log(roomUsages);
 			$.each(roomUsages, function(index, val){
-				console.log(getISODateTime(val.reservedDate, val.accessBegin));
-				events.push({id : val.roomId, title	: val.purpose, start : getISODateTime(val.reservedDate, val.accessBegin), end : getISODateTime(val.reservedDate, val.accessUntil)});
+				events.push({id: val.roomId, title: val.purpose, start: getISODateTime(val.reservedDate, val.accessBegin), end: getISODateTime(val.reservedDate, val.accessUntil)});
 			});
-			console.log(events);
-			calendar.fullCalendar( 'renderEvent', events);
-			calendar.stripTime();
+			console.log(calendar);
+			calendar.fullCalendar('removeEvents'); 
+			calendar.fullCalendar('addEventSource', events); 
 		}
 		function getISODateTime(date, time) {
-			return $.fullCalendar.moment.utc(date + "T" + time)._i;
+			return $.fullCalendar.moment.utc(date + "T" + time);
 		}
 	</script>
 	<!-- /Function -->
