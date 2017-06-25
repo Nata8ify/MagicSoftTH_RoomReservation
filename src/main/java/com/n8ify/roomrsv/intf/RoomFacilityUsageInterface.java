@@ -2,7 +2,6 @@ package com.n8ify.roomrsv.intf;
 
 import java.util.List;
 
-import com.n8ify.roomrsv.model.RoomFacilitiy;
 import com.n8ify.roomrsv.model.RoomFacilitiyUsage;
 
 public interface RoomFacilityUsageInterface {

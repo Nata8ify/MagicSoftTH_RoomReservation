@@ -28,8 +28,9 @@ public class RoomManagementRESTController {
 		return roomMng.findAll();
 	}
 	
-	@RequestMapping(value = "/find/byRoomsName", method = RequestMethod.GET)
+	@RequestMapping(value = "/findRoom/byRoomsName", method = RequestMethod.GET)
 	public List<Room> getRoomsByName(@RequestParam(value = "name", required = true, defaultValue = "")String roomName){
 		return roomMng.findByName(roomName);
 	}
+	
 }

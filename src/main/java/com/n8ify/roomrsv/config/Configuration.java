@@ -13,7 +13,6 @@ import com.n8ify.roomrsv.dealer.FacilityManagement;
 import com.n8ify.roomrsv.dealer.ReservationManagement;
 import com.n8ify.roomrsv.dealer.RoomManagement;
 import com.n8ify.roomrsv.dealer.RoomrsvAccess;
-import com.n8ify.roomrsv.intf.RoomReservationInterface;
 
 @org.springframework.context.annotation.Configuration
 @PropertySource("classpath:properties.properties")

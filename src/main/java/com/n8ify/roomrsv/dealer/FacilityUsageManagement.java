@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.n8ify.roomrsv.intf.RoomFacilityUsageInterface;
-import com.n8ify.roomrsv.model.RoomFacilitiy;
 import com.n8ify.roomrsv.model.RoomFacilitiyUsage;
 
 public class FacilityUsageManagement implements RoomFacilityUsageInterface {

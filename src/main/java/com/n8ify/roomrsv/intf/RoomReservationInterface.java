@@ -15,6 +15,7 @@ public interface RoomReservationInterface {
 	public boolean cancel(int roomUsageId);
 
 	public List<RoomUsage> findAll();
+	public List<RoomUsage> findByRoomId(int roomId);
 	public List<RoomUsage> findByDate(Date reservedDate);
 	public List<RoomUsage> findByRoomName(String roomName);
 	public List<Room> findAvailableByDateTime(Date date, Time accessBegin, Time accessUntil);

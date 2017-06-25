@@ -3,12 +3,12 @@
 <c:set var="resPath"
 	value="${pageContext.request.contextPath}/resources" />
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
 
 <!-- /.website title -->
-<title>Backyard Landing Page</title>
+<title>MST Room Reservation</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
@@ -35,17 +35,63 @@
 <!-- <link href="css/css-index-orange.css" rel="stylesheet" media="screen"> -->
 <!-- <link href="css/css-index-yellow.css" rel="stylesheet" media="screen"> -->
 
+<!-- Jquery -->
+
+<!-- /.javascript files -->
+<script src="${resPath}/user_backyard/js/jquery.js"></script>
+<script src="${resPath}/user_backyard/js/bootstrap.min.js"></script>
+<script src="${resPath}/user_backyard/js/custom.js"></script>
+<script src="${resPath}/user_backyard/js/jquery.sticky.js"></script>
+<script src="${resPath}/user_backyard/js/wow.min.js"></script>
+<script src="${resPath}/user_backyard/js/bootstrap3-typeahead.min.js"></script>
+<script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
+
 <!--Full Calendar-->
 <link href="${resPath}/fullcalendar/fullcalendar.min.css"
 	rel="stylesheet" />
 <link href="${resPath}/fullcalendar/fullcalendar.print.css"
 	rel="stylesheet" />
+<script src="${resPath}/fullcalendar/lib/moment.min.js" async="async"></script>
+<script src="${resPath}/fullcalendar/fullcalendar.min.js" async="async"></script>
+
+
 <script src="${resPath}/jslib/angular.min.js"></script>
 
 <!-- Google Fonts -->
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" />
 
+<!-- Initial CSS -->
+<style>
+#schedule-reservation-result {
+	max-width: 900px;
+	margin: 0 auto;
+}
+</style>
+<!-- / Initial CSS -->
+
+<!-- Initial Script -->
+<script>
+	var calendar; //Holding Calendar Object.
+	$("document").ready(function() {
+		calendar = $('#schedule-reservation-result').fullCalendar({
+			header : {
+				left : 'prev,next today',
+				center : 'title',
+				right : 'month,agendaWeek,agendaDay,listWeek'
+			},
+			defaultDate : '2017-05-12',
+			navLinks : true, // can click day/week names to navigate views
+			editable : true,
+			eventLimit : true, // allow "more" link when too many events
+			events : [ {
+				title : 'All Day Event',
+				start : '2017-05-01'
+			}]
+		});
+	});
+</script>
+<!-- /Initial Script -->
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -70,57 +116,68 @@
 								src="${resPath}/user_backyard/images/logo.png" alt="logo" /></a>
 						</div>
 
+
 						<!-- /.main title -->
-						<h1 class="wow fadeInLeft">MST Room Reservation ${thisAccess}
-						</h1>
+						<h1 class="wow fadeInLeft">MST Room Reservation</h1>
 
 						<!-- /.header paragraph -->
 						<div class="landing-text wow fadeInUp">
-							<p>Make a room reservation easier to anywhere and anytime.</p>
+							<c:choose>
+								<c:when test="${thisAccess==null}">
+									<p>Make a room reservation easier to anywhere and anytime.</p>
+								</c:when>
+								<c:otherwise>
+									<p>Welcome ${thisStaff.name}</p>
+								</c:otherwise>
+							</c:choose>
 						</div>
 
 						<!-- /.header button -->
 						<div class="head-btn wow fadeInLeft">
-							<a href="#schedule" class="btn-primary">Schedules</a> <a
-								href="#available" class="btn-default">My Booking -L</a>
+							<a href="#schedule" class="btn-primary">Schedules</a>
+							<c:if test="${thisStaff != null}">
+								<a href="#available" class="btn-default">My Booking</a>
+							</c:if>
 						</div>
+						<br /> <br />
 					</div>
 
 					<!-- /.signup form -->
 					<div class="col-md-5">
-
-						<div class="signup-header wow fadeInUp">
-							<h3 class="form-title text-center">GET STARTED</h3>
-							<form class="form-header" action="login" role="form"
-								method="POST" id="#">
-								<input type="hidden" name="u" value="503bdae81fde8612ff4944435" />
-								<input type="hidden" name="id" value="bfdba52708" />
-								<div class="form-group">
-									<input class="form-control input-lg" name="staffId"
-										id="input-signin-staffid" type="text" placeholder="Staff ID"
-										required="required" />
-								</div>
-								<div class="form-group">
-									<input class="form-control input-lg" name="password"
-										id="input-signin-password" type="password"
-										placeholder="Password" required="required" />
-								</div>
-								<div class="form-group last">
-									<input type="submit" class="btn btn-warning btn-block btn-lg"
-										value="SIGN IN" />
-								</div>
-								<p class="privacy text-center">
-									We will not share your email. Read our <a href="privacy.html">privacy
-										policy</a>.
-								</p>
-							</form>
-						</div>
-
+						<c:if test="${thisStaff == null}">
+							<div class="signup-header wow fadeInUp">
+								<h3 class="form-title text-center">GET STARTED</h3>
+								<form class="form-header" action="login" role="form"
+									method="POST" id="#">
+									<input type="hidden" name="u" value="503bdae81fde8612ff4944435" />
+									<input type="hidden" name="id" value="bfdba52708" />
+									<div class="form-group">
+										<input class="form-control input-lg" name="staffId"
+											id="input-signin-staffid" type="text" placeholder="Staff ID"
+											required="required" />
+									</div>
+									<div class="form-group">
+										<input class="form-control input-lg" name="password"
+											id="input-signin-password" type="password"
+											placeholder="Password" required="required" />
+									</div>
+									<div class="form-group last">
+										<input type="submit" class="btn btn-warning btn-block btn-lg"
+											value="SIGN IN" />
+									</div>
+									<p class="privacy text-center">
+										We will not share your email. Read our <a href="privacy.html">privacy
+											policy</a>.
+									</p>
+								</form>
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 	<!-- NAVIGATION -->
 	<div id="menu">
@@ -141,9 +198,13 @@
 					class="collapse navbar-collapse navbar-backyard navbar-right">
 					<ul class="nav navbar-nav">
 						<li><a href="#schedule">Schedule</a></li>
-						<li><a href="#available">My Booking</a></li>
-						<li><a href="#facilities">Facilities</a></li>
+						<c:if test="${thisStaff != null}">
+							<li><a href="#available">My Booking</a></li>
+						</c:if>
 						<li><a href="#contact">Contact</a></li>
+						<c:if test="${thisStaff != null}">
+							<li><a href="logout" style="color: red">Logout</a></li>
+						</c:if>
 					</ul>
 				</div>
 			</div>
@@ -157,7 +218,7 @@
 			<p>Check for a Reservation's Queue.</p>
 			<div class="row">
 				<!-- /.schedule image -->
-				<div class="col-md-2 intro-pic wow slideInLeft">
+				<div class="col-md-3 intro-pic wow slideInLeft">
 					<br />
 					<div class="form-group">
 						<label class='form-label'>Room: </label>
@@ -169,9 +230,9 @@
 					</div>
 					<hr />
 					<input type="date" id="schedule-search-date-room"
-						class='form-control' value="{{current}}"/>
+						class='form-control' value="{{current}}" />
 				</div>
-				<div class="col-md-10 intro-pic wow slideInRight">
+				<div class="col-md-9 intro-pic wow slideInRight">
 					<div id="schedule-reservation-result"></div>
 				</div>
 				<!--Room Schedule content-->
@@ -179,48 +240,68 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var room; //Selected Room Object.
+		var rooms; // Total Rooms.
+		var roomMap = []; //Map Object for Typeahead.
+		var roomInput = $("#schedule-search-room"); //Room Search Input.  
 		var reservationScheduler = angular.module("reservationScheduler", []);
-		reservationScheduler.controller("contRs", function($scope){
+		reservationScheduler.controller("contRs", function($scope, $http) {
 			$scope.current = new Date().toISOString().split("T")[0];
-			console.log(new Date().toISOString().split("T"));
+			$http.get("findRoom/byRoomsName").then(function(response) {
+				rooms = response.data;
+				/* $ */
+				$.each(rooms, function(index, val) {
+					roomMap.push({
+						id : val.roomId,
+						name : val.roomName
+					});
+				});
+				roomInput.typeahead({
+					source : roomMap
+				});
+			});
+		});
+		roomInput.change(function() {
+			var current = roomInput.typeahead("getActive");
+			$.each(rooms, function(index, val) {
+				if (current.id == val.roomId) {
+					$.ajax({
+						url : "findReservation/getRsvByRoomId",
+						"data" : {
+							roomId : val.roomId
+						},
+						"success" : function(response) {
+							renderCalendar(calendar, val, response); //val as room.
+						}
+					});
+				}
+			});
+
 		});
 	</script>
 	<hr />
-	<!-- /.available section -->
-	<div id="available">
-		<div class="container">
-			<h2>Available Room</h2>
-			<p>BODY</p>
-			<!--<div class="row">
+
+	<c:if test="${thisStaff != null}">
+		<!-- /.available section -->
+		<div id="available">
+			<div class="container">
+				<h2>Available Room</h2>
+				<p>BODY</p>
+				<!--<div class="row">
                 <div class="col-md-10 col-md-offset-1 col-sm-12 text-center fetaure-title">
                 </div>
             </div>-->
-			<div class="row row-feat">
-				<!--Datatable content-->
-				<div class="col-md-12 intro-pic wow slideInLeft">
-					<img src="${resPath}/user_backyard/images/intro-image.jpg"
-						alt="image" class="img-responsive" />
+				<div class="row row-feat">
+					<!--Datatable content-->
+					<div class="col-md-12 intro-pic wow slideInLeft">
+						<img src="${resPath}/user_backyard/images/intro-image.jpg"
+							alt="image" class="img-responsive" />
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<hr />
-	<!-- /.facilities section -->
-	<div id="facilities">
-		<div class="container">
-			<div>
-				<h2 class="wow fadeInLeft">Facilities</h2>
-				<p>BODY</p>
-			</div>
-			<div class="row">
-				<!--Facilities content-->
-				<div class="col-md-12 intro-pic wow slideInLeft">
-					<img src="${resPath}/user_backyard/images/intro-image.jpg"
-						alt="image" class="img-responsive" />
-				</div>
-			</div>
-		</div>
-	</div>
+		<hr />
+	</c:if>
 
 	<!-- /.contact section -->
 	<div id="contact">
@@ -245,7 +326,6 @@
 									href="mailto:info@yoursite.com">info@yoursite.com</a></li>
 								<li><i class="pe-7s-look"></i><a href="#">www.yoursite.com</a></li>
 							</ul>
-
 						</div>
 
 						<!-- /.contact form -->
@@ -306,25 +386,27 @@
 		</div>
 	</footer>
 
-	<!-- /.javascript files -->
 
-	<script src="${resPath}/fullcalendar/lib/moment.min.js"></script>
-	<script src="${resPath}/fullcalendar/fullcalendar.min.js"></script>
-	<script src="${resPath}/user_backyard/js/jquery.js"></script>
-	<script src="${resPath}/user_backyard/js/bootstrap.min.js"></script>
-	<script src="${resPath}/user_backyard/js/custom.js"></script>
-	<script src="${resPath}/user_backyard/js/jquery.sticky.js"></script>
-	<script src="${resPath}/user_backyard/js/wow.min.js"></script>
-	<script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
-	<!--Full Calender Scripts-->
+	<!-- Function -->
 	<script>
-		$('#schedule-reservation-result');
+		function renderCalendar(calendar, room, roomUsages) {
+			var events = []; //Hold a Total Room Usages.
+			$.each(roomUsages, function(index, val){
+				console.log(getISODateTime(val.reservedDate, val.accessBegin));
+				events.push({id : val.roomId, title	: val.purpose, start : getISODateTime(val.reservedDate, val.accessBegin), end : getISODateTime(val.reservedDate, val.accessUntil)});
+			});
+			console.log(events);
+			calendar.fullCalendar( 'renderEvent', events);
+			calendar.stripTime();
+		}
+		function getISODateTime(date, time) {
+			return $.fullCalendar.moment.utc(date + "T" + time)._i;
+		}
 	</script>
+	<!-- /Function -->
 	<script>
 		new WOW().init();
 	</script>
-
-
 </body>
 
 </html>
