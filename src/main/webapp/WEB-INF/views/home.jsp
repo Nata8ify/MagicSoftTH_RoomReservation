@@ -29,6 +29,7 @@
 <!-- Colors -->
 <link href="${resPath}/user_backyard/css/css-index.css" rel="stylesheet"
 	media="screen" />
+	
 <!-- <link href="css/css-index-green.css" rel="stylesheet" media="screen"> -->
 <!-- <link href="css/css-index-purple.css" rel="stylesheet" media="screen"> -->
 <!-- <link href="css/css-index-red.css" rel="stylesheet" media="screen"> -->
@@ -47,8 +48,10 @@
 <script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
 
 <!--Full Calendar-->
-<link href="${resPath}/fullcalendar/fullcalendar.min.css" rel="stylesheet">
-<link href="${resPath}/fullcalendar/fullcalendar.print.min.css" rel="stylesheet" media="print">
+<link href="${resPath}/fullcalendar/fullcalendar.min.css"
+	rel="stylesheet">
+<link href="${resPath}/fullcalendar/fullcalendar.print.min.css"
+	rel="stylesheet" media="print">
 <script src="${resPath}/fullcalendar/moment.min.js"></script>
 <script src="${resPath}/fullcalendar/fullcalendar.min.js"></script>
 
@@ -87,7 +90,6 @@
 					allDaySlot : false,
 					defaultDate : moment(),
 					navLinks : true, // can click day/week names to navigate views
-					editable : false, //fuck noo!.
 					eventLimit : true, // allow "more" link when too many events
 				});
 				renderCalendar(calendar, events);
@@ -231,16 +233,16 @@
 								class="glyphicon glyphicon-search"></i></span> <input
 								class='form-control' id='schedule-search-room' placeholder="" />
 						</div>
-						<c:if test="${thisStaff != null}">
-						<hr />
-							<button>
-								<i class="glyphicon glyphicon-plus"></i>Reserve
-							</button>
-						</c:if>
 					</div>
-					<hr />
 					<input type="date" id="schedule-search-date-room"
 						class='form-control' value="{{current}}" />
+					<hr />
+					<c:if test="${thisStaff != null}">
+						<hr />
+						<button id="btn-reserve">
+							<i class="glyphicon glyphicon-plus"></i>Reserve
+						</button>
+					</c:if>
 					<hr />
 					<div class="row">
 						<table class="table table-stripted" id="table-room-details"></table>
@@ -400,6 +402,7 @@
 			</div>
 		</div>
 	</footer>
+	<jsp:include page="include/modal_reservation.jsp"></jsp:include>
 
 
 	<!-- Function -->
@@ -418,6 +421,11 @@
 			});
 			calendar.fullCalendar('removeEvents');
 			calendar.fullCalendar('addEventSource', events);
+			calendar.fullCalendar({
+				 eventClick: function(calEvent, jsEvent, view) {
+					 alert(calEvent.title);
+				 }
+			});
 		}
 
 		/** getISODateTime : ISO8601 Format Builder for Full Calendar start-end Compatable . **/
@@ -439,13 +447,21 @@
 		/** #schedule-search-date-room LISTENER : Jump to Specific Date on Full calendar. **/
 		$("#schedule-search-date-room").change(function() {
 			calendar.fullCalendar("gotoDate", $(this).val());
+			calendar.fullCalendar('changeView', 'agendaDay');
 			//Make Highlight
+		});
+		$("#btn-reserve").click(function(){
+			$("#modal-facility-editor").modal("show");
 		});
 	</script>
 	<!-- /Function -->
 	<script>
 		new WOW().init();
 	</script>
+<%-- 	<link href="${resPath}/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+<script src="${resPath}/bootstrap/js/jquery-3.2.1.min.js"></script>
+<script src="${resPath}/bootstrap/js/bootstrap.min.js"></script> --%>
 </body>
 
 </html>
