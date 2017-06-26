@@ -2,6 +2,7 @@ package com.n8ify.roomrsv.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class Generator {

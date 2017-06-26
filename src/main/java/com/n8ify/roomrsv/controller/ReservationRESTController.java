@@ -18,8 +18,15 @@ public class ReservationRESTController {
 	@Qualifier("reserveMng")
 	private ReservationManagement rsvMng;
 	
+	@RequestMapping(value = "/findReservation/getAll")
+	public List<RoomUsage> getRsvByAll(){
+		return rsvMng.findAll();
+	}
+	
 	@RequestMapping(value = "/findReservation/getRsvByRoomId")
 	public List<RoomUsage> getRsvByRoomId(@RequestParam(value = "roomId", required = true)int roomId){
 		return rsvMng.findByRoomId(roomId);
 	}
+	
+	
 }

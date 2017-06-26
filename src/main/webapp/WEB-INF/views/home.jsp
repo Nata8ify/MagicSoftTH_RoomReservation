@@ -47,12 +47,10 @@
 <script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
 
 <!--Full Calendar-->
-<link href="${resPath}/fullcalendar/fullcalendar.min.css"
-	rel="stylesheet" />
-<link href="${resPath}/fullcalendar/fullcalendar.print.css"
-	rel="stylesheet" />
-<script src="${resPath}/fullcalendar/lib/moment.min.js" async="async"></script>
-<script src="${resPath}/fullcalendar/fullcalendar.min.js" async="async"></script>
+<link href="${resPath}/fullcalendar/fullcalendar.min.css" rel="stylesheet">
+<link href="${resPath}/fullcalendar/fullcalendar.print.min.css" rel="stylesheet" media="print">
+<script src="${resPath}/fullcalendar/moment.min.js"></script>
+<script src="${resPath}/fullcalendar/fullcalendar.min.js"></script>
 
 
 <script src="${resPath}/jslib/angular.min.js"></script>
@@ -73,24 +71,28 @@
 <!-- Initial Script -->
 <script>
 	var calendar; //Holding Calendar Object.
-	var events = [{
-		title: 'Meeting',
-		start: '2017-06-12T10:30:00',
-		end: '2017-06-12T12:30:00'
-	}]; //Hold a Total Room Usages.
+	var events;
 	$("document").ready(function() {
-		calendar = $('#schedule-reservation-result').fullCalendar({
-			header : {
-				left : 'prev,next today',
-				center : 'title',
-				right : 'month,agendaWeek,agendaDay,listWeek'
-			},
-			defaultDate : '2017-06-12',
-			navLinks : true, // can click day/week names to navigate views
-			editable : true,
-			eventLimit : true, // allow "more" link when too many events
-			events : events
-		});
+		$.ajax({
+			"url" : "findReservation/getAll",
+			"success" : function(response) {
+				console.log(response);
+				events = response;
+				calendar = $('#schedule-reservation-result').fullCalendar({
+					header : {
+						left : 'prev,next today',
+						center : 'title',
+						right : 'month,agendaDay,listWeek'
+					},
+					allDaySlot : false,
+					defaultDate : moment(),
+					navLinks : true, // can click day/week names to navigate views
+					editable : false, //fuck noo!.
+					eventLimit : true, // allow "more" link when too many events
+				});
+				renderCalendar(calendar, events);
+			}
+		}); //Hold a Total Room Usages.
 	});
 </script>
 <!-- /Initial Script -->
@@ -229,10 +231,20 @@
 								class="glyphicon glyphicon-search"></i></span> <input
 								class='form-control' id='schedule-search-room' placeholder="" />
 						</div>
+						<c:if test="${thisStaff != null}">
+						<hr />
+							<button>
+								<i class="glyphicon glyphicon-plus"></i>Reserve
+							</button>
+						</c:if>
 					</div>
 					<hr />
 					<input type="date" id="schedule-search-date-room"
 						class='form-control' value="{{current}}" />
+					<hr />
+					<div class="row">
+						<table class="table table-stripted" id="table-room-details"></table>
+					</div>
 				</div>
 				<div class="col-md-9 intro-pic wow slideInRight">
 					<div id="schedule-reservation-result"></div>
@@ -273,9 +285,10 @@
 							roomId : val.roomId
 						},
 						"success" : function(response) {
-							renderCalendar(calendar, val, response); //val as room.
+							renderCalendar(calendar, response); //val as room.
 						}
 					});
+					appendRoomDetail(val);
 				}
 			});
 
@@ -287,8 +300,8 @@
 		<!-- /.available section -->
 		<div id="available">
 			<div class="container">
-				<h2>Available Room</h2>
-				<p>BODY</p>
+				<h2>Room Reserving</h2>
+				<p>Find Out and do Reserve the Room</p>
 				<!--<div class="row">
                 <div class="col-md-10 col-md-offset-1 col-sm-12 text-center fetaure-title">
                 </div>
@@ -391,19 +404,43 @@
 
 	<!-- Function -->
 	<script>
-		function renderCalendar(calendar, room, roomUsages) {
+		/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
+		function renderCalendar(calendar, roomUsages) {
 			events = []; //Empty Pervious.
 			console.log(roomUsages);
-			$.each(roomUsages, function(index, val){
-				events.push({id: val.roomId, title: val.purpose, start: getISODateTime(val.reservedDate, val.accessBegin), end: getISODateTime(val.reservedDate, val.accessUntil)});
+			$.each(roomUsages, function(index, val) {
+				events.push({
+					id : val.roomId,
+					title : val.purpose,
+					start : getISODateTime(val.reservedDate, val.accessBegin),
+					end : getISODateTime(val.reservedDate, val.accessUntil)
+				});
 			});
-			console.log(calendar);
-			calendar.fullCalendar('removeEvents'); 
-			calendar.fullCalendar('addEventSource', events); 
+			calendar.fullCalendar('removeEvents');
+			calendar.fullCalendar('addEventSource', events);
 		}
+
+		/** getISODateTime : ISO8601 Format Builder for Full Calendar start-end Compatable . **/
 		function getISODateTime(date, time) {
 			return $.fullCalendar.moment.utc(date + "T" + time);
 		}
+		/** appendRoomDetail : Display Room's Detail on Selected Room on #table-room-details. **/
+		function appendRoomDetail(room) {
+			console.log(room);
+			var roomtableContent = $("<tr><td><b>Room</b></td><td>"
+					+ room.roomName
+					+ "</td></tr><tr><td><b>Building</b></td><td>"
+					+ room.building + "</td></tr><tr><td><b>Floor</b></td><td>"
+					+ room.floor + "</td></tr>");
+			var tableRoomDetails = $("#table-room-details");
+			tableRoomDetails.empty();
+			tableRoomDetails.html(roomtableContent).hide().fadeIn();
+		}
+		/** #schedule-search-date-room LISTENER : Jump to Specific Date on Full calendar. **/
+		$("#schedule-search-date-room").change(function() {
+			calendar.fullCalendar("gotoDate", $(this).val());
+			//Make Highlight
+		});
 	</script>
 	<!-- /Function -->
 	<script>
