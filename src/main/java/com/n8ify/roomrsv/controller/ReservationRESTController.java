@@ -28,5 +28,13 @@ public class ReservationRESTController {
 		return rsvMng.findByRoomId(roomId);
 	}
 	
+	@RequestMapping(value = "/findReservation/getAllRsvOfUserId")
+	public List<RoomUsage> getAllRsvOfUserId(@RequestParam(value = "roomId", required = true)int roomId){
+		return rsvMng.findByRoomId(roomId); //X
+	}
 	
+	@RequestMapping(value = "/findReservation/getCurrentRsvOfUserId")
+	public List<RoomUsage> getCurrentRsvOfUserId(@RequestParam(value = "roomId", required = true)int roomId){
+		return rsvMng.findByRoomId(roomId); //X
+	}
 }

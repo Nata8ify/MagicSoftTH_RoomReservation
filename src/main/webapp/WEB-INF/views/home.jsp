@@ -25,11 +25,13 @@
 <link href="${resPath}/user_backyard/css/owl.theme.css" rel="stylesheet" />
 <link href="${resPath}/user_backyard/css/owl.carousel.css"
 	rel="stylesheet" />
+<%-- <link href="${resPath}/user_backyard/css/iziModal.min.css"
+	rel="stylesheet" /> --%>
 
 <!-- Colors -->
 <link href="${resPath}/user_backyard/css/css-index.css" rel="stylesheet"
 	media="screen" />
-	
+
 <!-- <link href="css/css-index-green.css" rel="stylesheet" media="screen"> -->
 <!-- <link href="css/css-index-purple.css" rel="stylesheet" media="screen"> -->
 <!-- <link href="css/css-index-red.css" rel="stylesheet" media="screen"> -->
@@ -46,6 +48,7 @@
 <script src="${resPath}/user_backyard/js/wow.min.js"></script>
 <script src="${resPath}/user_backyard/js/bootstrap3-typeahead.min.js"></script>
 <script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
+<%-- <script src="${resPath}/user_backyard/js/iziModal.min.js"></script> --%>
 
 <!--Full Calendar-->
 <link href="${resPath}/fullcalendar/fullcalendar.min.css"
@@ -76,6 +79,7 @@
 	var calendar; //Holding Calendar Object.
 	var events;
 	$("document").ready(function() {
+
 		$.ajax({
 			"url" : "findReservation/getAll",
 			"success" : function(response) {
@@ -95,6 +99,7 @@
 				renderCalendar(calendar, events);
 			}
 		}); //Hold a Total Room Usages.
+
 	});
 </script>
 <!-- /Initial Script -->
@@ -299,25 +304,45 @@
 	<hr />
 
 	<c:if test="${thisStaff != null}">
+		<link href="${resPath}/datatable/jquery.dataTables.min.css"
+			rel="stylesheet" />
+		<script src="${resPath}/datatable/jquery.dataTables.min.js"></script>
 		<!-- /.available section -->
 		<div id="available">
 			<div class="container">
-				<h2>Room Reserving</h2>
-				<p>Find Out and do Reserve the Room</p>
-				<!--<div class="row">
-                <div class="col-md-10 col-md-offset-1 col-sm-12 text-center fetaure-title">
-                </div>
-            </div>-->
+				<h2>My Booking</h2>
+				<p></p>
 				<div class="row row-feat">
 					<!--Datatable content-->
-					<div class="col-md-12 intro-pic wow slideInLeft">
-						<img src="${resPath}/user_backyard/images/intro-image.jpg"
-							alt="image" class="img-responsive" />
-					</div>
+					<table id="table-my-reserve">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Start</th>
+								<th>End</th>
+								<th>Room</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 		<hr />
+		<script>
+		var mReservation;
+		$.ajax({
+			"url" : ,
+			"data" : {},
+			"success" : function(response){
+				
+			}
+		})
+			var mReserveTable = $("table-my-reserve").DataTable({
+				
+			});
+		</script>
 	</c:if>
 
 	<!-- /.contact section -->
@@ -422,9 +447,9 @@
 			calendar.fullCalendar('removeEvents');
 			calendar.fullCalendar('addEventSource', events);
 			calendar.fullCalendar({
-				 eventClick: function(calEvent, jsEvent, view) {
-					 alert(calEvent.title);
-				 }
+				eventClick : function(calEvent, jsEvent, view) {
+					alert(calEvent.title);
+				}
 			});
 		}
 
@@ -450,15 +475,15 @@
 			calendar.fullCalendar('changeView', 'agendaDay');
 			//Make Highlight
 		});
-		$("#btn-reserve").click(function(){
-			$("#modal-facility-editor").modal("show");
+		$("#btn-reserve").click(function(evt) {
+			$("#modal-reserve-room").modal();
 		});
 	</script>
 	<!-- /Function -->
 	<script>
 		new WOW().init();
 	</script>
-<%-- 	<link href="${resPath}/bootstrap/css/bootstrap.min.css"
+	<%-- 	<link href="${resPath}/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
 <script src="${resPath}/bootstrap/js/jquery-3.2.1.min.js"></script>
 <script src="${resPath}/bootstrap/js/bootstrap.min.js"></script> --%>
