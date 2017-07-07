@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.RowMapper;
 import com.n8ify.roomrsv.intf.RoomReservationInterface;
 import com.n8ify.roomrsv.model.Room;
 import com.n8ify.roomrsv.model.RoomUsage;
-import com.n8ify.roomrsv.model.extra.RoomUsageFullCalendarFmt;
 
 public class ReservationManagement implements RoomReservationInterface {
 
@@ -26,6 +25,11 @@ public class ReservationManagement implements RoomReservationInterface {
 		this.jdbc = new JdbcTemplate(dataSource);
 		this.faciliUsageMng = new FacilityUsageManagement(dataSource);
 	}
+
+	public FacilityUsageManagement getFaciliUsageMng() {
+		return faciliUsageMng;
+	}
+
 
 	@Override
 	public boolean reserve(RoomUsage roomUsage) {
@@ -97,15 +101,6 @@ public class ReservationManagement implements RoomReservationInterface {
 		@Override
 		public RoomUsage mapRow(ResultSet rs, int i) throws SQLException {
 			return new RoomUsage(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
-					rs.getDate(6), rs.getTime(7), rs.getTime(8));
-		}
-	}
-
-	private class RoomUsageFullCalendarMapper implements RowMapper<RoomUsageFullCalendarFmt> {
-
-		@Override
-		public RoomUsageFullCalendarFmt mapRow(ResultSet rs, int i) throws SQLException {
-			return new RoomUsageFullCalendarFmt(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
 					rs.getDate(6), rs.getTime(7), rs.getTime(8));
 		}
 	}

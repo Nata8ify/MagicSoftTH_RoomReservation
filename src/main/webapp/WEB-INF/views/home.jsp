@@ -48,6 +48,8 @@
 <script src="${resPath}/user_backyard/js/wow.min.js"></script>
 <script src="${resPath}/user_backyard/js/bootstrap3-typeahead.min.js"></script>
 <script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
+<script src="${resPath}/user_backyard/js/home_selectors_dict.js" type="text/javascript" async="async"></script>
+<script src="${resPath}/user_backyard/js/home_animate.js"></script>
 <%-- <script src="${resPath}/user_backyard/js/iziModal.min.js"></script> --%>
 
 <!--Full Calendar-->
@@ -165,12 +167,12 @@
 									<div class="form-group">
 										<input class="form-control input-lg" name="staffId"
 											id="input-signin-staffid" type="text" placeholder="Staff ID"
-											required="required" />
+											required="required" value="M00000" />
 									</div>
 									<div class="form-group">
 										<input class="form-control input-lg" name="password"
 											id="input-signin-password" type="password"
-											placeholder="Password" required="required" />
+											placeholder="Password" required="required" value="kogy9i8u" />
 									</div>
 									<div class="form-group last">
 										<input type="submit" class="btn btn-warning btn-block btn-lg"
@@ -245,8 +247,7 @@
 					<c:if test="${thisStaff != null}">
 						<hr />
 						<button id="btn-reserve">
-							<i class="glyphicon glyphicon-plus"></i>Reserve
-						</button>
+							<i class="glyphicon glyphicon-plus"></i>Reserve</button>
 					</c:if>
 					<hr />
 					<div class="row">
@@ -286,13 +287,14 @@
 			var current = roomInput.typeahead("getActive");
 			$.each(rooms, function(index, val) {
 				if (current.id == val.roomId) {
+					room = val;
 					$.ajax({
 						url : "findReservation/getRsvByRoomId",
 						"data" : {
 							roomId : val.roomId
 						},
 						"success" : function(response) {
-							renderCalendar(calendar, response); //val as room.
+							renderCalendar(calendar, response); 
 						}
 					});
 					appendRoomDetail(val);
@@ -332,7 +334,7 @@
 		<hr />
 		<script>
 		var mReservation;
-		$.ajax({
+/* 		$.ajax({
 			"url" : ,
 			"data" : {},
 			"success" : function(response){
@@ -341,7 +343,7 @@
 		})
 			var mReserveTable = $("table-my-reserve").DataTable({
 				
-			});
+			}); */
 		</script>
 	</c:if>
 
@@ -465,18 +467,14 @@
 					+ "</td></tr><tr><td><b>Building</b></td><td>"
 					+ room.building + "</td></tr><tr><td><b>Floor</b></td><td>"
 					+ room.floor + "</td></tr>");
-			var tableRoomDetails = $("#table-room-details");
 			tableRoomDetails.empty();
 			tableRoomDetails.html(roomtableContent).hide().fadeIn();
 		}
 		/** #schedule-search-date-room LISTENER : Jump to Specific Date on Full calendar. **/
-		$("#schedule-search-date-room").change(function() {
+		inputSelectDateRoom.change(function() {
 			calendar.fullCalendar("gotoDate", $(this).val());
 			calendar.fullCalendar('changeView', 'agendaDay');
 			//Make Highlight
-		});
-		$("#btn-reserve").click(function(evt) {
-			$("#modal-reserve-room").modal();
 		});
 	</script>
 	<!-- /Function -->

@@ -30,6 +30,8 @@ public class RoomUsage {
 		this.accessUntil = accessUntil;
 	}
 
+	
+
 	public int getUsageId() {
 		return usageId;
 	}
