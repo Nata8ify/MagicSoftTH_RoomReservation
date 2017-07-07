@@ -29,17 +29,6 @@ import com.n8ify.roomrsv.utils.Attrs;
 public class ReservationController {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ReservationController.class);
 	
-	@InitBinder
-	public void initBinder(WebDataBinder binder){
-		logger.info("BINDER CALLED.");
-		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
-		sdfDate.setLenient(true);
-		sdfTime.setLenient(true);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdfDate, true));
-        binder.registerCustomEditor(Time.class, new CustomDateEditor(sdfTime, true));
-	}
-	
 	@Autowired
 	private ReservationManagement rsvMng;
 
@@ -47,7 +36,10 @@ public class ReservationController {
 	public String reserve(Model model, HttpServletRequest request,RoomUsage roomUsage, Map<Integer, Integer> mapFacilities) {
 		// rsvMng.reserve(roomUsage);
 		logger.info(roomUsage.toString());
-		if(mapFacilities != null)
+		if(roomUsage != null){
+			rsvMng.reserve(roomUsage);
+		}
+/*		if(mapFacilities != null)
 		for (Map.Entry<Integer, Integer> faciliEntry : mapFacilities.entrySet()) {
 			logger.info(new RoomFacilitiyUsage(roomUsage.getUsageId(), faciliEntry.getKey(), faciliEntry.getValue())
 					.toString());
@@ -55,7 +47,7 @@ public class ReservationController {
 			// RoomFacilitiyUsage(roomUsage.getUsageId(), faciliEntry.getKey() ,
 			// faciliEntry.getValue()));}
 
-		}
+		}*/
 		return Attrs.HOME;
 	}
 }

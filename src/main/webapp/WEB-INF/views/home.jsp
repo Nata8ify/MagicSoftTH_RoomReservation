@@ -73,18 +73,22 @@
 	max-width: 900px;
 	margin: 0 auto;
 }
+.fc-content{
+	cursor: pointer;
+}
 </style>
 <!-- / Initial CSS -->
 
 <!-- Initial Script -->
 <script>
+	var user;// Actual Staff.
 	var calendar; //Holding Calendar Object.
 	var events;
 	$("document").ready(function() {
-
 		$.ajax({
 			"url" : "findReservation/getAll",
 			"success" : function(response) {
+				console.log(user);
 				console.log(response);
 				events = response;
 				calendar = $('#schedule-reservation-result').fullCalendar({
@@ -97,6 +101,14 @@
 					defaultDate : moment(),
 					navLinks : true, // can click day/week names to navigate views
 					eventLimit : true, // allow "more" link when too many events
+					eventClick: function(calEvent, jsEvent, view) {
+
+				        alert('Event: ' + calEvent.title+", ID : "+calEvent.usageId);
+
+				        // change the border color just for fun
+				        $(this).css('border-color', 'red');
+
+				    }
 				});
 				renderCalendar(calendar, events);
 			}
@@ -443,7 +455,8 @@
 					id : val.roomId,
 					title : val.purpose,
 					start : getISODateTime(val.reservedDate, val.accessBegin),
-					end : getISODateTime(val.reservedDate, val.accessUntil)
+					end : getISODateTime(val.reservedDate, val.accessUntil),
+					usageId : val.usageId
 				});
 			});
 			calendar.fullCalendar('removeEvents');

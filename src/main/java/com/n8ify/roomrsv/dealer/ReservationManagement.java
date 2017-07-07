@@ -35,7 +35,7 @@ public class ReservationManagement implements RoomReservationInterface {
 	public boolean reserve(RoomUsage roomUsage) {
 		String sqlReserve = "INSERT INTO `RoomUsage`( `roomId`, `byStaffId`, `purpose`, `note`, `reservedDate`, `accessBegin`, `accessUntil`) VALUES (?, ?, ?, ?, ? ,? ,?);";
 		return jdbc.update(sqlReserve,
-				new Object[] { roomUsage.getRoomId(), roomUsage.getByStaffId(), roomUsage.getNote(),
+				new Object[] { roomUsage.getRoomId(), roomUsage.getByStaffId(), roomUsage.getPurpose(), roomUsage.getNote(),
 						roomUsage.getReservedDate(), roomUsage.getAccessBegin(), roomUsage.getAccessUntil() }) == 1;
 	}
 
