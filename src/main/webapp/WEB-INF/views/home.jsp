@@ -101,10 +101,9 @@
 					defaultDate : moment(),
 					navLinks : true, // can click day/week names to navigate views
 					eventLimit : true, // allow "more" link when too many events
-					eventClick: function(calEvent, jsEvent, view) {
-
-				        alert('Event: ' + calEvent.title+", ID : "+calEvent.usageId);
-
+					eventClick: function(calReservation, jsEvent, view) {
+						console.log(calReservation);
+						viewDetail(calReservation);
 				        // change the border color just for fun
 				        $(this).css('border-color', 'red');
 
@@ -442,21 +441,31 @@
 		</div>
 	</footer>
 	<jsp:include page="include/modal_reservation.jsp"></jsp:include>
+	<jsp:include page="include/modal_reservation_detail.jsp"></jsp:include>
 
 
 	<!-- Function -->
 	<script>
-		/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
+	/* User Properties */
+	var thisStaff = {staffId: "${thisStaff.staffId}" , name: "${thisStaff.name}", nameLocale: "${thisStaff.nameLocale!=null?thisStaff.email:'-'}", email: "${thisStaff.email!=null?thisStaff.email:'-'}", tel: "${thisStaff.tel!=null?thisStaff.tel:'-'}", mobileTel: "${thisStaff.mobileTel!=null?thisStaff.mobileTel:'-'}"};
+	
+	/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
 		function renderCalendar(calendar, roomUsages) {
 			events = []; //Empty Pervious.
 			console.log(roomUsages);
 			$.each(roomUsages, function(index, val) {
 				events.push({
-					id : val.roomId,
+					id : val.usageId,
 					title : val.purpose,
+					reservedDate : val.reservedDate,
 					start : getISODateTime(val.reservedDate, val.accessBegin),
 					end : getISODateTime(val.reservedDate, val.accessUntil),
-					usageId : val.usageId
+					accessBegin : val.accessBegin,
+					accessUntil : val.accessUntil,
+					roomId : val.roomId,
+					byStaffId : val.byStaffId,
+					purpose : val.purpose,
+					note : val.note
 				});
 			});
 			calendar.fullCalendar('removeEvents');

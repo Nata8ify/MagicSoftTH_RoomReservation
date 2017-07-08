@@ -33,6 +33,7 @@ public class RoomrsvAccessController {
 		Staff.setStaffInstance(rsvAccess.login(staffId, password));
 		if (Staff.getStaffInstance() != null && StaffAccess.getAccessInstance() != null) {
 			request.getSession(false).setAttribute("thisStaff", Staff.getStaffInstance());
+			logger.info(Staff.getStaffInstance().toString());
 			request.getSession(false).setAttribute("thisAccess", StaffAccess.getAccessInstance());
 			logger.error("Staff.getStaffInstance() : " + Staff.getStaffInstance().toString());
 		}

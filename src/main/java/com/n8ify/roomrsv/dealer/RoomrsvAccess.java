@@ -64,8 +64,6 @@ public class RoomrsvAccess implements RoomsrvAccessInterface {
 		return false;
 	}
 
-	private String tempStaffRole;
-
 	class StaffMapper implements RowMapper<Staff> {
 
 		@Override

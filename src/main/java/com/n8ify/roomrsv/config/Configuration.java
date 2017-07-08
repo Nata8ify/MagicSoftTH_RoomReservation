@@ -13,6 +13,7 @@ import com.n8ify.roomrsv.dealer.FacilityManagement;
 import com.n8ify.roomrsv.dealer.ReservationManagement;
 import com.n8ify.roomrsv.dealer.RoomManagement;
 import com.n8ify.roomrsv.dealer.RoomrsvAccess;
+import com.n8ify.roomrsv.dealer.Utilities;
 
 @org.springframework.context.annotation.Configuration
 @PropertySource("classpath:properties.properties")
@@ -52,6 +53,11 @@ public class Configuration {
 	public ReservationManagement reservationMng(){
 		return new ReservationManagement(dataSource());
 		
+	}
+	
+	@Bean(name = "utils")
+	public Utilities utils(){
+		return new Utilities(dataSource());
 	}
 	
 }
