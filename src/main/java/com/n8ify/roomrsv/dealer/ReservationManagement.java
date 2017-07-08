@@ -104,5 +104,16 @@ public class ReservationManagement implements RoomReservationInterface {
 					rs.getDate(6), rs.getTime(7), rs.getTime(8));
 		}
 	}
+
+	@Override
+	public List<RoomUsage> findAllByStaffId(String staffId, boolean isPassInclude) {
+		String sqlFindAllByUserId;
+		if(isPassInclude){
+			sqlFindAllByUserId = "SELECT * FROM `RoomUsage` WHERE `byStaffId` = ?;";
+		} else {
+			sqlFindAllByUserId = "SELECT * FROM `RoomUsage` WHERE `byStaffId` = ? AND `reservedDate` >= CURDATE();";
+		}
+		return jdbc.query(sqlFindAllByUserId, new Object[]{staffId}, new RoomUsageMapper());
+	}
 	
 }

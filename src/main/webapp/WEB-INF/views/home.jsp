@@ -81,14 +81,15 @@
 
 <!-- Initial Script -->
 <script>
-	var user;// Actual Staff.
+	/* User Properties .. with Some Data of Session's ${EL}.*/
+	var thisStaff = {staffId: "${thisStaff.staffId}" , name: "${thisStaff.name}", nameLocale: "${thisStaff.nameLocale!=null?thisStaff.email:'-'}", email: "${thisStaff.email!=null?thisStaff.email:'-'}", tel: "${thisStaff.tel!=null?thisStaff.tel:'-'}", mobileTel: "${thisStaff.mobileTel!=null?thisStaff.mobileTel:'-'}"};
+	
 	var calendar; //Holding Calendar Object.
 	var events;
 	$("document").ready(function() {
 		$.ajax({
 			"url" : "findReservation/getAll",
 			"success" : function(response) {
-				console.log(user);
 				console.log(response);
 				events = response;
 				calendar = $('#schedule-reservation-result').fullCalendar({
@@ -344,17 +345,26 @@
 		</div>
 		<hr />
 		<script>
-		var mReservation;
-/* 		$.ajax({
-			"url" : ,
-			"data" : {},
+		var mReservations;
+		var mReserveTable;
+ 		$.ajax({
+			"url" : "findReservation/getRsvByStaffId",
+			"data" : {staffId : thisStaff.staffId, pass : false},
 			"success" : function(response){
-				
+				mReservations = response;
+				$.each(mReservations, function(index, val){
+				});
+				mReserveTable = $("#table-my-reserve").DataTable({ //! Show Room's name instead of Room's Id.
+					"data" : mReservations,
+					"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "roomId", width : "60%"}, {width : "10%"}],
+					"columnDefs" : [{
+						targets : -1,
+						"data" : "",
+						defaultContent : "<button class='btn-m-reserve'><i class='glyphicon glyphicon-search'></i></button>"
+					}]
+				});
 			}
-		})
-			var mReserveTable = $("table-my-reserve").DataTable({
-				
-			}); */
+		}); 
 		</script>
 	</c:if>
 
@@ -446,9 +456,7 @@
 
 	<!-- Function -->
 	<script>
-	/* User Properties */
-	var thisStaff = {staffId: "${thisStaff.staffId}" , name: "${thisStaff.name}", nameLocale: "${thisStaff.nameLocale!=null?thisStaff.email:'-'}", email: "${thisStaff.email!=null?thisStaff.email:'-'}", tel: "${thisStaff.tel!=null?thisStaff.tel:'-'}", mobileTel: "${thisStaff.mobileTel!=null?thisStaff.mobileTel:'-'}"};
-	
+
 	/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
 		function renderCalendar(calendar, roomUsages) {
 			events = []; //Empty Pervious.
@@ -498,6 +506,14 @@
 			calendar.fullCalendar('changeView', 'agendaDay');
 			//Make Highlight
 		});
+		/** findRoomById : Use for get Information by Room Id.**/
+		function findRoomById(roomId){
+			$.each(rooms , function(index, val){
+				if(val.roomId == roomId){
+					return val;
+				}
+			});
+		}
 	</script>
 	<!-- /Function -->
 	<script>
