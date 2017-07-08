@@ -90,7 +90,6 @@
 		$.ajax({
 			"url" : "findReservation/getAll",
 			"success" : function(response) {
-				console.log(response);
 				events = response;
 				calendar = $('#schedule-reservation-result').fullCalendar({
 					header : {
@@ -103,7 +102,6 @@
 					navLinks : true, // can click day/week names to navigate views
 					eventLimit : true, // allow "more" link when too many events
 					eventClick: function(calReservation, jsEvent, view) {
-						console.log(calReservation);
 						viewDetail(calReservation);
 				        // change the border color just for fun
 				        $(this).css('border-color', 'red');
@@ -283,6 +281,7 @@
 			$scope.current = new Date().toISOString().split("T")[0];
 			$http.get("findRoom/byRoomsName").then(function(response) {
 				rooms = response.data;
+				initialMyReservationTable(rooms);
 				/* $ */
 				$.each(rooms, function(index, val) {
 					roomMap.push({
@@ -347,24 +346,39 @@
 		<script>
 		var mReservations;
 		var mReserveTable;
- 		$.ajax({
-			"url" : "findReservation/getRsvByStaffId",
-			"data" : {staffId : thisStaff.staffId, pass : false},
-			"success" : function(response){
-				mReservations = response;
-				$.each(mReservations, function(index, val){
-				});
-				mReserveTable = $("#table-my-reserve").DataTable({ //! Show Room's name instead of Room's Id.
-					"data" : mReservations,
-					"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "roomId", width : "60%"}, {width : "10%"}],
-					"columnDefs" : [{
-						targets : -1,
-						"data" : "",
-						defaultContent : "<button class='btn-m-reserve'><i class='glyphicon glyphicon-search'></i></button>"
-					}]
-				});
-			}
-		}); 
+ 		/* Initialize [My] Reservation's Table */
+ 		function initialMyReservationTable(rooms){
+ 			$.ajax({
+ 				"url" : "findReservation/getRsvByStaffId",
+ 				"data" : {staffId : thisStaff.staffId, pass : false},
+ 				"success" : function(response){
+ 					mReservations = response;
+ 					$.each(mReservations, function(index, roomUsage){
+ 						findRoomById(roomUsage.roomId, rooms, roomUsage);
+ 					});
+ 					console.log(mReservations);
+ 					console.log(" CB :  "+findRoomById(13, rooms));
+ 					mReserveTable = $("#table-my-reserve").DataTable({ //! Show Room's name instead of Room's Id.
+ 						"data" : mReservations,
+ 						"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "roomName", width : "50%"}, {width : "20%"}],
+ 						"columnDefs" : [{
+ 							targets : -1,
+ 							defaultContent : "<button class='btn-m-reserve-detail'><i class='glyphicon glyphicon-search'></i></button> &nbsp;"+
+ 							"<button class='btn-m-reserve-edit'><i class='glyphicon glyphicon-pencil'></i></button>"
+ 						}]
+ 					});
+ 				}
+ 			}); 
+ 		}
+		
+ 		/* .btn-m-reserve : Listening Action Button for view Detail on Each [My] Reservation Row.*/
+ 		$("#table-my-reserve").on("click", "tr .btn-m-reserve-detail", ()=>{
+ 			alert();
+ 		});
+ 		/* .btn-m-reserve : Listening Action Button for make Editing on Each [My] Reservation Row.*/
+ 		$("#table-my-reserve").on("click", "tr .btn-m-reserve-edit", ()=>{
+ 			alert();
+ 		});
 		</script>
 	</c:if>
 
@@ -460,7 +474,7 @@
 	/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
 		function renderCalendar(calendar, roomUsages) {
 			events = []; //Empty Pervious.
-			console.log(roomUsages);
+			/* console.log(roomUsages); */
 			$.each(roomUsages, function(index, val) {
 				events.push({
 					id : val.usageId,
@@ -491,7 +505,7 @@
 		}
 		/** appendRoomDetail : Display Room's Detail on Selected Room on #table-room-details. **/
 		function appendRoomDetail(room) {
-			console.log(room);
+			/* console.log(room); */
 			var roomtableContent = $("<tr><td><b>Room</b></td><td>"
 					+ room.roomName
 					+ "</td></tr><tr><td><b>Building</b></td><td>"
@@ -506,13 +520,16 @@
 			calendar.fullCalendar('changeView', 'agendaDay');
 			//Make Highlight
 		});
-		/** findRoomById : Use for get Information by Room Id.**/
-		function findRoomById(roomId){
+		/** findRoomById : Use for get Information by Room Id. **/
+		/* Ps. roomUsage is "Optional" Parameter to be appended Room's Object. */
+		function findRoomById(roomId, rooms, roomUsage){
 			$.each(rooms , function(index, val){
 				if(val.roomId == roomId){
+					if(roomUsage !== undefined){roomUsage["roomName"] = val.roomName;}
 					return val;
 				}
 			});
+			return null;
 		}
 	</script>
 	<!-- /Function -->

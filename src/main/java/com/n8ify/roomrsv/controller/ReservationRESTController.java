@@ -50,6 +50,6 @@ public class ReservationRESTController {
 	@RequestMapping(value = "/findReservation/getRsvByStaffId")
 	public List<RoomUsage> getCurrentRsvOfUserId(@RequestParam(value = "staffId", required = true)String staffId,
 			@RequestParam(value = "pass", required = true)boolean isPassInclude){
-		return rsvMng.findAllByStaffId(staffId, isPassInclude); //X
+		return rsvMng.findAllByStaffId(staffId, isPassInclude);
 	}
 }
