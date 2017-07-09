@@ -9,19 +9,23 @@
 				<table class='table table-responsive' id='table-mreserve-detail'>
 					<tbody>
 						<tr>
-							<th>Room : </th>
-							<td><b><span id="sp-mreserve-detail-roomname"></span> <a href="#" id="a-">[?]</a></b></td>
+							<td><b>Room : </b></td>
+							<td><b><span id="sp-mreserve-detail-roomname"></span> <a style="cursor: pointer;" id="a-mreserve-detail-room">[?]</a></b><span id="sp-mreserve-detail-room"></span></td>
 						</tr>
 						<tr>
-							<th>For : </th>
+							<td><b>For : </b></td>
 							<td><span id="sp-mreserve-detail-for"></span></td>
 						</tr>
 						<tr>
-							<th>Date : </th>
+							<td><b>Note : </b></td>
+							<td><span id="sp-mreserve-detail-note"></span></td>
+						</tr>
+						<tr>
+							<td><b>Date : </b></td>
 							<td><span id="sp-mreserve-detail-date"></span></td>
 						</tr>
 						<tr>
-							<th>Period  : </th>
+							<td><b>Period  :</b></td>
 							<td><span id="sp-mreserve-detail-start"></span> - <span id="sp-mreserve-detail-end"></span></td>
 						</tr>
 					</tbody>
@@ -39,17 +43,26 @@
 	$("#table-my-reserve tbody").on("click", "tr .btn-m-reserve-detail", function(evt){
 		viewMyReservationDetail(mReserveTable.row($(this).parents("tr")).data());
 	});
+	
+	
 </script>
 <script>
 	/** My Reservation Details's Function. **/
 	/* viewMyReservationDetail : For set the Value into My Resrvation's Detail's Dialog  (#modal-mreserve-detail).*/
 	function viewMyReservationDetail(reservationDetail){
+		addRoomUsageDetailById(reservationDetail.roomId, rooms, reservationDetail);
 		console.log(reservationDetail);
-		$("#sp-mreserve-detail-roomname").html(reservationDetail.roomName);
+		$("#sp-mreserve-detail-roomname").html(reservationDetail.room.roomName);
 		$("#sp-mreserve-detail-for").html(reservationDetail.purpose);
+		$("#sp-mreserve-detail-note").html(reservationDetail.note==""?"-":reservationDetail.note);
 		$("#sp-mreserve-detail-date").html(reservationDetail.reservedDate);
 		$("#sp-mreserve-detail-start").html(reservationDetail.accessBegin);
 		$("#sp-mreserve-detail-end").html(reservationDetail.accessUntil);
+		$("#sp-mreserve-detail-room").html("");
+		/*+ #a-mreserve-detail-room : Listening the Click "[?]" for view More Room's Detail.*/
+		$("#a-mreserve-detail-room").click(function(){
+			$("#sp-mreserve-detail-room").html("<br/> Building : "+reservationDetail.room.building+", Floor : "+reservationDetail.room.floor);
+		});
 		$("#modal-mreserve-detail").modal();
 	}
 </script>

@@ -10,7 +10,7 @@
 					<tbody>
 						<tr>
 							<th>Room : </th>
-							<td><b><i id="i-reserve-detail-roomname"></i></b></td>
+							<td><b><i id="i-reserve-detail-roomname"></i> <a style="cursor: pointer;" id="a-reserve-detail-room">[?]</a></b><span id="sp-reserve-detail-room"></span></td>
 						</tr>
 						<tr>
 							<th>Reserved By :</th>
@@ -59,8 +59,8 @@
 				staffId : detail.byStaffId
 			},
 			"success" : function(resrevedStaff) {
-				
-				$("#i-reserve-detail-roomname").html(detail.roomName);
+				addRoomUsageDetailById(detail.roomId, rooms, detail);
+				$("#i-reserve-detail-roomname").html(detail.room.roomName);
 				$("#sp-reserve-detail-rsvby").html(resrevedStaff.name);
 				$("#sp-reserve-detail-for").html(detail.purpose);
 				$("#sp-reserve-detail-date").html(detail.reservedDate);
@@ -69,6 +69,11 @@
 				$("#sp-reserve-detail-email").html(resrevedStaff.email!=null?resrevedStaff.email:"-");
 				$("#sp-reserve-detail-tel").html(resrevedStaff.tel!=null?resrevedStaff.tel:"-");
 				$("#sp-reserve-detail-mobileno").html(resrevedStaff.mobileTel!=null?resrevedStaff.mobileTel:"-");
+				$("#sp-reserve-detail-room").html("");
+				/*+ #a-reserve-detail-room : Listening the Click "[?]" for view More Room's Detail.*/
+				$("#a-reserve-detail-room").click(function(){
+					$("#sp-reserve-detail-room").html("<br/> Building : "+detail.room.building+", Floor : "+detail.room.floor);
+				});
 				$("#modal-reserve-detail").modal();
 			}
 		});

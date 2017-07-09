@@ -510,7 +510,7 @@
 			calendar.fullCalendar('changeView', 'agendaDay');
 			//Make Highlight
 		});
-		/** findRoomById : Use for get Information by Room Id. **/
+		/** addRoomUsageDetailById : Use for get Information by Room Id. **/
 		/* Ps. addRoomUsageDetailById is "Optional" Parameter to be appended Room's Object. */
 		function addRoomUsageDetailById(roomId, rooms, roomUsage){
 			//Better $.each and $.each mReservations.
