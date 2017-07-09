@@ -8,7 +8,7 @@
 				</div>
 				<div class="modal-body">
 					<form method="post" action="reserve" accept-charset="UTF-8">
-						<input type="hidden" name="usageId" value="0" />
+						<input type="hidden" id="input-reserve-usage-id" name="usageId" value="0" />
 						<input type="hidden" id="input-reserve-room-id" name="roomId" />
 						<input type="hidden" id="input-reserve-staff-id" name="byStaffId" />
 						<p><b>Room : </b><i id="i-room-name"></i></p>
@@ -37,7 +37,7 @@
 											id="input-reserve-note" name="note"></textarea></td>
 								</tr>
 								<tr>
-									<td align="left"><a href="#" style="color:red;" id="a-reservation-cencel" hidden="">Cancel the Reservation</a></td>
+									<td align="left"><a style="color:red;cursor: pointer;" id="a-reservation-cancel" hidden="">Cancel the Reservation</a></td>
 									<td align="right"><input type="submit"
 										class="btn btn-success" id="btn-reservation-submit" disabled /></td>
 								</tr>
@@ -83,14 +83,38 @@
  			console.log(mReserveTable.row($(this).parents("tr")).data());
  			renderReservationModal(mReserveTable.row($(this).parents("tr")).data(), true);
  		});
+		/* #modal-reserve-room on hidden.bs.modal : Clear Temporary Data on Reservation's Dialog. */
+ 		$("#modal-reserve-room").on("hidden.bs.modal",function(){
+ 			$("input[id^=input-reserve], textarea[id^=input-reserve]").val("");
+ 			$("#input-reserve-usage-id").val("0");
+ 		});
+		
+ 		/* [Edit Mode] #a-reservation-cencel : Listening Delete action on Selected Resrvation. */
+ 		$("#a-reservation-cancel").click(function(){
+ 			var usageId = $("#input-reserve-usage-id").val();
+ 			console.log(usageId);
+ 			if(confirm("This Reservation will be Remove from the System, would you like to Continue?")){
+ 				$.ajax({
+ 				"type" : "post",
+ 				"url" : "manageReservation/delete",
+ 				"data" : {usageId : usageId},
+ 				"success" : function(result){
+ 					if(result){
+ 						alert("This Reservation is Canceled Successfuly.")
+ 						setUpMyReservationTable(rooms);
+ 						$("#modal-reserve-room").modal("hide");
+ 					}
+ 				}
+ 			});}
+ 		});
 	</script>
 	<script>
 		/** Reservation Insert/Dialog's Functions **/
 		/* renderReservationModal : This Function will Manage about how Reservation's Modal will be Operate on Reserve Mode or Editor Mode. */
 		function renderReservationModal(room, isEditMode){
-			$("#a-reservation-cencel").prop("hidden", true);
 			if(isEditMode){
-				$("#a-reservation-cencel").prop("hidden", false);
+				$("#a-reservation-cancel").prop("hidden", false);
+				$("#input-reserve-usage-id").val(room.usageId);
 				$("#input-reserve-date").val(room.reservedDate);
 				$("#input-reserve-start").val(room.accessBegin);
 				$("#input-reserve-end").val(room.accessUntil);
@@ -98,7 +122,7 @@
 				$("#input-reserve-note").val(room.note);
 				// Facilities Things Here!.
 			} else {
-				$("input[id^=input-reserve], textarea[id^=input-reserve]").val("");
+				$("#a-reservation-cancel").prop("hidden", true);
 			}
 			$("#i-room-name").html(((room.roomName==undefined?room.room.roomName:room.roomName)+(room.roomCode==null?"":(" &nbsp;("+room.roomCode+")"))));
 			$("#input-reserve-room-id").val(room.roomId);

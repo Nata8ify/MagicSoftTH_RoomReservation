@@ -81,14 +81,15 @@
 
 <!-- Initial Script -->
 <script>
-	/* User Properties .. with Some Data of Session's ${EL}.*/
+	/* User Properties .. with Some Data of Session's ${EL}.[Global] */
 	var thisStaff = {staffId: "${thisStaff.staffId}" , name: "${thisStaff.name}", nameLocale: "${thisStaff.nameLocale!=null?thisStaff.email:'-'}", email: "${thisStaff.email!=null?thisStaff.email:'-'}", tel: "${thisStaff.tel!=null?thisStaff.tel:'-'}", mobileTel: "${thisStaff.mobileTel!=null?thisStaff.mobileTel:'-'}"};
 	
-	var calendar; //Holding Calendar Object.
-	var events;
+	var calendar; //Holding Calendar Object.[Global]
+	var events //[Global];
 	$("document").ready(function() {
 		$.ajax({
-			"url" : "findReservation/getAll",
+			"type" : "post",
+			"url" : "reservation/getAll",
 			"success" : function(response) {
 				events = response;
 				calendar = $('#schedule-reservation-result').fullCalendar({
@@ -272,16 +273,18 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var room; //Selected Room Object.
-		var rooms; // Total Rooms.
-		var roomMap = []; //Map Object for Typeahead.
+		var room; //Selected Room Object.[Global]
+		var rooms; // Total Rooms.[Global]
+		var roomMap = []; //Map Object for Typeahead.[Global]
 		var roomInput = $("#schedule-search-room"); //Room Search Input.  
 		var reservationScheduler = angular.module("reservationScheduler", []);
 		reservationScheduler.controller("contRs", function($scope, $http) {
 			$scope.current = new Date().toISOString().split("T")[0];
-			$http.get("findRoom/byRoomsName").then(function(response) {
+			$http.post("findRoom/byRoomsName").then(function(response) {
 				rooms = response.data;
-				initialMyReservationTable(rooms);
+				<c:if test="${thisStaff != null}">
+				setUpMyReservationTable(rooms);
+				</c:if>
 				/* $ */
 				$.each(rooms, function(index, val) {
 					roomMap.push({
@@ -300,7 +303,8 @@
 				if (current.id == val.roomId) {
 					room = val;
 					$.ajax({
-						url : "findReservation/getRsvByRoomId",
+						"type" : "post",
+						url : "reservation/getRsvByRoomId",
 						"data" : {
 							roomId : val.roomId
 						},
@@ -347,24 +351,31 @@
 		var mReservations;
 		var mReserveTable;
  		/* Initialize [My] Reservation's Table */
- 		function initialMyReservationTable(rooms){
+ 		function setUpMyReservationTable(rooms){
  			$.ajax({
- 				"url" : "findReservation/getRsvByStaffId",
+ 				"type" : "post",
+ 				"url" : "reservation/getRsvByStaffId",
  				"data" : {staffId : thisStaff.staffId, pass : false},
  				"success" : function(response){
  					mReservations = response;
  					$.each(mReservations, function(index, roomUsage){
  						addRoomUsageDetailById(roomUsage.roomId, rooms, roomUsage);
  					});
- 					mReserveTable = $("#table-my-reserve").DataTable({ //! Show Room's name instead of Room's Id.
- 						"data" : mReservations,
- 						"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "room.roomName", width : "50%"}, {width : "20%"}],
- 						"columnDefs" : [{
- 							targets : -1,
- 							defaultContent : "<button class='btn-m-reserve-detail'><i class='glyphicon glyphicon-search'></i></button> &nbsp;"+
- 							"<button class='btn-m-reserve-edit'><i class='glyphicon glyphicon-pencil'></i></button>"
- 						}]
- 					});
+ 					if(mReserveTable == undefined){
+	 					mReserveTable = $("#table-my-reserve").DataTable({ //! Show Room's name instead of Room's Id.
+	 						"data" : mReservations,
+	 						"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "room.roomName", width : "50%"}, {width : "20%"}],
+	 						"columnDefs" : [{
+	 							targets : -1,
+	 							defaultContent : "<button class='btn-m-reserve-detail'><i class='glyphicon glyphicon-search'></i></button> &nbsp;"+
+	 							"<button class='btn-m-reserve-edit'><i class='glyphicon glyphicon-pencil'></i></button>"
+	 						}]
+	 					});
+ 					} else  {
+ 						mReserveTable.clear().draw();
+ 						mReserveTable.rows.add(mReservations);
+ 						mReserveTable.columns.adjust().draw();
+ 					}
  				}
  			}); 
  		}

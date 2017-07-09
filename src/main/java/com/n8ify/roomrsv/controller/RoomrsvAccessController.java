@@ -1,6 +1,7 @@
 package com.n8ify.roomrsv.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,8 @@ public class RoomrsvAccessController {
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
-		request.getSession(false).invalidate();
+		HttpSession session = request.getSession(false);
+		if(session.getAttribute("thisStaff")!=null){session.invalidate();}
 		return Attrs.HOME;
 	}
 	

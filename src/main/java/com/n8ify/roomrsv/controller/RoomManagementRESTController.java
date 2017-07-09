@@ -23,12 +23,12 @@ public class RoomManagementRESTController {
 	@Qualifier("roomMng")
 	private RoomManagement roomMng;
 	
-	@RequestMapping(value = "/adm/findAllRooms", method = RequestMethod.GET)
+	@RequestMapping(value = "/adm/findAllRooms", method = RequestMethod.POST)
 	public List<Room> getAllRooms(){
 		return roomMng.findAll();
 	}
 	
-	@RequestMapping(value = "/findRoom/byRoomsName", method = RequestMethod.GET)
+	@RequestMapping(value = "/findRoom/byRoomsName", method = RequestMethod.POST)
 	public List<Room> getRoomsByName(@RequestParam(value = "name", required = true, defaultValue = "")String roomName){
 		return roomMng.findByName(roomName);
 	}
