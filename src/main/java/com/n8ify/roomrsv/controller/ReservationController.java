@@ -50,4 +50,14 @@ public class ReservationController {
 		}*/
 		return Attrs.HOME;
 	}
+	
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public String modify(Model model, HttpServletRequest request,RoomUsage roomUsage, Map<Integer, Integer> mapFacilities) {
+		logger.info(roomUsage.toString());
+		if(roomUsage != null){
+			rsvMng.modify(roomUsage);
+		}
+		
+		return Attrs.HOME;
+	}
 }

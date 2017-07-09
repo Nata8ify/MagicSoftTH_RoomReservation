@@ -2,6 +2,8 @@
 <%@ page session="true"%>
 <c:set var="resPath"
 	value="${pageContext.request.contextPath}/resources" />
+<c:set var="appPath"
+	value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 

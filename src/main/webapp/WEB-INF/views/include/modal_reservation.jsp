@@ -7,7 +7,7 @@
 					<h4 class="modal-title">Please Fill the Reservation's Form.</h4>
 				</div>
 				<div class="modal-body">
-					<form method="post" action="reserve" accept-charset="UTF-8">
+					<form method="post" action="reserve" accept-charset="UTF-8" id="form-reservation">
 						<input type="hidden" id="input-reserve-usage-id" name="usageId" value="0" />
 						<input type="hidden" id="input-reserve-room-id" name="roomId" />
 						<input type="hidden" id="input-reserve-staff-id" name="byStaffId" />
@@ -113,6 +113,7 @@
 		/* renderReservationModal : This Function will Manage about how Reservation's Modal will be Operate on Reserve Mode or Editor Mode. */
 		function renderReservationModal(room, isEditMode){
 			if(isEditMode){
+				$("#form-reservation").attr("action", "modify");
 				$("#a-reservation-cancel").prop("hidden", false);
 				$("#input-reserve-usage-id").val(room.usageId);
 				$("#input-reserve-date").val(room.reservedDate);
@@ -122,6 +123,7 @@
 				$("#input-reserve-note").val(room.note);
 				// Facilities Things Here!.
 			} else {
+				$("#form-reservation").attr("action", "reserve");
 				$("#a-reservation-cancel").prop("hidden", true);
 			}
 			$("#i-room-name").html(((room.roomName==undefined?room.room.roomName:room.roomName)+(room.roomCode==null?"":(" &nbsp;("+room.roomCode+")"))));

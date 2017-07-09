@@ -43,7 +43,7 @@ public class ReservationManagement implements RoomReservationInterface {
 	public boolean modify(RoomUsage roomUsage) {
 		String sqlModify = "UPDATE `RoomUsage` SET `roomId`= ?,`byStaffId`= ?,`purpose`= ?,`note`= ?,`reservedDate`= ?,`accessBegin`= ?,`accessUntil`= ? WHERE `usageId`= ?";
 		return jdbc.update(sqlModify,
-				new Object[] { roomUsage.getRoomId(), roomUsage.getByStaffId(), roomUsage.getNote(),
+				new Object[] { roomUsage.getRoomId(), roomUsage.getByStaffId(), roomUsage.getPurpose(), roomUsage.getNote(),
 						roomUsage.getReservedDate(), roomUsage.getAccessBegin(), roomUsage.getAccessUntil(),
 						roomUsage.getUsageId() }) == 1;
 	}
