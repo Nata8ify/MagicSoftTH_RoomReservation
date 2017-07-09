@@ -6,11 +6,12 @@
 				<h4 class="modal-title">Reservation's Detail.</h4>
 			</div>
 			<div class="modal-body">
-				<p>
-					<b>Room : </b><i id="i-reserve-detail-roomname"></i>
-				</p>
 				<table class='table table-responsive' id='table-reserve-detail'>
 					<tbody>
+						<tr>
+							<th>Room : </th>
+							<td><b><i id="i-reserve-detail-roomname"></i></b></td>
+						</tr>
 						<tr>
 							<th>Reserved By :</th>
 							<td><span id="sp-reserve-detail-rsvby"></span></td>
@@ -42,9 +43,6 @@
 					</tbody>
 				</table>
 			</div>
-<!-- 			<div class="modal-header" align="right">
-				<button type="button" data-dismiss="modal">Close</button>
-			</div> -->
 		</div>
 	</div>
 </div>
@@ -52,7 +50,7 @@
 	
 </script>
 <script>
-	/* Reservation Details's Function. */
+	/** Reservation Details's Function. **/
 	function viewDetail(detail) {
 		$.ajax({
 			"type" : "post",
@@ -61,7 +59,7 @@
 				staffId : detail.byStaffId
 			},
 			"success" : function(resrevedStaff) {
-				console.log(resrevedStaff);
+				
 				$("#i-reserve-detail-roomname").html(detail.roomName);
 				$("#sp-reserve-detail-rsvby").html(resrevedStaff.name);
 				$("#sp-reserve-detail-for").html(detail.purpose);
@@ -75,5 +73,4 @@
 			}
 		});
 	}
-
 </script>

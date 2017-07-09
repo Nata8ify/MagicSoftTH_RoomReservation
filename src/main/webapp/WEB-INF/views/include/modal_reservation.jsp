@@ -37,7 +37,7 @@
 											id="input-reserve-note" name="note"></textarea></td>
 								</tr>
 								<tr>
-									<td></td>
+									<td align="left"><a href="#" style="color:red;" id="a-reservation-cencel" hidden="">Cancel the Reservation</a></td>
 									<td align="right"><input type="submit"
 										class="btn btn-success" id="btn-reservation-submit" disabled /></td>
 								</tr>
@@ -60,12 +60,9 @@
 		
 		/* #btn-reserve LISTENER : If Reservse was Click so this Dialog will be Fired. */
 		btnReserve.click(function() {
-			console.log(room);
-			$("#i-room-name").html((room.roomName+(room.roomCode==null?"":(" &nbsp;("+room.roomCode+")"))));
-			$("#input-reserve-room-id").val(room.roomId);
-			$("#input-reserve-staff-id").val("${thisStaff.staffId}");
-			$("#modal-reserve-room").modal();
+			renderReservationModal(room, false);
 		});
+		/* #input-reserve-start, #input-reserve-end : Any time Start-End time was Changed then this listener will Perform Time's Validator Logic.*/
 		$("#input-reserve-start, #input-reserve-end").change(function() {
 			var btnSubmit = $("#btn-reservation-submit");
 			var bTimeValidate = $("#b-time-validate");
@@ -81,5 +78,32 @@
 				btnSubmit.prop("disabled", false);
 			}
 		});
+ 		/* .btn-m-reserve : Listening Action Button for make Editing on Each [My] Reservation Row.*/
+ 		$("#table-my-reserve tbody").on("click", "tr .btn-m-reserve-edit", function(evt){
+ 			console.log(mReserveTable.row($(this).parents("tr")).data());
+ 			renderReservationModal(mReserveTable.row($(this).parents("tr")).data(), true);
+ 		});
+	</script>
+	<script>
+		/** Reservation Insert/Dialog's Functions **/
+		/* renderReservationModal : This Function will Manage about how Reservation's Modal will be Operate on Reserve Mode or Editor Mode. */
+		function renderReservationModal(room, isEditMode){
+			$("#a-reservation-cencel").prop("hidden", true);
+			if(isEditMode){
+				$("#a-reservation-cencel").prop("hidden", false);
+				$("#input-reserve-date").val(room.reservedDate);
+				$("#input-reserve-start").val(room.accessBegin);
+				$("#input-reserve-end").val(room.accessUntil);
+				$("#input-reserve-purpose").val(room.purpose);
+				$("#input-reserve-note").val(room.note);
+				// Facilities Things Here!.
+			} else {
+				$("input[id^=input-reserve], textarea[id^=input-reserve]").val("");
+			}
+			$("#i-room-name").html(((room.roomName==undefined?room.room.roomName:room.roomName)+(room.roomCode==null?"":(" &nbsp;("+room.roomCode+")"))));
+			$("#input-reserve-room-id").val(room.roomId);
+			$("#input-reserve-staff-id").val("${thisStaff.staffId}");
+			$("#modal-reserve-room").modal();
+		}
 	</script>
 </c:if>

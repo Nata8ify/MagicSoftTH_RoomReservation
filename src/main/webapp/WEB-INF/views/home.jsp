@@ -354,13 +354,11 @@
  				"success" : function(response){
  					mReservations = response;
  					$.each(mReservations, function(index, roomUsage){
- 						findRoomById(roomUsage.roomId, rooms, roomUsage);
+ 						addRoomUsageDetailById(roomUsage.roomId, rooms, roomUsage);
  					});
- 					console.log(mReservations);
- 					console.log(" CB :  "+findRoomById(13, rooms));
  					mReserveTable = $("#table-my-reserve").DataTable({ //! Show Room's name instead of Room's Id.
  						"data" : mReservations,
- 						"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "roomName", width : "50%"}, {width : "20%"}],
+ 						"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "room.roomName", width : "50%"}, {width : "20%"}],
  						"columnDefs" : [{
  							targets : -1,
  							defaultContent : "<button class='btn-m-reserve-detail'><i class='glyphicon glyphicon-search'></i></button> &nbsp;"+
@@ -370,15 +368,6 @@
  				}
  			}); 
  		}
-		
- 		/* .btn-m-reserve : Listening Action Button for view Detail on Each [My] Reservation Row.*/
- 		$("#table-my-reserve").on("click", "tr .btn-m-reserve-detail", ()=>{
- 			alert();
- 		});
- 		/* .btn-m-reserve : Listening Action Button for make Editing on Each [My] Reservation Row.*/
- 		$("#table-my-reserve").on("click", "tr .btn-m-reserve-edit", ()=>{
- 			alert();
- 		});
 		</script>
 	</c:if>
 
@@ -464,8 +453,9 @@
 			</div>
 		</div>
 	</footer>
-	<jsp:include page="include/modal_reservation.jsp"></jsp:include>
+	<jsp:include page="include/modal_reservation.jsp" flush="true"></jsp:include>
 	<jsp:include page="include/modal_reservation_detail.jsp"></jsp:include>
+	<jsp:include page="include/modal_mreservation_detail.jsp"></jsp:include>
 
 
 	<!-- Function -->
@@ -521,11 +511,12 @@
 			//Make Highlight
 		});
 		/** findRoomById : Use for get Information by Room Id. **/
-		/* Ps. roomUsage is "Optional" Parameter to be appended Room's Object. */
-		function findRoomById(roomId, rooms, roomUsage){
+		/* Ps. addRoomUsageDetailById is "Optional" Parameter to be appended Room's Object. */
+		function addRoomUsageDetailById(roomId, rooms, roomUsage){
+			//Better $.each and $.each mReservations.
 			$.each(rooms , function(index, val){
 				if(val.roomId == roomId){
-					if(roomUsage !== undefined){roomUsage["roomName"] = val.roomName;}
+					if(roomUsage !== undefined){roomUsage["room"] = val;}
 					return val;
 				}
 			});
