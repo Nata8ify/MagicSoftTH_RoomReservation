@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.n8ify.roomrsv.dealer.FacilityManagement;
+import com.n8ify.roomrsv.dealer.ReservationManagement;
 import com.n8ify.roomrsv.dealer.RoomrsvAccess;
 import com.n8ify.roomrsv.model.Staff;
 import com.n8ify.roomrsv.model.StaffAccess;
@@ -25,6 +29,10 @@ public class RoomrsvAccessController {
 	@Qualifier("roomrsvAccess")
 	private RoomrsvAccess rsvAccess;
 
+	@Autowired
+	@Qualifier("faciliMng")
+	private FacilityManagement facilityMng;
+	
 	private static final Logger logger = LoggerFactory.getLogger(RoomrsvAccessController.class);
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -70,6 +78,11 @@ public class RoomrsvAccessController {
 		return Attrs.HOME;
 	}
 	
-	
+	@ExceptionHandler(NullPointerException.class)
+	public ModelAndView unauthorizedException(NullPointerException npex){
+		ModelAndView modelAndView = new ModelAndView("result/error");
+		modelAndView.addObject("title", npex.toString());
+		return modelAndView;
+	}
 
 }

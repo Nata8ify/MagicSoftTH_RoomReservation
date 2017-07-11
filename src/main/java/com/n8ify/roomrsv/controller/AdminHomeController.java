@@ -33,16 +33,12 @@ public class AdminHomeController {
 		model.addAttribute(Attrs.getOptionAttr.include.toString(), to.toString());
 		switch (to) {
 		case dashboard:
-
 			break;
 		case report:
-
 			break;
 		case roommng:
-
 			break;
 		case facilimng:
-
 			break;
 		default:
 			break;

@@ -57,6 +57,7 @@
 			.DataTable(
 					{
 						"ajax" : {
+							"type" : "post",
 							"url" : "findAllRooms",
 							"dataSrc" : function(json) {
 								rooms = json;

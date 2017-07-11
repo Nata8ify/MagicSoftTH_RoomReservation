@@ -8,5 +8,6 @@
 </head>
 <body>
 There is an Error! Please Check you mistake! :D
+<p>${title}</p>
 </body>
 </html>

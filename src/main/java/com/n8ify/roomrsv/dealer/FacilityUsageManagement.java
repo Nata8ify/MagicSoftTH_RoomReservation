@@ -25,6 +25,7 @@ public class FacilityUsageManagement implements RoomFacilityUsageInterface {
 		String sqlrReserve = "INSERT INTO `RoomFacilitiyUsage`(`roomUsageId`, `roomFacilityId`, `accessedQuantity`) VALUES (?, ?, ?);";
 		return jdbc.update(sqlrReserve, new Object[]{facilitiyUsage.getRoomUsageId(), facilitiyUsage.getRoomFacilityId(), facilitiyUsage.getAccessedQuantity()}) == 1 ;
 	}
+	
 
 	@Override
 	public boolean update(RoomFacilitiyUsage facilitiyUsage) {
@@ -58,5 +59,7 @@ public class FacilityUsageManagement implements RoomFacilityUsageInterface {
 		}
 
 	}
+
+
 
 }

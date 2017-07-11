@@ -259,7 +259,7 @@
 					<hr />
 					<c:if test="${thisStaff != null}">
 						<hr />
-						<button id="btn-reserve">
+						<button id="btn-reserve" hidden="">
 							<i class="glyphicon glyphicon-plus"></i>Reserve</button>
 					</c:if>
 					<hr />
@@ -514,6 +514,7 @@
 					+ "</td></tr><tr><td><b>Building</b></td><td>"
 					+ room.building + "</td></tr><tr><td><b>Floor</b></td><td>"
 					+ room.floor + "</td></tr>");
+			$("#btn-reserve").hide().fadeIn();
 			tableRoomDetails.empty();
 			tableRoomDetails.html(roomtableContent).hide().fadeIn();
 		}
