@@ -6,14 +6,17 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.n8ify.roomrsv.controller.ReservationController;
 import com.n8ify.roomrsv.intf.RoomFacilityUsageInterface;
 import com.n8ify.roomrsv.model.RoomFacilitiyUsage;
 
 public class FacilityUsageManagement implements RoomFacilityUsageInterface {
-
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(FacilityUsageManagement.class);
+	
 	private  JdbcTemplate jdbc;
 	
 	public FacilityUsageManagement(DataSource  datasource) {
@@ -24,6 +27,7 @@ public class FacilityUsageManagement implements RoomFacilityUsageInterface {
 	public boolean reserve(RoomFacilitiyUsage facilitiyUsage) {
 		String sqlrReserve = "INSERT INTO `RoomFacilitiyUsage`(`roomUsageId`, `roomFacilityId`, `accessedQuantity`) VALUES (?, ?, ?);";
 		return jdbc.update(sqlrReserve, new Object[]{facilitiyUsage.getRoomUsageId(), facilitiyUsage.getRoomFacilityId(), facilitiyUsage.getAccessedQuantity()}) == 1 ;
+	
 	}
 	
 

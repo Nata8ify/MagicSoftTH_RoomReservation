@@ -8,7 +8,7 @@
 					<h4 class="modal-title">Please Fill the Reservation's Form.</h4>
 				</div>
 				<div class="modal-body">
-					<form method="get" action="reserve" accept-charset="UTF-8"
+					<form method="post" action="reserve" accept-charset="UTF-8"
 						id="form-reservation">
 						<input type="hidden" id="input-reserve-usage-id" name="usageId"
 							value="0" /> <input type="hidden" id="input-reserve-room-id"
@@ -22,14 +22,14 @@
 								<tr>
 									<td>*Date:<input type="date" class="form-control"
 										id="input-reserve-date" name="reservedDate"
-										required="required" /></td>
+										required="required" /></br><b id="b-time-validate"></b></td>
 									<td>*Start:<input type="time" class="form-control"
 										id="input-reserve-start" name="accessBegin" min="08:00"
 										max="17:00" step="1800" required="required" value="10:00:00"/></td>
 									<td>*Until:<input type="time" class="form-control"
 										id="input-reserve-end" name="accessUntil" min="08:30"
 										max="17:00" step="1800" required="required" value="08:00:00"/></td>
-									<td><b id="b-time-validate"></b></td>
+									<td></td>
 								</tr>
 								<tr>
 									<td>*Purpose :</td>
@@ -85,9 +85,10 @@
 				bTimeValidate.html("Specify end time.");
 			}
 			if (start.val() >= end.val()) {
-				bTimeValidate.html("Start-time must before End-time.");
+				bTimeValidate.html("End-time is Invalid.");
 				btnSubmit.prop("disabled", true);
 			} else {
+				bTimeValidate.html("");
 				btnSubmit.prop("disabled", false);
 			}
 		});
@@ -96,42 +97,31 @@
 				"click",
 				"tr .btn-m-reserve-edit",
 				function(evt) {
-					console
-							.log(mReserveTable.row($(this).parents("tr"))
-									.data());
-					renderReservationModal(mReserveTable.row(
-							$(this).parents("tr")).data(), true);
+					console.log(mReserveTable.row($(this).parents("tr")).data());
+					renderReservationModal(mReserveTable.row($(this).parents("tr")).data(), true);
 				});
 		/* #modal-reserve-room on hidden.bs.modal : Clear Temporary Data on Reservation's Dialog. */
 		$("#modal-reserve-room").on("hidden.bs.modal", "#modal-reserve-room", function(evt) {
 			$("input[id^=input-reserve], textarea[id^=input-reserve]").val("");
+			$("#b-time-validate").html("");
 			$("#input-reserve-usage-id").val("0");
 		});
 		/* [Edit Mode] #a-reservation-cencel : Listening Delete action on Selected Resrvation. */
-		$("#a-reservation-cancel")
-				.click(
-						function() {
-							var usageId = $("#input-reserve-usage-id").val();
-							console.log(usageId);
-							if (confirm("This Reservation will be Remove from the System, would you like to Continue?")) {
-								$
-										.ajax({
-											"type" : "post",
-											"url" : "manageReservation/delete",
-											"data" : {
-												usageId : usageId
-											},
-											"success" : function(result) {
-												if (result) {
-													alert("This Reservation is Canceled Successfuly.")
-													setUpMyReservationTable(rooms);
-													$("#modal-reserve-room")
-															.modal("hide");
-												}
-											}
-										});
-							}
-						});
+		$("#a-reservation-cancel").click(function() {
+			var usageId = $("#input-reserve-usage-id").val();
+			if (confirm("This Reservation will be Remove from the System, would you like to Continue?")) {
+			$.ajax({
+				"type" : "post",
+				"url" : "manageReservation/delete",
+				"data" : {usageId : usageId},
+				"success" : function(result) {
+					if (result) {
+					alert("This Reservation is Canceled Successfuly.")
+					setUpMyReservationTable(rooms);
+					$("#modal-reserve-room").modal("hide");
+				  	}
+				}
+			});}});
 	</script>
 	<script>
 		/** Reservation Insert/Dialog's Functions **/
@@ -146,6 +136,7 @@
 				$("#input-reserve-end").val(room.accessUntil);
 				$("#input-reserve-purpose").val(room.purpose);
 				$("#input-reserve-note").val(room.note);
+				$("#btn-reservation-submit").prop("disabled", false);
 				// Facilities Things Here!.
 			} else {
 				$("#form-reservation").attr("action", "reserve");

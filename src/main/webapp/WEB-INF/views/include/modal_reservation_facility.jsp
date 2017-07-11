@@ -18,11 +18,13 @@
 						</table>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="z" >check</button>
 					<button type="button" class="modal-ficilis" >Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
 	<script>
 		/* document : Certainly the Document was Loaded the Facility's Table will Load Instatiate Data.*/
 		$("document").ready(function(){
@@ -31,11 +33,16 @@
 				"success" : function(facilities){
 					console.log(facilities);
 					$.each(facilities, function(index, val){
-						$("#tbody-reserve-room-facility").append("<tr><td>"+val.facility+"</td><td><input type='hidden' name='faciliIds' value='"+val.roomFacilityId+"'/><input class='form-control' type='number' min='0' name='faciliQts'/></td></tr>");
+						$("#tbody-reserve-room-facility").append("<tr><td>"+val.facility+"</td><td><input class='form-control input-facilis' type='number' min='0' name='facilis$"+val.roomFacilityId+"'/></td></tr>");
 					});
 				} 
 			});
 		});
 		/* .modal-ficilis : For Closing Modal with no affect to Reservation's Modal. */
 		$(".modal-ficilis").click(function(){$('#modal-reserve-room-facility').modal('hide');});
+	
+	/* z */
+	$(".z").click(function(){
+		console.log($(".input-facilis").serializeObject());
+	});
 	</script>

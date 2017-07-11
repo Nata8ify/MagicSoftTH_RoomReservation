@@ -1,6 +1,8 @@
 package com.n8ify.roomrsv.dealer;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -9,7 +11,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import com.n8ify.roomrsv.intf.RoomReservationInterface;
 import com.n8ify.roomrsv.model.Room;
@@ -30,22 +35,35 @@ public class ReservationManagement implements RoomReservationInterface {
 		return faciliUsageMng;
 	}
 
-
 	@Override
-	public boolean reserve(RoomUsage roomUsage) {
-		String sqlReserve = "INSERT INTO `RoomUsage`( `roomId`, `byStaffId`, `purpose`, `note`, `reservedDate`, `accessBegin`, `accessUntil`) VALUES (?, ?, ?, ?, ? ,? ,?);";
-		return jdbc.update(sqlReserve,
-				new Object[] { roomUsage.getRoomId(), roomUsage.getByStaffId(), roomUsage.getPurpose(), roomUsage.getNote(),
-						roomUsage.getReservedDate(), roomUsage.getAccessBegin(), roomUsage.getAccessUntil() }) == 1;
+	public int reserve(final RoomUsage roomUsage) {
+		final String sqlReserve = "INSERT INTO `RoomUsage`( `roomId`, `byStaffId`, `purpose`, `note`, `reservedDate`, `accessBegin`, `accessUntil`) VALUES (?, ?, ?, ?, ? ,? ,?);";
+		KeyHolder latestId = new GeneratedKeyHolder();
+		jdbc.update(new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement pstm = conn.prepareStatement(sqlReserve, new String[]{"id"});
+				pstm.setInt(1, roomUsage.getRoomId());
+				pstm.setString(2, roomUsage.getByStaffId());
+				pstm.setString(3, roomUsage.getPurpose());
+				pstm.setString(4, roomUsage.getNote());
+				pstm.setDate(5, roomUsage.getReservedDate());
+				pstm.setTime(6, roomUsage.getAccessBegin());
+				pstm.setTime(7, roomUsage.getAccessUntil());
+				return pstm;
+			}
+		}, latestId);
+		return latestId.getKey().intValue();
 	}
 
 	@Override
 	public boolean modify(RoomUsage roomUsage) {
 		String sqlModify = "UPDATE `RoomUsage` SET `roomId`= ?,`byStaffId`= ?,`purpose`= ?,`note`= ?,`reservedDate`= ?,`accessBegin`= ?,`accessUntil`= ? WHERE `usageId`= ?";
 		return jdbc.update(sqlModify,
-				new Object[] { roomUsage.getRoomId(), roomUsage.getByStaffId(), roomUsage.getPurpose(), roomUsage.getNote(),
-						roomUsage.getReservedDate(), roomUsage.getAccessBegin(), roomUsage.getAccessUntil(),
-						roomUsage.getUsageId() }) == 1;
+				new Object[] { roomUsage.getRoomId(), roomUsage.getByStaffId(), roomUsage.getPurpose(),
+						roomUsage.getNote(), roomUsage.getReservedDate(), roomUsage.getAccessBegin(),
+						roomUsage.getAccessUntil(), roomUsage.getUsageId() }) == 1;
 	}
 
 	@Override
@@ -108,12 +126,12 @@ public class ReservationManagement implements RoomReservationInterface {
 	@Override
 	public List<RoomUsage> findAllByStaffId(String staffId, boolean isPassInclude) {
 		String sqlFindAllByUserId;
-		if(isPassInclude){
+		if (isPassInclude) {
 			sqlFindAllByUserId = "SELECT * FROM `RoomUsage` WHERE `byStaffId` = ?;";
 		} else {
 			sqlFindAllByUserId = "SELECT * FROM `RoomUsage` WHERE `byStaffId` = ? AND `reservedDate` >= CURDATE();";
 		}
-		return jdbc.query(sqlFindAllByUserId, new Object[]{staffId}, new RoomUsageMapper());
+		return jdbc.query(sqlFindAllByUserId, new Object[] { staffId }, new RoomUsageMapper());
 	}
-	
+
 }

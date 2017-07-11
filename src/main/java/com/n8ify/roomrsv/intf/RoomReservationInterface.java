@@ -8,7 +8,7 @@ import com.n8ify.roomrsv.model.Room;
 import com.n8ify.roomrsv.model.RoomUsage;
 
 public interface RoomReservationInterface {
-	public boolean reserve(RoomUsage roomUsage);
+	public int reserve(RoomUsage roomUsage);
 
 	public boolean modify(RoomUsage roomUsage);
 
