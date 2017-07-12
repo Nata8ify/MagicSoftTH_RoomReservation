@@ -17,7 +17,7 @@ public class AdminHomeController {
 
 	private final String ADM_REL_PATH = "/adm/";
 
-	@RequestMapping("/adm/admlogin")
+	@RequestMapping("/adm/login")
 	public String toAdminSignIn(Model model, HttpServletRequest request) {
 		return Attrs.ADMIN_SIGNIN;
 	}

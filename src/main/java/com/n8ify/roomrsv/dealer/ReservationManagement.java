@@ -51,6 +51,8 @@ public class ReservationManagement implements RoomReservationInterface {
 				pstm.setDate(5, roomUsage.getReservedDate());
 				pstm.setTime(6, roomUsage.getAccessBegin());
 				pstm.setTime(7, roomUsage.getAccessUntil());
+				
+				
 				return pstm;
 			}
 		}, latestId);
@@ -73,8 +75,8 @@ public class ReservationManagement implements RoomReservationInterface {
 	}
 
 	@Override
-	public List<RoomUsage> findAll() {
-		String sqlFindAll = "SELECT * FROM `RoomUsage`;";
+	public List<RoomUsage> findAll(boolean isPassInclude) {
+		String sqlFindAll = isPassInclude?"SELECT * FROM `RoomUsage`;":"SELECT * FROM `RoomUsage` WHERE reservedDate >= CURDATE();";
 		return jdbc.query(sqlFindAll, new RoomUsageMapper());
 	}
 

@@ -58,7 +58,7 @@
 					{
 						"ajax" : {
 							"type" : "post",
-							"url" : "findAllRooms",
+							"url" : "findRoom/findAllRooms",
 							"dataSrc" : function(json) {
 								rooms = json;
 								console.log(rooms);

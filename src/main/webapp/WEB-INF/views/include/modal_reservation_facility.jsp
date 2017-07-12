@@ -18,7 +18,6 @@
 						</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="z" >check</button>
 					<button type="button" class="modal-ficilis" >Close</button>
 				</div>
 			</div>
@@ -40,9 +39,4 @@
 		});
 		/* .modal-ficilis : For Closing Modal with no affect to Reservation's Modal. */
 		$(".modal-ficilis").click(function(){$('#modal-reserve-room-facility').modal('hide');});
-	
-	/* z */
-	$(".z").click(function(){
-		console.log($(".input-facilis").serializeObject());
-	});
 	</script>

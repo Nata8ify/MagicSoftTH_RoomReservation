@@ -91,7 +91,7 @@
 	$("document").ready(function() {
 		$.ajax({
 			"type" : "post",
-			"url" : "reservation/getAll",
+			"url" : "reservation/all",
 			"success" : function(response) {
 				events = response;
 				calendar = $('#schedule-reservation-result').fullCalendar({
