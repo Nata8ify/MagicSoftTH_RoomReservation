@@ -28,7 +28,8 @@
 		/* document : Certainly the Document was Loaded the Facility's Table will Load Instatiate Data.*/
 		$("document").ready(function(){
 			$.ajax({
-				"url" : "findAllFacilis",
+				"type" : "post",
+				"url" : "facility/findAll",
 				"success" : function(facilities){
 					console.log(facilities);
 					$.each(facilities, function(index, val){

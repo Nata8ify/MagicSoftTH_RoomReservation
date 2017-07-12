@@ -2,6 +2,7 @@ package com.n8ify.roomrsv.dealer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -26,6 +27,10 @@ public class Utilities {
 		return jdbc.queryForObject(sqlFindStaffById, new Object[]{staffId}, new StaffMapper());
 	}
 	
+	public List<Staff> findAllStaff(){
+		String sqlFindStaffById = "SELECT * FROM `Staff`;";
+		return jdbc.query(sqlFindStaffById, new StaffMapper());
+	}
 	
 	class StaffMapper implements RowMapper<Staff> {
 

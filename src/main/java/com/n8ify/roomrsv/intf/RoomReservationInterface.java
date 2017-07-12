@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.n8ify.roomrsv.model.Room;
 import com.n8ify.roomrsv.model.RoomUsage;
+import com.n8ify.roomrsv.model.Staff;
 
 public interface RoomReservationInterface {
 	public int reserve(RoomUsage roomUsage);

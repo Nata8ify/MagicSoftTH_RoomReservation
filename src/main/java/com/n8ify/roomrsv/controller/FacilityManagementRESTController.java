@@ -18,7 +18,7 @@ public class FacilityManagementRESTController {
 	@Qualifier("faciliMng")
 	private FacilityManagement faciliMng;
 	
-	@RequestMapping(value = {"/adm/findAllFacilis", "/findAllFacilis"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/adm/facility/findAll", "/facility/findAll"}, method = RequestMethod.POST)
 	public List<RoomFacilitiy> getAllFacilities(){
 		return faciliMng.findAll();
 	}

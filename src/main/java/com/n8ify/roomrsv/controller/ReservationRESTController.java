@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.n8ify.roomrsv.dealer.ReservationManagement;
+import com.n8ify.roomrsv.model.RoomFacilitiy;
+import com.n8ify.roomrsv.model.RoomFacilitiyUsage;
 import com.n8ify.roomrsv.model.RoomUsage;
+import com.n8ify.roomrsv.model.Staff;
 
 @RestController
 public class ReservationRESTController {
@@ -60,10 +63,16 @@ public class ReservationRESTController {
 		return rsvMng.findAllByStaffId(staffId, isPassInclude);
 	}
 	
+	@RequestMapping(value = {"/reservation/findFacilisUsage", "/adm/reservation/findFacilisUsage"}, method = RequestMethod.POST)
+	public List<RoomFacilitiyUsage> getFacilityUsageByUsageId(@RequestParam(value = "usageId", required = true)int usageId){
+		return rsvMng.getFaciliUsageMng().findByRoomUsageId(usageId);
+	}
+	
 	@RequestMapping(value = "/manageReservation/delete", method = RequestMethod.POST)
 	public boolean deleteReservationByUsageId(@RequestParam(value = "usageId", required = true)int usageId){
 		return rsvMng.cancel(usageId);
 	}
+
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder){

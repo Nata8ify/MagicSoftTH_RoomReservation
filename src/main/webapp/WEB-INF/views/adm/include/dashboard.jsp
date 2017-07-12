@@ -31,19 +31,19 @@
 							<!-- /widget-content -->
 							<script type="text/javascript">
 							/* setUpTodayReservationTable : This is a Function for Initialize Today Reservation's Data Table. */
+							var todayReservationTable; //[GLOBAL]
 							function setUpTodayReservationTable(todayReservationData){
-									$("#table-view-reservation-today").DataTable({
+								todayReservationTable = $("#table-view-reservation-today").DataTable({
 									"data" : todayReservationData,
 									"columns" : [{width : "20%"},{width : "70%", data : "room.roomName"}, {width : "10%"}],
 									"columnDefs" : [{
 										targets : 0,
 										render : function(url, type, row, meta){
-											log(row);
 											return (row.accessBegin.substring(0,5) + " - " + row.accessUntil.substring(0,5)); 
 										}
 									},{
 										targets : -1,
-										defaultContent : "<button class='btn btn-default'>View</button>"
+										defaultContent : "<button class='btn btn-default btn-adv-reservation-detail'>View</button>"
 									}],
 									"searching": false,
 									"bLengthChange": false
@@ -78,13 +78,14 @@
 							<!-- /widget-content -->
 							<script type="text/javascript">
 							/* setUpTodayReservationTable : This is a Function for Initialize Today Reservation's Data Table. */
+							var comingReservationTable; //[GLOBAL]
 							function setUpComingReservationTable(comingReservationData){
-									$("#table-view-reservation-coming").DataTable({
+								comingReservationTable = $("#table-view-reservation-coming").DataTable({
 									"data" : comingReservationData,
 									"columns" : [{width : "20%", data : "reservedDate"},{width : "70%", data : "room.roomName"}, {width : "10%"}],
 									"columnDefs" : [{
 										targets : -1,
-										defaultContent : "<button class='btn btn-default'>View</button>"
+										defaultContent : "<button class='btn btn-default btn-adv-reservation-detail'>View</button>"
 									}],
 									"searching": false,
 									"bLengthChange": false
@@ -103,3 +104,4 @@
 		<!-- /main-inner -->
 	</div>
 	<!-- /main -->
+	<jsp:include page="modal_adv_reservation_detail.jsp"></jsp:include>

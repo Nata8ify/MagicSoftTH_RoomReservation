@@ -3,6 +3,8 @@ var rooms; //Total Rooms. [GLOBAL]
 var currentReservations; //Total Current Room's Reservations by Current and Future. [GLOBAL]
 var todayReservations; //Total Reservations on TODAY. [GLOBAL]
 var comingReservations; //Total Coming's Reservations. [GLOBAL]
+var facilities; //Total Facilities which Registered on the System. [GLOBAL]
+var users; //Total User on the STFFPF System [GLOBAL]
 /* Functions */
 /** addRoomUsageDetailById : Use for get Information by Room Id. **/
 /* Ps. addRoomUsageDetailById is "Optional" Parameter to be appended Room's Object. */
@@ -17,7 +19,7 @@ function addRoomUsageDetailById(roomId, rooms, roomUsage){
 	return null;
 }
 
-/** addRoomUsageDetail : Seem 'addRoomUsageDetailById' But Done by 'rooms' and 'roomUsages' **/
+/* addRoomUsageDetail : Seem 'addRoomUsageDetailById' But Done by 'rooms' and 'roomUsages' */
 function addRoomUsageDetail(roomUsages, rooms){
 	//Better $.each and $.each mReservations.
 	var reservations = [];
@@ -31,6 +33,37 @@ function addRoomUsageDetail(roomUsages, rooms){
 	});
 	return reservations;
 }
+
+/* getFacilitiesUsageDetailByUsageId : Get Facility's Detail By Room Usage Id. */
+var selectedFacilityDetails; // Contain Current Views Facility's Detail [Supporting Asynchronous $.when [THIS IS BAD BUT WORK]]
+function getFacilitiesUsageDetailByUsageId(roomUsageId){
+	var facilityDetails = null;
+		$.ajax({
+			"type" : "post",
+			"url" : "reservation/findFacilisUsage",
+			"data" : {usageId : roomUsageId},
+			"success" : function(results){
+				$.when(addFacilityDescription(results)).then(function(){
+					facilityDetails = results;
+					selectedFacilityDetails = results;
+					log(selectedFacilityDetails);
+				});
+			}
+		});
+		return facilityDetails;
+	}
+
+/* addFacilityDescription : Add the Facility description on Each Facility's Usages. */
+function addFacilityDescription(facilitiyUsages){
+	$.each(facilitiyUsages, function(index, facilitiyUsage){
+		$.each(facilities, function(index, facility){
+			if(facility.roomFacilityId == facilitiyUsage.roomFacilityId){
+				facilitiyUsage["facility"] = facility;
+			}
+		});
+	});
+}
+
 /* getTodayReservations : For Filtering the Reservation by Current Day's Reservation.  */
 function getTodayReservations(roomUsages){
 	var todayReservations = [];
@@ -55,6 +88,28 @@ function getComingReservations(roomUsages){
 	return comingReservations;
 }
 
+/* findRoomDetailById : this Function will Return the Room's Detail Object (Usage's Detail and Room Detail) which find by Usage Id.*/
+function findRoomDetailByUsageId(usageId){
+	var roomDetail = null;
+	$.each(currentReservations, function(index, rsvDetail){
+		if(rsvDetail.usageId == usageId){
+			roomDetail = rsvDetail;
+		}
+	});
+	return roomDetail;
+}
+
+/* findUserByStaffId : Get User's Information by their Staff Id. */
+function findUserByStaffId(staffId){
+	var findUser = null;
+	$.each(users, function(index, user){
+		if(staffId == user.staffId){
+			findUser = user; 
+		}
+	});
+	return findUser;
+}
+
 /* Listener / When 'Things' was Occurred. */
 $("document").ready(function(){
 	//Get Rooms.
@@ -63,7 +118,7 @@ $("document").ready(function(){
 		"url" : "findRoom/findAllRooms",
 		"success" : function(results){
 			rooms = results;
-			//Get Room's Reservation [Current and Future]
+			//Get Room's Reservation [Current and Future].
 			$.ajax({
 				"type" : "post",
 				"url" : "reservation/all",
@@ -76,12 +131,28 @@ $("document").ready(function(){
 						//After the Data is Ready these Function will be Called.
 						setUpTodayReservationTable(todayReservations);
 						setUpComingReservationTable(comingReservations);					
-						});
-
+					});
 				}
-			});
+			});	
 		}
 	});
+	//Get Total Users.
+	$.ajax({
+		"type" : "post",
+		"url" : "utils/find/allStaffs",
+		"success" : function(results){
+			users = results;
+		}
+	});
+	//Get Total Facilities.
+	$.ajax({
+		"type" : "post",
+		"url" : "facility/findAll",
+		"success" : function(results){
+			facilities = results;
+		}
+	});
+
 });
 
 

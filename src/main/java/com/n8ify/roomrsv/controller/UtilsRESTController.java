@@ -1,5 +1,7 @@
 package com.n8ify.roomrsv.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,14 @@ public class UtilsRESTController {
 	private Utilities utils;
 	
 	/** \/find **/
-	@RequestMapping(value = "/utils/find/staffbyid", method = RequestMethod.POST)
+	@RequestMapping(value = {"/utils/find/staff", "/adm/utils/find/staff"}, method = RequestMethod.POST)
 	public Staff findStaffById(@RequestParam(value = "staffId", required = true)String staffId){
 		logger.info(staffId);
 		return utils.findStaffById(staffId);
+	}
+	
+	@RequestMapping(value = {"/utils/find/allStaffs", "/adm/utils/find/allStaffs"}, method = RequestMethod.POST)
+	public List<Staff> findAllStaff(){
+		return utils.findAllStaff();
 	}
 }
