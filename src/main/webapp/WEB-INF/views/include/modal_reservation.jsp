@@ -25,10 +25,10 @@
 										required="required" /></br><b id="b-time-validate"></b></td>
 									<td>*Start:<input type="time" class="form-control"
 										id="input-reserve-start" name="accessBegin" min="08:00"
-										max="17:00" step="1800" required="required" value="10:00:00"/></td>
+										max="17:00" step="1800" required="required"/></td>
 									<td>*Until:<input type="time" class="form-control"
 										id="input-reserve-end" name="accessUntil" min="08:30"
-										max="17:00" step="1800" required="required" value="08:00:00"/></td>
+										max="17:00" step="1800" required="required"/></td>
 									<td></td>
 								</tr>
 								<tr>

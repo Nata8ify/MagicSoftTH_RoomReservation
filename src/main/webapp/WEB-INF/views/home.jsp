@@ -254,10 +254,20 @@
 					$("#select-schedule-search-mode").change(function(){
 						var nameSearchInputSec = $("#div-form-group-search-room");
 						var periodSearchInputSec = $("#div-form-group-search-period");
+						var reservationScheduleSec = $("#schedule-reservation-result");
+						var roomTableSec = $("#table-reservation-result");
 						console.log("wow");
 						switch($(this).val()){
-							case "name" : nameSearchInputSec.css("display", "inline-block");  periodSearchInputSec.css("display", "none"); break;
-							case "period" : periodSearchInputSec.css("display", "inline-block"); nameSearchInputSec.css("display", "none");break; 
+							case "name" : periodSearchInputSec.css("display", "none");
+							roomTableSec.css("display", "none");
+							nameSearchInputSec.css("display", "inline-block");
+							reservationScheduleSec.css("display", "inline-block");
+							break;
+							case "period" : periodSearchInputSec.css("display", "inline-block");
+							roomTableSec.css("display", "inline-block");
+							nameSearchInputSec.css("display", "none");
+							reservationScheduleSec.css("display", "none");
+							break; 
 						}
 					});
 				</script>
@@ -297,6 +307,18 @@
 				</div>
 				<div class="col-md-9 intro-pic wow slideInRight">
 					<div id="schedule-reservation-result"></div>
+					<div id="table-reservation-result" style="display: none;">
+						<table class="table table-striped table-responsive table-hover" style="this tr:hover{cursor:pointer;};">
+							<thead>
+								<tr>
+									<th>Room Name</th>
+									<th>Address</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody id="tbody-room-detail"><tr><td colspan="3"><img alt="" src="https://ae01.alicdn.com/kf/HTB13F4tKFXXXXcdXXXXq6xXFXXXk/PAS222-Caution-Area-Under-Construction-Warning-Security-Aluminum-Metal-Sign-9-x12-Free-Ship.jpg"></td></tr></tbody>
+						</table>
+					</div>
 				</div>
 				<!-- 				<div class="col-md-9 intro-pic wow slideInRight"  style="display: none;">
 					<div id="schedule-reservation-result" class=""></div>
@@ -358,6 +380,7 @@
 			var start = $("#schedule-search-period-start").val();
 			var end = $("#schedule-search-period-end").val();
 			var date = $("#schedule-search-date-room").val();
+			var roomTableSec = $("#table-reservation-result");
 			console.log(start+"::"+end+"::"+date);
 			if(start != "" && end != "" && date != ""){
 				var availableOnPeriodRooms = [];
@@ -366,6 +389,9 @@
 					"data" : {date : date, start: start.concat(":00") , end : end.concat(":00")},
 					"success" : function(results){
 						console.log(results);
+						$.each(result , function(index, room){
+							
+						});
 					}
 				});
 			} else {
