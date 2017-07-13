@@ -68,7 +68,7 @@ public class ReservationRESTController {
 		return rsvMng.getFaciliUsageMng().findByRoomUsageId(usageId);
 	}
 	
-	@RequestMapping(value = "/manageReservation/delete", method = RequestMethod.POST)
+	@RequestMapping(value = {"/manageReservation/delete","/adm/manageReservation/delete"}, method = RequestMethod.POST)
 	public boolean deleteReservationByUsageId(@RequestParam(value = "usageId", required = true)int usageId){
 		return rsvMng.cancel(usageId);
 	}

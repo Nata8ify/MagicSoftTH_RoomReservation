@@ -23,7 +23,7 @@ public class RoomManagementRESTController {
 	@Qualifier("roomMng")
 	private RoomManagement roomMng;
 	
-	@RequestMapping(value = {"/adm/findRoom/findAllRooms"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/adm/findRoom/findAllRooms","/findRoom/findAllRooms"}, method = RequestMethod.POST)
 	public List<Room> getAllRooms(@RequestParam(value = "available", required = true, defaultValue = "false")boolean available){
 		return roomMng.findAll(available);
 	}

@@ -38,7 +38,7 @@
 						</tr>
 						<tr>
 							<th>Option :</th>
-							<td><!-- <button id="btn-adv-reserve-detail-fwdemail" class="btn">Forward an E-mail</button> &nbsp; --><a style="cursor: pointer; color:red;" id="a-adv-reserve-detail-delrsv">Cancel this Reservation</a></td>
+							<td><!-- <button id="btn-adv-reserve-detail-fwdemail" class="btn">Forward an E-mail</button> &nbsp; --><a style="cursor: pointer; color:red;" id="a-reservation-cancel" data-usageId="">Cancel this Reservation</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -65,6 +65,23 @@
 				viewAdvanceReservationDetail(roomDetail);
 		});
 	});
+	
+	/* [Edit Mode] #a-reservation-cencel : Listening Delete action on Selected Resrvation. */
+	$("#a-reservation-cancel").click(function() {
+		var usageId = $(this).data("usageId");
+		console.log(usageId);
+		if (confirm("This Reservation will be Remove from the System, would you like to Continue?")) {
+		$.ajax({
+			"type" : "post",
+			"url" : "manageReservation/delete",
+			"data" : {usageId : usageId},
+			"success" : function(result) {
+				if (result) {
+				alert("This Reservation is Canceled Successfuly.");
+				$("#modal-reserve-room").modal("hide");
+			  	}
+			}
+		});}});
 </script>
 <script>
 	/** Reservation Details's Function. **/
@@ -79,6 +96,7 @@
 				$("#sp-adv-reserve-detail-note").html(detail.note);
 				$("#sp-adv-reserve-detail-room").html("");
 				$("#sp-adv-reserve-detail-reserver").html("");
+				$("#a-reservation-cancel").data("usageId", detail.usageId);
 				/*+ #a-adv-reserve-detail-room : Listening the Click "[?]" for view More Room's Detail.*/
 				$("#a-adv-reserve-detail-room").click(function(){
 					$("#sp-adv-reserve-detail-room").html("<br/> Building : <i>"+detail.room.building+"</i>, Floor : <i>"+detail.room.floor+"</i>");

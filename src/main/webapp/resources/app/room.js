@@ -46,12 +46,22 @@ function getFacilitiesUsageDetailByUsageId(roomUsageId){
 				$.when(addFacilityDescription(results)).then(function(){
 					facilityDetails = results;
 					selectedFacilityDetails = results;
-					log(selectedFacilityDetails);
 				});
 			}
 		});
 		return facilityDetails;
 	}
+
+/* getAvailableRooms : Filter the Available Rooms from a Total Rooms. */
+function getAvailableRooms(rooms){
+	var availableRooms = [];
+	$.each(rooms , function(index, room){
+		if(room.isAvailable == true){
+			availableRooms.push(room);
+		}
+	});
+	return availableRooms;
+}
 
 /* addFacilityDescription : Add the Facility description on Each Facility's Usages. */
 function addFacilityDescription(facilitiyUsages){
@@ -108,6 +118,11 @@ function findUserByStaffId(staffId){
 		}
 	});
 	return findUser;
+}
+
+/* cancelReservationByUsage : Its Name says Anythings.*/
+function cancelReservationByUsage(){
+	
 }
 
 /* Listener / When 'Things' was Occurred. */

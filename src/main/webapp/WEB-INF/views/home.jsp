@@ -282,20 +282,23 @@
 		var reservationScheduler = angular.module("reservationScheduler", []);
 		reservationScheduler.controller("contRs", function($scope, $http) {
 			$scope.current = new Date().toISOString().split("T")[0];
-			$http({"url" : "findRoom/byRoomsName", "method": "POST", "params" : {available : true}}).then(function(response) {
+			$http({"url" : "findRoom/byRoomsName", "method": "POST", "params" : {available : false}}).then(function(response) {
 				rooms = response.data;
 				<c:if test="${thisStaff != null}">
 				setUpMyReservationTable(rooms);
 				</c:if>
 				/* $ */
-				$.each(rooms, function(index, val) {
-					roomMap.push({
-						id : val.roomId,
-						name : val.roomName
+				/* Filter Available Rooms for TypeAhead. */
+				$.when(getAvailableRooms(rooms)).then(function(arooms){
+					$.each(arooms, function(index, val) {
+						roomMap.push({
+							id : val.roomId,
+							name : val.roomName
+						});
 					});
-				});
-				roomInput.typeahead({
-					source : roomMap
+					roomInput.typeahead({
+						source : roomMap
+					});
 				});
 			});
 		});
@@ -535,6 +538,16 @@
 				}
 			});
 			return null;
+		}
+		/** getAvailableRooms : Filter the Available Rooms from a Total Rooms. **/
+		function getAvailableRooms(rooms){
+			var availableRooms = [];
+			$.each(rooms , function(index, room){
+				if(room.isAvailable == true){
+					availableRooms.push(room);
+				}
+			});
+			return availableRooms;
 		}
 	</script>
 	<!-- /Function -->
