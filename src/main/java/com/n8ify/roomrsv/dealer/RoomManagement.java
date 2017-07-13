@@ -1,19 +1,29 @@
 package com.n8ify.roomrsv.dealer;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.sql.DataSource;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.google.common.collect.Lists;
+import com.n8ify.roomrsv.controller.UtilsRESTController;
 import com.n8ify.roomrsv.intf.RoomManagementInterface;
 import com.n8ify.roomrsv.model.Room;
 
 public class RoomManagement implements RoomManagementInterface {
 
+	private static final Logger logger = LoggerFactory.getLogger(RoomManagement.class);
+	
 	private JdbcTemplate jdbc;
 
 	public RoomManagement(DataSource dataSource) {
@@ -76,11 +86,36 @@ public class RoomManagement implements RoomManagementInterface {
 		String sqlFindByBuildingandRoom  = "SELECT * FROM `Room` WHERE `building` like ? AND `floor` = ?;";
 		return jdbc.query(sqlFindByBuildingandRoom, new RoomMapper());
 	}
-
+	
 	@Override
 	public List<Room> findByName(String roomName, boolean available) {
 		String sqlFindByBuilding  = available?"SELECT * FROM `Room` WHERE `roomName` like ? AND `isAvailable` = 1;":"SELECT * FROM `Room` WHERE `roomName` like ?;";
 		return jdbc.query(sqlFindByBuilding, new Object[]{"%".concat(roomName).concat("%")}, new RoomMapper());
+	}
+	
+	@Override
+	public List<Room> findAvailableRoomByDateTime(Date date, Time accessBegin, Time accessUntil) {
+		// BAD Loop Ever Made. [Need Improve]
+		List<Room> availableRooms = null;
+		ListIterator<Room> itrAvailableRooms = findAll(true).listIterator();
+		Room room;
+		String sqlFindByDateTime = "SELECT `roomId` FROM `RoomUsage` WHERE `reservedDate` = ? AND (`accessBegin` BETWEEN ? AND ? OR `accessUntil` BETWEEN ? AND ? );";
+		List<Integer> unavailableRoomIds = jdbc.queryForList(sqlFindByDateTime, new Object[]{date, accessBegin , accessUntil, accessBegin, accessUntil}, Integer.class);
+		logger.info("unav : "+unavailableRoomIds.toString());
+		while(itrAvailableRooms.hasNext()){
+			room = itrAvailableRooms.next();
+			logger.info(room.toString());
+			for(int roomId : unavailableRoomIds){
+				if(room.getRoomId() == roomId){
+					itrAvailableRooms.remove();
+					logger.info("remove -> "+room.toString());
+				}
+			}
+		}
+		while(itrAvailableRooms.hasPrevious()){itrAvailableRooms.previous();}
+		availableRooms = Lists.newArrayList(itrAvailableRooms);
+		logger.info("af : "+availableRooms.size());
+		return availableRooms;
 	}
 	
 	private class RoomMapper implements RowMapper<Room>{

@@ -52,6 +52,8 @@
 <script src="${resPath}/user_backyard/js/owl.carousel.min.js"></script>
 <script src="${resPath}/user_backyard/js/home_selectors_dict.js" type="text/javascript" async="async"></script>
 <script src="${resPath}/user_backyard/js/home_animate.js"></script>
+<script src="${resPath}/user_backyard/js/velocity.min.js"></script>
+<script src="${resPath}/user_backyard/js/velocity.ui.js"></script>
 <%-- <script src="${resPath}/user_backyard/js/iziModal.min.js"></script> --%>
 
 <!--Full Calendar-->
@@ -162,7 +164,7 @@
 						<div class="head-btn wow fadeInLeft">
 							<a href="#schedule" class="btn-primary">Schedules</a>
 							<c:if test="${thisStaff != null}">
-								<a href="#available" class="btn-default">My Booking</a>
+								<a href="#available" class="btn-default">My Reservation</a>
 							</c:if>
 						</div>
 						<br /> <br />
@@ -225,7 +227,7 @@
 					<ul class="nav navbar-nav">
 						<li><a href="#schedule">Schedule</a></li>
 						<c:if test="${thisStaff != null}">
-							<li><a href="#available">My Booking</a></li>
+							<li><a href="#available">My Reservation</a></li>
 						</c:if>
 						<li><a href="#contact">Contact</a></li>
 						<c:if test="${thisStaff != null}">
@@ -242,16 +244,42 @@
 		<div class="container">
 			<h2 class="wow fadeInLeft">Room Schedules</h2>
 			<p>Check for a Reservation's Queue.</p>
+			<c:if test="${thisStaff != null}">
+				<select id="select-schedule-search-mode">
+					<option value="name">Room Name</option>
+					<option value="period">Time Period</option>
+				</select>
+				<script type="text/javascript">
+					/* #select-schedule-search-mode : Schedule Search's Mode Listener that Performs How Searching Input will be Displayed. */
+					$("#select-schedule-search-mode").change(function(){
+						var nameSearchInputSec = $("#div-form-group-search-room");
+						var periodSearchInputSec = $("#div-form-group-search-period");
+						console.log("wow");
+						switch($(this).val()){
+							case "name" : nameSearchInputSec.css("display", "inline-block");  periodSearchInputSec.css("display", "none"); break;
+							case "period" : periodSearchInputSec.css("display", "inline-block"); nameSearchInputSec.css("display", "none");break; 
+						}
+					});
+				</script>
+			</c:if>
 			<div class="row">
 				<!-- /.schedule image -->
 				<div class="col-md-3 intro-pic wow slideInLeft">
 					<br />
-					<div class="form-group">
+					<div class="form-group" id="div-form-group-search-room">
 						<label class='form-label'>Room: </label>
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-search"></i></span> <input
 								class='form-control' id='schedule-search-room' placeholder="" />
+						</div>
+					</div>
+					<div class="form-group" id="div-form-group-search-period" style="display: none;">
+						<label class='form-label'>Period: </label>
+							<div class="row">
+								<div class="col-sm-5"><input class='form-control' id='schedule-search-period-start' type="time" /></div>
+								<div class="col-sm-2">To</div>
+								<div class="col-sm-5"><input class='form-control' id='schedule-search-period-end' type="time" /></div>
 						</div>
 					</div>
 					<input type="date" id="schedule-search-date-room"
@@ -270,6 +298,9 @@
 				<div class="col-md-9 intro-pic wow slideInRight">
 					<div id="schedule-reservation-result"></div>
 				</div>
+				<!-- 				<div class="col-md-9 intro-pic wow slideInRight"  style="display: none;">
+					<div id="schedule-reservation-result" class=""></div>
+				<div id="table-reservation-result"></div> -->
 				<!--Room Schedule content-->
 			</div>
 		</div>
@@ -320,7 +351,26 @@
 					appendRoomDetail(val);
 				}
 			});
-
+		});
+		
+		/* #schedule-search-period-start, #schedule-search-period-end : When Seacrh By Period Input (start-end) Changed. */
+		$("#schedule-search-period-start, #schedule-search-period-end, #schedule-search-date-room").change(function(){
+			var start = $("#schedule-search-period-start").val();
+			var end = $("#schedule-search-period-end").val();
+			var date = $("#schedule-search-date-room").val();
+			console.log(start+"::"+end+"::"+date);
+			if(start != "" && end != "" && date != ""){
+				var availableOnPeriodRooms = [];
+				$.ajax({
+					"url" : "reservation/getAvailableRoomByDateTime",
+					"data" : {date : date, start: start.concat(":00") , end : end.concat(":00")},
+					"success" : function(results){
+						console.log(results);
+					}
+				});
+			} else {
+				return;
+			}
 		});
 	</script>
 	<hr />

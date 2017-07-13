@@ -20,7 +20,6 @@ public interface RoomReservationInterface {
 	public List<RoomUsage> findByRoomId(int roomId);
 	public List<RoomUsage> findByDate(Date reservedDate);
 	public List<RoomUsage> findByRoomName(String roomName);
-	public List<Room> findAvailableByDateTime(Date date, Time accessBegin, Time accessUntil);
 	public List<RoomUsage> findByRoomCode(String roomCode);
 	public RoomUsage findByUsageId(int roomUsageId);
 	

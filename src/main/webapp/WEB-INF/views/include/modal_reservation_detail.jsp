@@ -63,9 +63,9 @@
 				$("#i-reserve-detail-roomname").html(detail.room.roomName);
 				$("#sp-reserve-detail-rsvby").html(resrevedStaff.name);
 				$("#sp-reserve-detail-for").html(detail.purpose);
-				$("#sp-reserve-detail-date").html(detail.reservedDate.substring(0,5));
+				$("#sp-reserve-detail-date").html(detail.reservedDate);
 				$("#sp-reserve-detail-start").html(detail.accessBegin.substring(0,5));
-				$("#sp-reserve-detail-end").html(detail.accessUntil);
+				$("#sp-reserve-detail-end").html(detail.accessUntil.substring(0,5));
 				$("#sp-reserve-detail-email").html(resrevedStaff.email!=null?resrevedStaff.email:"-");
 				$("#sp-reserve-detail-tel").html(resrevedStaff.tel!=null?resrevedStaff.tel:"-");
 				$("#sp-reserve-detail-mobileno").html(resrevedStaff.mobileTel!=null?resrevedStaff.mobileTel:"-");

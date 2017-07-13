@@ -93,11 +93,6 @@ public class ReservationManagement implements RoomReservationInterface {
 		return jdbc.query(sqlFindByRoomName, new Object[] { "%".concat(roomName).concat("%") }, new RoomUsageMapper());
 	}
 
-	@Override
-	public List<Room> findAvailableByDateTime(Date date, Time accessBegin, Time accessUntil) {
-		String sqlFindByRoomName = "SELECT r.* FROM `RoomUsage` ru JOIN `Room` r ON r.`roomId` = ru.`roomId` WHERE ru.`reservedDate` = '2017-06-21';";
-		return null;
-	}
 
 	@Override
 	public List<RoomUsage> findByRoomCode(String roomCode) {

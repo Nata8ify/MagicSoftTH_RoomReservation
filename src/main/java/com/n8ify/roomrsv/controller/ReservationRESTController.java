@@ -62,7 +62,7 @@ public class ReservationRESTController {
 			@RequestParam(value = "pass", required = true)boolean isPassInclude){
 		return rsvMng.findAllByStaffId(staffId, isPassInclude);
 	}
-	
+
 	@RequestMapping(value = {"/reservation/findFacilisUsage", "/adm/reservation/findFacilisUsage"}, method = RequestMethod.POST)
 	public List<RoomFacilitiyUsage> getFacilityUsageByUsageId(@RequestParam(value = "usageId", required = true)int usageId){
 		return rsvMng.getFaciliUsageMng().findByRoomUsageId(usageId);
