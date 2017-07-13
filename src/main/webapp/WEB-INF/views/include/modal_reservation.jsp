@@ -138,6 +138,17 @@
 				$("#input-reserve-note").val(room.note);
 				$("#btn-reservation-submit").prop("disabled", false);
 				// Facilities Things Here!.
+				$.when($.ajax({
+					"type" : "post",
+					"url" : "reservation/findFacilisUsage",
+					"data" : {usageId : room.usageId}
+				})).then(function(results){
+					alert("ATTENTION! : Updating Facility is not Possible by Now.");
+					console.log(results);
+					$(".input-facilis").each(function(index){
+						$(this).val(results[index].accessedQuantity);
+					});
+				});
 			} else {
 				$("#form-reservation").attr("action", "reserve");
 				$("#a-reservation-cancel").prop("hidden", true);
