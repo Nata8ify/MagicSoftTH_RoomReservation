@@ -60,8 +60,8 @@ public class RoomManagement implements RoomManagementInterface {
 	}
 
 	@Override
-	public List<Room> findAll() {
-		String sqlFindAll  = "SELECT * FROM `Room`;";
+	public List<Room> findAll(boolean available) {
+		String sqlFindAll  = available?"SELECT * FROM `Room` WHERE `isAvailable` = 1;":"SELECT * FROM `Room`;";
 		return jdbc.query(sqlFindAll, new RoomMapper());
 	}
 
@@ -78,8 +78,8 @@ public class RoomManagement implements RoomManagementInterface {
 	}
 
 	@Override
-	public List<Room> findByName(String roomName) {
-		String sqlFindByBuilding  = "SELECT * FROM `Room` WHERE `roomName` like ?;";
+	public List<Room> findByName(String roomName, boolean available) {
+		String sqlFindByBuilding  = available?"SELECT * FROM `Room` WHERE `roomName` like ? AND `isAvailable` = 1;":"SELECT * FROM `Room` WHERE `roomName` like ?;";
 		return jdbc.query(sqlFindByBuilding, new Object[]{"%".concat(roomName).concat("%")}, new RoomMapper());
 	}
 	

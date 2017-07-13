@@ -13,7 +13,7 @@
 						<!-- /widget-header -->
 						<div class="widget-content">
 							<form method='post' action="addfacili">
-								<input type="text" name="facility" placeholder="facility" readonly
+								<input type="text" name="facility" placeholder="facility"
 									maxlength="30" /> <input type="text" name="description"
 									placeholder="description" maxlength="100" /><input
 									type="number" name="quantity" placeholder="quantity" value="0"
@@ -55,7 +55,8 @@
 			.DataTable(
 					{
 						"ajax" : {
-							"url" : "findAllFacilis",
+							"type" : "post",
+							"url" : "facility/findAll",
 							"dataSrc" : function(json) {
 								facilities = json;
 								console.log(facilities);

@@ -282,7 +282,7 @@
 		var reservationScheduler = angular.module("reservationScheduler", []);
 		reservationScheduler.controller("contRs", function($scope, $http) {
 			$scope.current = new Date().toISOString().split("T")[0];
-			$http.post("findRoom/byRoomsName").then(function(response) {
+			$http({"url" : "findRoom/byRoomsName", "method": "POST", "params" : {available : true}}).then(function(response) {
 				rooms = response.data;
 				<c:if test="${thisStaff != null}">
 				setUpMyReservationTable(rooms);

@@ -24,13 +24,14 @@ public class RoomManagementRESTController {
 	private RoomManagement roomMng;
 	
 	@RequestMapping(value = {"/adm/findRoom/findAllRooms"}, method = RequestMethod.POST)
-	public List<Room> getAllRooms(){
-		return roomMng.findAll();
+	public List<Room> getAllRooms(@RequestParam(value = "available", required = true, defaultValue = "false")boolean available){
+		return roomMng.findAll(available);
 	}
 	
 	@RequestMapping(value = "/findRoom/byRoomsName", method = RequestMethod.POST)
-	public List<Room> getRoomsByName(@RequestParam(value = "name", required = true, defaultValue = "")String roomName){
-		return roomMng.findByName(roomName);
+	public List<Room> getRoomsByName(@RequestParam(value = "name", required = true, defaultValue = "")String roomName,
+			@RequestParam(value = "available", required = true, defaultValue = "false")boolean available){
+		return roomMng.findByName(roomName, available);
 	}
 	
 }

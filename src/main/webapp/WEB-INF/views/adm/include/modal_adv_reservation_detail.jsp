@@ -38,7 +38,7 @@
 						</tr>
 						<tr>
 							<th>Option :</th>
-							<td><button id="btn-adv-reserve-detail-fwdemail" class="btn">Forward an E-mail</button> &nbsp;<a style="cursor: pointer; color:red;" id="a-adv-reserve-detail-delrsv">Cancel this Reservation</a></td>
+							<td><!-- <button id="btn-adv-reserve-detail-fwdemail" class="btn">Forward an E-mail</button> &nbsp; --><a style="cursor: pointer; color:red;" id="a-adv-reserve-detail-delrsv">Cancel this Reservation</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -51,6 +51,14 @@
 	/* .btn-adv-reservation-detail : When this was Clicked then the Reservation Detail's Dialog will be Fired. */
 	$("#table-view-reservation-today tbody").on("click", "tr .btn-adv-reservation-detail", function(evt){
 		var roomDetail = todayReservationTable.row($(this).parents("tr")).data();
+		$.when(findUserByStaffId(roomDetail.byStaffId)).then(function(user){
+				roomDetail["user"] = user;
+				log(roomDetail);
+				viewAdvanceReservationDetail(roomDetail);
+		});
+	});
+	$("#table-view-reservation-coming tbody").on("click", "tr .btn-adv-reservation-detail", function(evt){
+		var roomDetail = comingReservationTable.row($(this).parents("tr")).data();
 		$.when(findUserByStaffId(roomDetail.byStaffId)).then(function(user){
 				roomDetail["user"] = user;
 				log(roomDetail);

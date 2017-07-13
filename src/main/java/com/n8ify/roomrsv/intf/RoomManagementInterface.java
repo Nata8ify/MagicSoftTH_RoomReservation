@@ -12,8 +12,8 @@ public interface RoomManagementInterface {
 	
 	public Room findByRoomId(int roomId);
 	public Room findByCode(String roomCode);
-	public List<Room> findAll();
+	public List<Room> findAll(boolean available);
 	public List<Room> findByBuilding(String building);
 	public List<Room> findByBuildingandFloor(String building, int floor);
-	public List<Room> findByName(String roomName);
+	public List<Room> findByName(String roomName, boolean available);
 }

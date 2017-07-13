@@ -90,6 +90,7 @@
 
 	$("table tbody").on("click", "tr .btnEditRoom", function(evt) {
 		var rowData = roomDataTable.row($(this).parents("tr")).data();
+		console.log(rowData.roomId);
 		$("#input-edit-room-id").val(rowData.roomId);
 		$("#input-edit-room-code").val(rowData.roomCode);
 		$("#input-edit-room-name").val(rowData.roomName);
@@ -102,6 +103,5 @@
 			$("#input-edit-room-available").prop("checked", false);
 		}
 		$("#modal-room-editor").modal();
-		$("")
 	});
 </script>
