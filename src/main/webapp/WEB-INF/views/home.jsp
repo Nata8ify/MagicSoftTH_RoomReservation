@@ -27,6 +27,8 @@
 <link href="${resPath}/user_backyard/css/owl.theme.css" rel="stylesheet" />
 <link href="${resPath}/user_backyard/css/owl.carousel.css"
 	rel="stylesheet" />
+<link href="${resPath}/user_backyard/css/custom_home.css"
+	rel="stylesheet" media="screen" />	
 <%-- <link href="${resPath}/user_backyard/css/iziModal.min.css"
 	rel="stylesheet" /> --%>
 
@@ -302,13 +304,13 @@
 					</c:if>
 					<hr />
 					<div class="row">
-						<table class="table table-stripted" id="table-room-details"></table>
+						<table class="table table-striped" id="table-room-details"></table>
 					</div>
 				</div>
 				<div class="col-md-9 intro-pic wow slideInRight">
 					<div id="schedule-reservation-result"></div>
-					<div id="table-reservation-result" style="display: none;">
-						<table class="table table-striped table-responsive table-hover" style="this tr:hover{cursor:pointer;};">
+					<div id="table-reservation-result" style="display: none; width: 100%;" >
+						<table class="table table-hover table-striped table-responsive">
 							<thead>
 								<tr>
 									<th>Room Name</th>
@@ -316,7 +318,9 @@
 									<th>Description</th>
 								</tr>
 							</thead>
-							<tbody id="tbody-room-detail"><tr><td colspan="3"><img alt="" src="https://ae01.alicdn.com/kf/HTB13F4tKFXXXXcdXXXXq6xXFXXXk/PAS222-Caution-Area-Under-Construction-Warning-Security-Aluminum-Metal-Sign-9-x12-Free-Ship.jpg"></td></tr></tbody>
+							<tbody id="tbody-available-room-detail">
+								<tr><td colspan="3"><img src="${resPath}/images/plsselectdate.jpg" alt="Please Specify Date & Time" width="100%" /></td></tr>
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -370,6 +374,7 @@
 							renderCalendar(calendar, response); 
 						}
 					});
+					console.log(val);
 					appendRoomDetail(val);
 				}
 			});
@@ -380,17 +385,27 @@
 			var start = $("#schedule-search-period-start").val();
 			var end = $("#schedule-search-period-end").val();
 			var date = $("#schedule-search-date-room").val();
-			var roomTableSec = $("#table-reservation-result");
-			console.log(start+"::"+end+"::"+date);
+			var tbodyAvailableRoomDetail = $("#tbody-available-room-detail");
 			if(start != "" && end != "" && date != ""){
 				var availableOnPeriodRooms = [];
 				$.ajax({
 					"url" : "reservation/getAvailableRoomByDateTime",
 					"data" : {date : date, start: start.concat(":00") , end : end.concat(":00")},
 					"success" : function(results){
-						console.log(results);
-						$.each(result , function(index, room){
-							
+ 						console.log(results);
+ 						var roomName, roomAddress, description, rowData;
+						tbodyAvailableRoomDetail.empty();
+						$.each(results , function(index, room){
+ 							roomName = room.roomName+(room.roomCode==null?"":("("+room.roomCode+")"));
+							roomAddress = "Building : "+room.building+", Floor : "+room.floor;
+							description = room.description;
+							rowData = $("<tr><td>"+roomName+"</td><td> "+roomAddress+"</td><td>"+description+"</td></tr>")
+							tbodyAvailableRoomDetail.append(rowData.click(function(){
+								$("#input-reserve-date").val(date);
+								$("#input-reserve-start").val(start);
+								$("#input-reserve-end").val(end);
+								$("#modal-reserve-room").modal();
+							}));
 						});
 					}
 				});
@@ -398,6 +413,8 @@
 				return;
 			}
 		});
+		
+		
 	</script>
 	<hr />
 
@@ -588,6 +605,7 @@
 		/** appendRoomDetail : Display Room's Detail on Selected Room on #table-room-details. **/
 		function appendRoomDetail(room) {
 			/* console.log(room); */
+			var tableRoomDetails = $("#table-room-details");
 			var roomtableContent = $("<tr><td><b>Room</b></td><td>"
 					+ room.roomName
 					+ "</td></tr><tr><td><b>Building</b></td><td>"
@@ -598,7 +616,7 @@
 			tableRoomDetails.html(roomtableContent).hide().fadeIn();
 		}
 		/** #schedule-search-date-room LISTENER : Jump to Specific Date on Full calendar. **/
-		inputSelectDateRoom.change(function() {
+		$("#schedule-search-date-room").change(function() {
 			calendar.fullCalendar("gotoDate", $(this).val());
 			calendar.fullCalendar('changeView', 'agendaDay');
 			//Make Highlight

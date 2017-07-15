@@ -72,7 +72,7 @@
 		});
 
 		/* #btn-reserve LISTENER : If Reservse was Click so this Dialog will be Fired. */
-		btnReserve.click(function() {
+		$("#btn-reserve").click(function() {
 			renderReservationModal(room, false);
 		});
 		/* #input-reserve-start, #input-reserve-end : Any time Start-End time was Changed then this listener will Perform Time's Validator Logic.*/
