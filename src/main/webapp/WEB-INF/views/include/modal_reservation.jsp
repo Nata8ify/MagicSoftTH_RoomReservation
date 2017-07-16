@@ -49,7 +49,7 @@
 									<td align="left"><a style="color: red; cursor: pointer;"
 										id="a-reservation-cancel" hidden="">Cancel the Reservation</a></td>
 									<td align="right" colspan="2"><input type="submit"
-										class="btn btn-success" id="btn-reservation-submit" disabled /> <input type="button"
+										class="btn btn-success" id="btn-reservation-submit" disabled onclick="$('#modal-reserve-room').modal('hide');"/> <input type="button"
 										class="btn" id="btn-reservation-reset-restore" value=""/></td>
 								</tr>
 							</tbody>

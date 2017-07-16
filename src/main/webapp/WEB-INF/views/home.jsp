@@ -284,7 +284,7 @@
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-search"></i></span> <input
-								class='form-control' id='schedule-search-room' placeholder="" />
+								class='form-control' id='schedule-search-room' placeholder="Search by room name" />
 						</div>
 					</div>
 					<div class="form-group" id="div-form-group-search-period" style="display: none;">

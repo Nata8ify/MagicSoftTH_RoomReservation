@@ -72,8 +72,10 @@ public class ReservationManagement implements RoomReservationInterface {
 
 	@Override
 	public boolean cancel(int roomUsageId) {
-		String sqlCancel = "DELETE FROM `RoomUsage` WHERE `usageId` = ?;";
-		return jdbc.update(sqlCancel, new Object[] { roomUsageId }) == 1;
+		String sqlCancelFacilisReservation = "DELETE FROM `RoomFacilitiyUsage` WHERE `roomUsageId` = ?;";
+		jdbc.update(sqlCancelFacilisReservation, new Object[] { roomUsageId });
+		String sqlCancelRoomreservation = "DELETE FROM `RoomUsage` WHERE `usageId` = ?;";
+		return jdbc.update(sqlCancelRoomreservation, new Object[] { roomUsageId }) == 1;
 	}
 
 	@Override
