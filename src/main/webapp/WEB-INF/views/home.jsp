@@ -113,7 +113,7 @@
 					eventClick: function(calReservation, jsEvent, view) {
 						viewDetail(calReservation);
 				        // change the border color just for fun
-				        $(this).css('border-color', 'red');
+				        $(this).css('border-color', '#fff');
 
 				    }
 				});
@@ -434,8 +434,7 @@
 						<thead>
 							<tr>
 								<th>Date</th>
-								<th>Start</th>
-								<th>End</th>
+								<th>Period</th>
 								<th>Room</th>
 								<th>Action</th>
 							</tr>
@@ -463,11 +462,18 @@
  					if(mReserveTable == undefined){
 	 					mReserveTable = $("#table-my-reserve").DataTable({ //! Show Room's name instead of Room's Id.
 	 						"data" : mReservations,
-	 						"columns" : [{data: "reservedDate", width : "10%"},{data: "accessBegin", width : "10%"}, {data: "accessUntil", width : "10%"}, {data: "room.roomName", width : "50%"}, {width : "20%"}],
+	 						"order" : [[0, "asc"],[1, "asc"]],
+	 						"columns" : [{data: "reservedDate", width : "10%"}, {width : "20%", "orderable": false}, {data: "room.roomName", width : "50%", "orderable": false}, {width : "20%", "orderable": false}],
 	 						"columnDefs" : [{
 	 							targets : -1,
 	 							defaultContent : "<button class='btn-m-reserve-detail'><i class='glyphicon glyphicon-search'></i></button> &nbsp;"+
 	 							"<button class='btn-m-reserve-edit'><i class='glyphicon glyphicon-pencil'></i></button>"
+	 						},{
+	 							targets : 1,
+	 							defaultContent : "pp",
+	 							render : function(url, type, row, meta){
+									return (row.accessBegin.substring(0,5) + " - " + row.accessUntil.substring(0,5)); 
+								}
 	 						}]
 	 					});
  					} else  {
