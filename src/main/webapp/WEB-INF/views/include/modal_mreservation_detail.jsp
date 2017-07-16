@@ -1,4 +1,4 @@
-<div class="modal fade" id='modal-mreserve-detail'>
+<div class="modal fade" id='modal-mreserve-detail' data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

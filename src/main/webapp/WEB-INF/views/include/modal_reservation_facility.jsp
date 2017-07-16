@@ -39,5 +39,6 @@
 			});
 		});
 		/* .modal-ficilis : For Closing Modal with no affect to Reservation's Modal. */
-		$(".modal-ficilis").click(function(){$('#modal-reserve-room-facility').modal('hide');});
+		var isFacilityModalClose; //[GLOBAL]
+		$(".modal-ficilis").click(function(){$('#modal-reserve-room-facility').modal('hide');isFacilityModalClose=true;});
 	</script>

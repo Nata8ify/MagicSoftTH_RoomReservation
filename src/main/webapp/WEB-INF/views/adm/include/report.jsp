@@ -11,6 +11,15 @@
               <!-- /widget-header -->
               <div class="widget-content">
                  <!--TODO Content-->
+                 <fieldset>
+                 	<div class="form-group">
+                 		<label></label>
+                 	</div>
+                 	<legend>Please select your report options</legend>
+                 	<div class="span6">
+                 		<div class=""></div>
+                 	</div>
+                 </fieldset>
               </div>
               <!-- /widget-content -->
             </div>

@@ -20,16 +20,14 @@
 						<table class='table table-responsive' id='table-reserve-form'>
 							<tbody>
 								<tr>
-									<td>*Date:<input type="date" class="form-control"
-										id="input-reserve-date" name="reservedDate"
-										required="required" /><br/><b id="b-time-validate"></b></td>
-									<td>*Start:<input type="time" class="form-control"
-										id="input-reserve-start" name="accessBegin" min="08:00"
-										max="17:00" step="1800" required="required"/></td>
-									<td>*Until:<input type="time" class="form-control"
-										id="input-reserve-end" name="accessUntil" min="08:30"
-										max="17:00" step="1800" required="required"/></td>
-									<td></td>
+									<td colspan="4">
+										<div class="row">
+											<div class="col-sm-6">*Date:<input type="date" class="form-control" id="input-reserve-date" name="reservedDate" required="required" /></div>
+											<div class="col-sm-3">*Start:<input type="time" class="form-control" id="input-reserve-start" name="accessBegin" min="08:00" max="17:00" step="1800" required="required"/></div>
+											<div class="col-sm-3">*Until:<input type="time" class="form-control" id="input-reserve-end" name="accessUntil" min="08:30" max="17:00" step="1800" required="required"/></div>
+										</div>
+										<div class="row"><div class="col-sm-12"><br/><b id="b-time-validate"></b></div></div>
+									</td>
 								</tr>
 								<tr>
 									<td>*Purpose :</td>
@@ -52,7 +50,7 @@
 										id="a-reservation-cancel" hidden="">Cancel the Reservation</a></td>
 									<td align="right" colspan="2"><input type="submit"
 										class="btn btn-success" id="btn-reservation-submit" disabled /> <input type="button"
-										class="btn" id="btn-reservation-reset" /></td>
+										class="btn" id="btn-reservation-reset-restore" value=""/></td>
 								</tr>
 							</tbody>
 						</table>
@@ -97,18 +95,17 @@
 			}
 		});
 		/* .btn-m-reserve : Listening Action Button for make Editing on Each [My] Reservation Row.*/
-		$("#table-my-reserve tbody").on(
-				"click",
-				"tr .btn-m-reserve-edit",
-				function(evt) {
+		$("#table-my-reserve tbody").on("click", "tr .btn-m-reserve-edit", function(evt) {
 					console.log(mReserveTable.row($(this).parents("tr")).data());
 					renderReservationModal(mReserveTable.row($(this).parents("tr")).data(), true);
-				});
+		});
 		/* #modal-reserve-room on hidden.bs.modal : Clear Temporary Data on Reservation's Dialog. */
-		$("#modal-reserve-room").on("hidden.bs.modal", "#modal-reserve-room", function(evt) {
-			$("input[id^=input-reserve], textarea[id^=input-reserve]").val("");
-			displayDateTimeValidatorMsg(null, null);
-			$("#input-reserve-usage-id").val("0");
+		$("#modal-reserve-room").on("hidden.bs.modal", function() {
+			if(!isFacilityModalClose){
+				resetReservationForm(true);
+			} else {
+				isFacilityModalClose = false;
+			}
 		});
 		/* [Edit Mode] #a-reservation-cencel : Listening Delete action on Selected Resrvation. */
 		$("#a-reservation-cancel").click(function() {
@@ -132,6 +129,7 @@
 		/* renderReservationModal : This Function will Manage about how Reservation's Modal will be Operate on Reserve Mode or Editor Mode. */
 		function renderReservationModal(room, isEditMode) {
 			if (isEditMode) {
+				$("#btn-reservation-reset-restore").val("Restore");
 				$("#form-reservation").attr("action", "modify");
 				$("#a-reservation-cancel").prop("hidden", false);
 				$("#input-reserve-usage-id").val(room.usageId);
@@ -156,6 +154,10 @@
 			} else {
 				$("#form-reservation").attr("action", "reserve");
 				$("#a-reservation-cancel").prop("hidden", true);
+				$("#btn-reservation-reset-restore").val("Reset");
+				$("#btn-reservation-reset-restore").click(function(){
+					resetReservationForm(true);
+				});
 			}
 			$("#i-room-name").html(
 					((room.roomName == undefined ? room.room.roomName
@@ -185,16 +187,24 @@
 				}
 			});
 		}
-		/** resetReservationDialog : Reset the Reservation's Form but Exluding of roomId and staffId. **/
-		function resetReservationDialog(){
-			
-		}
+		
 		
 		/* Utility's Fucntions */
+		/** displayDateTimeValidatorMsg : Output Display Message on #b-time-validate **/
 		function displayDateTimeValidatorMsg(message, color){
 			var bTimeValidatorMsg = $("#b-time-validate");
 			bTimeValidatorMsg.html(message==null?"":message);
 			bTimeValidatorMsg.css("color", color==null?"#aaa":color);
+		}
+		/** resetReservationForm : Reset the Reservation's Form. **/
+		function resetReservationForm(isHardReset){
+			if(isHardReset){
+				$("input[id^=input-reserve], textarea[id^=input-reserve]").not("#input-reserve-staff-id, #input-reserve-usage-id").val("");
+				displayDateTimeValidatorMsg(null, null);
+				$(".input-facilis").each(function(index){$(this).val("");});
+			} else {
+				alert("Not Hard...");
+			}
 		}
 	</script>
 </c:if>
