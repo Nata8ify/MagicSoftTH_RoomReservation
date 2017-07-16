@@ -22,7 +22,7 @@
 								<tr>
 									<td>*Date:<input type="date" class="form-control"
 										id="input-reserve-date" name="reservedDate"
-										required="required" /></br><b id="b-time-validate"></b></td>
+										required="required" /><br/><b id="b-time-validate"></b></td>
 									<td>*Start:<input type="time" class="form-control"
 										id="input-reserve-start" name="accessBegin" min="08:00"
 										max="17:00" step="1800" required="required"/></td>
@@ -50,8 +50,9 @@
 								<tr>
 									<td align="left"><a style="color: red; cursor: pointer;"
 										id="a-reservation-cancel" hidden="">Cancel the Reservation</a></td>
-									<td align="right"><input type="submit"
-										class="btn btn-success" id="btn-reservation-submit" disabled /></td>
+									<td align="right" colspan="2"><input type="submit"
+										class="btn btn-success" id="btn-reservation-submit" disabled /> <input type="button"
+										class="btn" id="btn-reservation-reset" /></td>
 								</tr>
 							</tbody>
 						</table>
@@ -75,21 +76,24 @@
 		$("#btn-reserve").click(function() {
 			renderReservationModal(room, false);
 		});
-		/* #input-reserve-start, #input-reserve-end : Any time Start-End time was Changed then this listener will Perform Time's Validator Logic.*/
-		$("#input-reserve-start, #input-reserve-end").change(function() {
+		/* #input-reserve-start, #input-reserve-end, #input-reserve-date : Validate Any Date and Time (Start-End) Change then this listener will Perform Time's Validator and Reservation's Validator Logic.*/
+		$("#input-reserve-start, #input-reserve-end, #input-reserve-date").change(function() {
 			var btnSubmit = $("#btn-reservation-submit");
 			var bTimeValidate = $("#b-time-validate");
-			var start = $("#input-reserve-start");
-			var end = $("#input-reserve-end");
-			if (end.val() == "") {
-				bTimeValidate.html("Specify end time.");
-			}
-			if (start.val() >= end.val()) {
-				bTimeValidate.html("End-time is Invalid.");
+			var roomId = $("#input-reserve-room-id").val();
+			var start = $("#input-reserve-start").val();
+			var end = $("#input-reserve-end").val();
+			var date =$("#input-reserve-date").val();
+			if (end == "") {
+				displayDateTimeValidatorMsg("Specify end time.", null);
+			} else if (start >= end) {
+				displayDateTimeValidatorMsg("End-time is Invalid.", "red");
 				btnSubmit.prop("disabled", true);
 			} else {
-				bTimeValidate.html("");
 				btnSubmit.prop("disabled", false);
+			}
+			if (start != "" && end != "" && date != ""){
+				 reservationDateTimeValidator(roomId, date, start, end);
 			}
 		});
 		/* .btn-m-reserve : Listening Action Button for make Editing on Each [My] Reservation Row.*/
@@ -103,7 +107,7 @@
 		/* #modal-reserve-room on hidden.bs.modal : Clear Temporary Data on Reservation's Dialog. */
 		$("#modal-reserve-room").on("hidden.bs.modal", "#modal-reserve-room", function(evt) {
 			$("input[id^=input-reserve], textarea[id^=input-reserve]").val("");
-			$("#b-time-validate").html("");
+			displayDateTimeValidatorMsg(null, null);
 			$("#input-reserve-usage-id").val("0");
 		});
 		/* [Edit Mode] #a-reservation-cencel : Listening Delete action on Selected Resrvation. */
@@ -160,6 +164,37 @@
 			$("#input-reserve-room-id").val(room.roomId);
 			$("#input-reserve-staff-id").val("${thisStaff.staffId}");
 			$("#modal-reserve-room").modal();
+		}
+		/** reservationDateTimeValidator : Validating Date and Time of the Reservation which may be Overlaped with Another. **/
+		function reservationDateTimeValidator(roomId, date, start, end){
+			$.ajax({
+				"type" : "post",
+				"url" : "reservation/getOverlapByDate",
+				"data" : {date : date, start : start, end : end, roomId : roomId},
+				"success" : function(result){
+					console.log(result);
+					var isOverlap = result.length > 0;
+					console.log(isOverlap);
+					if(isOverlap){
+						displayDateTimeValidatorMsg("This Period is Overlaped to Another Reservation.", "orange");
+						$("#btn-reservation-submit").prop("disabled", true);
+					} else {
+						displayDateTimeValidatorMsg(null, null);
+						$("#btn-reservation-submit").prop("disabled", false);
+					}
+				}
+			});
+		}
+		/** resetReservationDialog : Reset the Reservation's Form but Exluding of roomId and staffId. **/
+		function resetReservationDialog(){
+			
+		}
+		
+		/* Utility's Fucntions */
+		function displayDateTimeValidatorMsg(message, color){
+			var bTimeValidatorMsg = $("#b-time-validate");
+			bTimeValidatorMsg.html(message==null?"":message);
+			bTimeValidatorMsg.css("color", color==null?"#aaa":color);
 		}
 	</script>
 </c:if>

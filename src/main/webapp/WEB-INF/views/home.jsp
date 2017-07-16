@@ -643,6 +643,7 @@
 			});
 			return availableRooms;
 		}
+		
 	</script>
 	<!-- /Function -->
 	<script>

@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -16,7 +14,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.google.common.collect.Lists;
-import com.n8ify.roomrsv.controller.UtilsRESTController;
 import com.n8ify.roomrsv.intf.RoomManagementInterface;
 import com.n8ify.roomrsv.model.Room;
 

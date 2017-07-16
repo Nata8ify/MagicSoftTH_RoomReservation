@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.n8ify.roomrsv.dealer.RoomManagement;
 import com.n8ify.roomrsv.model.Room;
-import com.n8ify.roomrsv.model.RoomUsage;
 
 @RestController
 public class RoomManagementRESTController {

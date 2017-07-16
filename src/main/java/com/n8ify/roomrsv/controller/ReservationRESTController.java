@@ -1,6 +1,7 @@
 package com.n8ify.roomrsv.controller;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -17,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.n8ify.roomrsv.dealer.ReservationManagement;
-import com.n8ify.roomrsv.model.RoomFacilitiy;
 import com.n8ify.roomrsv.model.RoomFacilitiyUsage;
 import com.n8ify.roomrsv.model.RoomUsage;
-import com.n8ify.roomrsv.model.Staff;
 
 @RestController
 public class ReservationRESTController {
@@ -36,10 +35,18 @@ public class ReservationRESTController {
 		return rsvMng.findAll(isPassInclude);
 	}
 	
-	@RequestMapping(value = {"/reservation/getByDate", "/adm/reservation/getByDate"}, method = RequestMethod.GET)
-	public List<RoomUsage> getReservationByDate(@RequestParam(value = "date", defaultValue = "today")Date date){
+	@RequestMapping(value = {"/reservation/getByDate", "/adm/reservation/getByDate"}, method = RequestMethod.GET) //POST, pls
+	public List<RoomUsage> getAvailableReservationByDate(@RequestParam(value = "date", defaultValue = "today")Date date){
 		logger.info(date.toString());
 		return rsvMng.findByDate(date);
+	}
+	
+	@RequestMapping(value = {"/reservation/getOverlapByDate", "/adm/reservation/getOverlapByDate"}, method = RequestMethod.POST) //POST, pls
+	public List<RoomUsage> getOverlapReservationByDate(@RequestParam(value = "roomId", required = true)int roomId,
+			@RequestParam(value = "date", required = true)Date date,
+			@RequestParam(value = "start", required = true)Time start,
+			@RequestParam(value = "end", required = true)Time end){
+		return rsvMng.findOverlapByDateTime(roomId ,date, start, end);
 	}
 	
 	@RequestMapping(value = "/reservation/getRsvByRoomId", method = RequestMethod.POST)
@@ -72,6 +79,7 @@ public class ReservationRESTController {
 	public boolean deleteReservationByUsageId(@RequestParam(value = "usageId", required = true)int usageId){
 		return rsvMng.cancel(usageId);
 	}
+
 
 	
 	@InitBinder

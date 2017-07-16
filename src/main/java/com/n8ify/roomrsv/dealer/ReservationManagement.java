@@ -7,9 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.List;
-
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,12 +18,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.n8ify.roomrsv.intf.RoomReservationInterface;
-import com.n8ify.roomrsv.model.Room;
 import com.n8ify.roomrsv.model.RoomUsage;
-import com.n8ify.roomrsv.model.Staff;
 
 public class ReservationManagement implements RoomReservationInterface {
 
+	private static final Logger logger = LoggerFactory.getLogger(ReservationManagement.class);
+	
 	private JdbcTemplate jdbc;
 
 	private FacilityUsageManagement faciliUsageMng;
@@ -87,6 +88,12 @@ public class ReservationManagement implements RoomReservationInterface {
 		return jdbc.query(sqlFindByDate, new Object[] { reservedDate }, new RoomUsageMapper());
 	}
 
+	@Override
+	public List<RoomUsage> findOverlapByDateTime(int roomId, Date reservedDate, Time accessBegin, Time accessUntil) {
+		String sqlFindOverlapByDateTime = "SELECT * FROM `RoomUsage` WHERE `reservedDate` = ? AND (`accessBegin` BETWEEN ? AND ? OR `accessUntil` BETWEEN ? AND ? ) AND roomId = ? ;";
+		return jdbc.query(sqlFindOverlapByDateTime, new Object[]{reservedDate, accessBegin , accessUntil, accessBegin, accessUntil, roomId}, new RoomUsageMapper());
+	}
+	
 	@Override
 	public List<RoomUsage> findByRoomName(String roomName) {
 		String sqlFindByRoomName = "SELECT * FROM `RoomUsage` rs JOIN `Room` r ON rs.`roomId` = r.`roomId` WHERE `roomName` LIKE ?;";

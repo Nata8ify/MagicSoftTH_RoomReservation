@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.n8ify.roomrsv.controller.ReservationController;
 import com.n8ify.roomrsv.intf.RoomFacilityUsageInterface;
 import com.n8ify.roomrsv.model.RoomFacilitiyUsage;
 

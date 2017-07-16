@@ -4,9 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-import com.n8ify.roomrsv.model.Room;
 import com.n8ify.roomrsv.model.RoomUsage;
-import com.n8ify.roomrsv.model.Staff;
 
 public interface RoomReservationInterface {
 	public int reserve(RoomUsage roomUsage);
@@ -19,6 +17,7 @@ public interface RoomReservationInterface {
 	public List<RoomUsage> findAllByStaffId(String staffIs, boolean isPassInclude);
 	public List<RoomUsage> findByRoomId(int roomId);
 	public List<RoomUsage> findByDate(Date reservedDate);
+	public List<RoomUsage> findOverlapByDateTime(int roomId, Date reservedDate, Time start, Time end);
 	public List<RoomUsage> findByRoomName(String roomName);
 	public List<RoomUsage> findByRoomCode(String roomCode);
 	public RoomUsage findByUsageId(int roomUsageId);
