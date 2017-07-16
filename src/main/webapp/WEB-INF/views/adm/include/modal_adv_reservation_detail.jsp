@@ -87,6 +87,7 @@
 	/** Reservation Details's Function. **/
 	/* viewAdvanceReservationDetail : To Append value into the Advance Reservation's Table. */
 	function viewAdvanceReservationDetail(detail) {
+				$("#sp-adv-reserve-detail-facilis").html("Loading...");
 				$("#i-adv-reserve-detail-roomname").html(detail.room.roomName);
 				$("#sp-adv-reserve-detail-rsvby").html(detail.user.name);
 				$("#sp-adv-reserve-detail-for").html(detail.purpose);

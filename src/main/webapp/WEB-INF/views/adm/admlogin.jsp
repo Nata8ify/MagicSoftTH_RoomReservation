@@ -8,7 +8,7 @@
   
 <head>
     <meta charset="utf-8">
-    <title>Login - Bootstrap Admin Template</title>
+    <title>Login - MST Room Reservation's Administrator Panel</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes"> 
@@ -38,30 +38,9 @@
 				<span class="icon-bar"></span>
 			</a>
 			
-			<a class="brand" href="index.html">
-				Bootstrap Admin Template				
-			</a>		
-			
-			<div class="nav-collapse">
-				<ul class="nav pull-right">
-					
-					<li class="">						
-						<a href="signup.html" class="">
-							Don't have an account?
-						</a>
-						
-					</li>
-					
-					<li class="">						
-						<a href="index.html" class="">
-							<i class="icon-chevron-left"></i>
-							Back to Homepage
-						</a>
-						
-					</li>
-				</ul>
-				
-			</div><!--/.nav-collapse -->	
+			<a class="brand" href="../">
+				MST Room Reservation		
+			</a>			
 	
 		</div> <!-- /container -->
 		
@@ -85,21 +64,21 @@
 				
 				<div class="field">
 					<label for="username">Staff ID</label>
-					<input type="text" id="username" name="staffId" value="" placeholder="Staff Id" class="login username-field" required/>
+					<input type="text" id="username" name="staffId" value="M00000" placeholder="Staff Id" class="login username-field" required />
 				</div> <!-- /field -->
 				
 				<div class="field">
 					<label for="password">Password:</label>
-					<input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field" required/>
+					<input type="password" id="password" name="password" value="kogy9i8u" placeholder="Password" class="login password-field" required />
 				</div> <!-- /password -->
 				
 			</div> <!-- /login-fields -->
 			
 			<div class="login-actions">
-				<span class="login-checkbox">
+<!-- 				<span class="login-checkbox">
 					<input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" />
 					<label class="choice" for="Field">Keep me signed in</label>
-				</span>			
+				</span>	 -->		
 				<button class="button btn btn-success btn-large">Sign In</button>
 				
 			</div> <!-- .actions -->

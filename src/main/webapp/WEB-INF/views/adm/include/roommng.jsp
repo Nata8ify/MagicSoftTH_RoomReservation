@@ -1,4 +1,3 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div class="main">
 	<div class="main-inner">
 		<div class="container">
@@ -55,8 +54,7 @@
 	var rooms;
 	var roomDataTable = $("#table-room")
 			.DataTable(
-					{
-						"ajax" : {
+					{"ajax" : {
 							"type" : "post",
 							"url" : "findRoom/findAllRooms",
 							"dataSrc" : function(json) {

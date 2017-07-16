@@ -77,6 +77,13 @@ public class RoomrsvAccessController {
 		return Attrs.HOME;
 	}
 	
+	@RequestMapping("/adm/logout")
+	public String adminLogout(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if(session.getAttribute("thisStaff")!=null){session.invalidate();}
+		return Attrs.ADMIN_SIGNIN;
+	}
+	
 	@ExceptionHandler(NullPointerException.class)
 	public ModelAndView unauthorizedException(NullPointerException npex){
 		ModelAndView modelAndView = new ModelAndView("result/error");

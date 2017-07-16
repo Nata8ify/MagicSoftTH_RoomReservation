@@ -41,27 +41,11 @@
 				<a class="btn btn-navbar" data-toggle="collapse"
 					data-target=".nav-collapse"><span class="icon-bar"></span><span
 					class="icon-bar"></span><span class="icon-bar"></span> </a><a
-					class="brand" href="index.html">MST Room Reservation Admin Panel</a>
+					class="brand" href="index.html">MST Room Reservation's Administrator Panel</a>
 				<div class="nav-collapse">
 					<ul class="nav pull-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><i class="icon-cog"></i> Account <b
-								class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="javascript:;">Settings</a></li>
-								<li><a href="javascript:;">Help</a></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><i class="icon-user"></i>
-								EGrappler.com <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="javascript:;">Profile</a></li>
-								<li><a href="javascript:;">Logout</a></li>
-							</ul></li>
+						<li class="dropdown"><a href="logout"><i class="icon-logout"></i>Logout</a></li>
 					</ul>
-					<form class="navbar-search pull-right">
-						<input type="text" class="search-query" placeholder="Search" />
-					</form>
 				</div>
 				<!--/.nav-collapse -->
 			</div>
@@ -74,13 +58,13 @@
 		<div class="subnavbar-inner">
 			<div class="container">
 				<ul class="mainnav">
-					<li class="active"><a href="dashboard"><i
+					<li ${include != 'dashboard'?'':'class="active"'}><a href="dashboard"><i
 							class="icon-list-alt"></i><span>Dashboard</span> </a></li>
-					<li><a href="report"><i class="icon-bar-chart"></i><span>Report</span>
+					<li ${include != 'report'?'':'class="active"'}><a href="report"><i class="icon-bar-chart"></i><span>Report</span>
 					</a></li>
-					<li><a href="roommng"><i class="icon-pencil"></i><span>Room
+					<li ${include != 'roommng'?'':'class="active"'}><a href="roommng"><i class="icon-pencil"></i><span>Room
 								Management</span> </a></li>
-					<li><a href="facilimng"><i class="icon-facetime-video"></i><span>Facilities</span>
+					<li ${include != 'facilimng'?'':'class="active"'}><a href="facilimng"><i class="icon-facetime-video"></i><span>Facilities</span>
 					</a></li>
 
 				</ul>

@@ -470,7 +470,6 @@
 	 							"<button class='btn-m-reserve-edit'><i class='glyphicon glyphicon-pencil'></i></button>"
 	 						},{
 	 							targets : 1,
-	 							defaultContent : "pp",
 	 							render : function(url, type, row, meta){
 									return (row.accessBegin.substring(0,5) + " - " + row.accessUntil.substring(0,5)); 
 								}
