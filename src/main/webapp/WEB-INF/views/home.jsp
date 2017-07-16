@@ -105,6 +105,8 @@
 						right : 'month,agendaDay,listWeek'
 					},
 					allDaySlot : false,
+					slotLabelFormat:"HH:mm",
+				    timeFormat: 'HH:mm',
 					defaultDate : moment(),
 					navLinks : true, // can click day/week names to navigate views
 					eventLimit : true, // allow "more" link when too many events
@@ -258,7 +260,6 @@
 						var periodSearchInputSec = $("#div-form-group-search-period");
 						var reservationScheduleSec = $("#schedule-reservation-result");
 						var roomTableSec = $("#table-reservation-result");
-						console.log("wow");
 						switch($(this).val()){
 							case "name" : periodSearchInputSec.css("display", "none");
 							roomTableSec.css("display", "none");
@@ -573,7 +574,7 @@
 	/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
 		function renderCalendar(calendar, roomUsages) {
 			events = []; //Empty Pervious.
-			/* console.log(roomUsages); */
+			 console.log(roomUsages); 
 			$.each(roomUsages, function(index, val) {
 				events.push({
 					id : val.usageId,
