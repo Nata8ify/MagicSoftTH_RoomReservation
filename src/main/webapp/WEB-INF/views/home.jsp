@@ -262,12 +262,14 @@
 						var roomTableSec = $("#table-reservation-result");
 						switch($(this).val()){
 							case "name" : periodSearchInputSec.css("display", "none");
+							$("#div-detail-and-reserve").hide().fadeIn();
 							roomTableSec.css("display", "none");
 							nameSearchInputSec.css("display", "block");
 							reservationScheduleSec.css("display", "block");
 							calendar.fullCalendar('changeView', 'month');
 							break;
 							case "period" : periodSearchInputSec.css("display", "block");
+							$("#div-detail-and-reserve").fadeOut().css("display", "none");
 							roomTableSec.css("display", "block");
 							nameSearchInputSec.css("display", "none");
 							reservationScheduleSec.css("display", "none");
@@ -299,14 +301,16 @@
 					<input type="date" id="schedule-search-date-room"
 						class='form-control' value="{{current}}" />
 					<hr />
-					<c:if test="${thisStaff != null}">
+					<div id="div-detail-and-reserve">
+						<c:if test="${thisStaff != null}">
+							<hr />
+							<button id="btn-reserve" hidden="">
+								<i class="glyphicon glyphicon-plus"></i>Reserve</button>
+						</c:if>
 						<hr />
-						<button id="btn-reserve" hidden="">
-							<i class="glyphicon glyphicon-plus"></i>Reserve</button>
-					</c:if>
-					<hr />
-					<div class="row">
-						<table class="table table-striped" id="table-room-details"></table>
+						<div class="row">
+							<table class="table table-striped" id="table-room-details"></table>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-9 intro-pic wow slideInRight">
