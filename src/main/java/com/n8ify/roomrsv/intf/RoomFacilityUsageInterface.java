@@ -9,6 +9,7 @@ public interface RoomFacilityUsageInterface {
 	
 	public boolean update(RoomFacilitiyUsage facilitiyUsage);
 	public boolean cancel(int roomFacilityId);
+	public boolean cancelByUsage(int roomUsageId);
 	
 	public List<RoomFacilitiyUsage> findAllFacilityUsage();
 	public List<RoomFacilitiyUsage> findByRoomUsageId(int roomUsageId);

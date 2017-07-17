@@ -34,7 +34,6 @@ public class ReservationController {
 			for(Map.Entry<String, String> param : params.entrySet()){
 				if(param.getKey().contains("facilis$")){
 					if(!param.getValue().isEmpty()){
-						//BAD Code
 						logger.info(param.getValue() +":::"+param.getValue().equalsIgnoreCase("0"));
 					rsvMng.getFaciliUsageMng().reserve(new RoomFacilitiyUsage(latestUsageId
 							, Integer.valueOf(param.getKey().substring(param.getKey().indexOf("$")+1))
@@ -48,10 +47,20 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(Model model, HttpServletRequest request,RoomUsage roomUsage, Map<Integer, Integer> mapFacilities) {
+	public String modify(Model model, HttpServletRequest request,RoomUsage roomUsage, @RequestParam Map<String, String> params) {
 		logger.info(roomUsage.toString());
 		if(roomUsage != null){
 			rsvMng.modify(roomUsage);
+			rsvMng.getFaciliUsageMng().cancelByUsage(roomUsage.getUsageId());
+			for(Map.Entry<String, String> param : params.entrySet()){
+				if(param.getKey().contains("facilis$")){
+					if(!param.getValue().isEmpty()){
+					rsvMng.getFaciliUsageMng().reserve(new RoomFacilitiyUsage(roomUsage.getUsageId()
+							, Integer.valueOf(param.getKey().substring(param.getKey().indexOf("$")+1))
+							, Integer.valueOf(param.getValue())));
+					}
+				}
+			}
 		}
 		
 		return Attrs.HOME;

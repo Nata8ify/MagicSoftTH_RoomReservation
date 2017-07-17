@@ -76,7 +76,7 @@
 											"success" : function(facilities){
 												console.log(facilities);
 												$.each(facilities, function(index, val){
-													$("#tbody-reserve-room-facility").append("<tr><td>"+val.facility+"</td><td><input class='form-control input-facilis' type='number' min='0' name='facilis$"+val.roomFacilityId+"'/></td></tr>");
+													$("#tbody-reserve-room-facility").append("<tr><td>"+val.facility+"</td><td><input placeholder='0' class='form-control input-facilis' type='number' min='0' name='facilis$"+val.roomFacilityId+"'/></td></tr>");
 												});
 											} 
 										});
@@ -131,6 +131,7 @@
 		/* #modal-reserve-room on hidden.bs.modal : Clear Temporary Data on Reservation's Dialog. */
 		$("#modal-reserve-room").on("hidden.bs.modal", function() {
 				resetReservationForm(true);
+				$("#a-tab-room").click();
 		});
 		/* [Edit Mode] #a-reservation-cencel : Listening Delete action on Selected Resrvation. */
 		$("#a-reservation-cancel").click(function() {
@@ -184,10 +185,14 @@
 					"url" : "reservation/findFacilisUsage",
 					"data" : {usageId : room.usageId}
 				})).then(function(results){
-					alert("ATTENTION! : Updating Facility is not Possible by Now.");
-					console.log(results);
+					var facilityUsage;
 					$(".input-facilis").each(function(index){
-						$(this).val(results[index].accessedQuantity);
+						var facilityUsage = results[index];
+						var inputFacilis;
+						if(facilityUsage != undefined){
+							inputFacilis = $("input[name='facilis$"+facilityUsage.roomFacilityId+"']");
+							inputFacilis.val(facilityUsage.accessedQuantity);
+						}
 					});
 				});
 			} else {
@@ -226,8 +231,7 @@
 				}
 			});
 		}
-		
-		
+
 		/* Utility's Fucntions */
 		/** displayDateTimeValidatorMsg : Output Display Message on #b-time-validate **/
 		function displayDateTimeValidatorMsg(message, color){

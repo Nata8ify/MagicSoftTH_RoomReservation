@@ -41,6 +41,12 @@ public class FacilityUsageManagement implements RoomFacilityUsageInterface {
 		String sqlCancel = "DELETE FROM `RoomFacilitiyUsage` WHERE `roomUsageId` = ?;";
 		return jdbc.update(sqlCancel, new Object[]{roomFacilityId}) == 1 ;
 	}
+	
+	@Override
+	public boolean cancelByUsage(int roomUsageId) {
+		String sqlCancelFacilisReservation = "DELETE FROM `RoomFacilitiyUsage` WHERE `roomUsageId` = ?;";
+		return jdbc.update(sqlCancelFacilisReservation, new Object[] { roomUsageId }) >= 0;
+	}
 
 	@Override
 	public List<RoomFacilitiyUsage> findAllFacilityUsage() {
