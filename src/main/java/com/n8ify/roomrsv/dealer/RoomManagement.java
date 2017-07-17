@@ -96,8 +96,8 @@ public class RoomManagement implements RoomManagementInterface {
 		List<Room> availableRooms = null;
 		ListIterator<Room> itrAvailableRooms = findAll(true).listIterator();
 		Room room;
-		String sqlFindByDateTime = "SELECT `roomId` FROM `RoomUsage` WHERE `reservedDate` = ? AND (`accessBegin` BETWEEN ? AND ? OR `accessUntil` BETWEEN ? AND ? );";
-		List<Integer> unavailableRoomIds = jdbc.queryForList(sqlFindByDateTime, new Object[]{date, accessBegin , accessUntil, accessBegin, accessUntil}, Integer.class);
+		String sqlFindByDateTime = "SELECT `roomId` FROM `RoomUsage` WHERE `reservedDate` = ? AND ((`accessBegin` BETWEEN CAST( ? AS time) AND CAST( ? AS time) OR `accessUntil` BETWEEN CAST( ? AS time) AND CAST( ? AS time)) OR (`accessBegin` <= CAST( ? AS time) AND `accessUntil` >= CAST( ? AS time)));";
+		List<Integer> unavailableRoomIds = jdbc.queryForList(sqlFindByDateTime, new Object[]{date, accessBegin , accessUntil, accessBegin, accessUntil, accessBegin, accessUntil}, Integer.class);
 		logger.info("unav : "+unavailableRoomIds.toString());
 		while(itrAvailableRooms.hasNext()){
 			room = itrAvailableRooms.next();

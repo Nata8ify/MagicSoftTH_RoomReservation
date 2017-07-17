@@ -27,8 +27,6 @@ public class ReservationController {
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public String reserve(Model model, HttpServletRequest request, RoomUsage roomUsage, @RequestParam Map<String, String> params) {
 		// rsvMng.reserve(roomUsage);
-		logger.info(roomUsage.toString());
-		logger.info(params.toString());
 		if(roomUsage != null){
 			int latestUsageId = rsvMng.reserve(roomUsage);
 			for(Map.Entry<String, String> param : params.entrySet()){

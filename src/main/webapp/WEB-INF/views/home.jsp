@@ -273,6 +273,7 @@
 							roomTableSec.css("display", "block");
 							nameSearchInputSec.css("display", "none");
 							reservationScheduleSec.css("display", "none");
+							updateAvailableRoomTable($("#schedule-search-date-room"), $("#schedule-search-period-start").val(), $("#schedule-search-period-end").val(), $("#tbody-available-room-detail"));
 							break; 
 						}
 					});
@@ -392,33 +393,8 @@
 			var end = $("#schedule-search-period-end").val();
 			var date = $("#schedule-search-date-room").val();
 			var tbodyAvailableRoomDetail = $("#tbody-available-room-detail");
-			if(start != "" && end != "" && date != ""){
-				var availableOnPeriodRooms = [];
-				$.ajax({
-					"url" : "reservation/getAvailableRoomByDateTime",
-					"data" : {date : date, start: start.concat(":00") , end : end.concat(":00")},
-					"success" : function(results){
- 						console.log(results);
- 						var roomName, roomAddress, description, rowData;
-						tbodyAvailableRoomDetail.empty();
-						$.each(results , function(index, room){
- 							roomName = room.roomName+(room.roomCode==null?"":("("+room.roomCode+")"));
-							roomAddress = "Building : "+room.building+", Floor : "+room.floor;
-							description = room.description;
-							rowData = $("<tr><td>"+roomName+"</td><td> "+roomAddress+"</td><td>"+description+"</td></tr>")
-							tbodyAvailableRoomDetail.append(rowData.click(function(){
-								$("#input-reserve-date").val(date);
-								$("#input-reserve-start").val(start.concat(":00"));
-								$("#input-reserve-end").val(end.concat(":00"));
-								$("#btn-reservation-submit").prop("disabled", false);
-								renderReservationModal(room, false);
-							}));
-						});
-					}
-				});
-			} else {
-				return;
-			}
+			var availableOnPeriodRooms = [];
+			updateAvailableRoomTable(date, start.concat(":00"), end.concat(":00"), tbodyAvailableRoomDetail);
 		});
 		
 		
@@ -655,8 +631,35 @@
 			});
 			return availableRooms;
 		}
-		
-	</script>
+		/** updateAvailableRoomTable : Make Available Room's Table Data Up to Specify Date-time. **/
+		function updateAvailableRoomTable(date, start, end, tbodyAvailableRoomDetail){
+			console.log(start+"::"+end+"::"+date);
+			if(start != "" && end != "" && date != ""){
+				$.ajax({
+					"url" : "reservation/getAvailableRoomByDateTime",
+					"data" : {date : date, start: start , end : end},
+					"success" : function(results){
+							console.log(results);
+							var roomName, roomAddress, description, rowData;
+						tbodyAvailableRoomDetail.empty();
+						$.each(results , function(index, room){
+								roomName = room.roomName+(room.roomCode==null?"":("("+room.roomCode+")"));
+							roomAddress = "Building : "+room.building+", Floor : "+room.floor;
+							description = room.description;
+							rowData = $("<tr><td>"+roomName+"</td><td> "+roomAddress+"</td><td>"+description+"</td></tr>")
+							tbodyAvailableRoomDetail.append(rowData.click(function(){
+								$("#input-reserve-date").val(date);
+								$("#input-reserve-start").val(start);
+								$("#input-reserve-end").val(end);
+								$("#btn-reservation-submit").prop("disabled", false);
+								renderReservationModal(room, false);
+							}));
+						});
+					}
+				});
+			}
+		}
+		</script>
 	<!-- /Function -->
 	<script>
 		new WOW().init();
