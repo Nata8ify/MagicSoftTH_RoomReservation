@@ -33,8 +33,9 @@ public class ReservationController {
 			int latestUsageId = rsvMng.reserve(roomUsage);
 			for(Map.Entry<String, String> param : params.entrySet()){
 				if(param.getKey().contains("facilis$")){
-					if(!param.getValue().equals("")){
+					if(!param.getValue().isEmpty()){
 						//BAD Code
+						logger.info(param.getValue() +":::"+param.getValue().equalsIgnoreCase("0"));
 					rsvMng.getFaciliUsageMng().reserve(new RoomFacilitiyUsage(latestUsageId
 							, Integer.valueOf(param.getKey().substring(param.getKey().indexOf("$")+1))
 							, Integer.valueOf(param.getValue())));

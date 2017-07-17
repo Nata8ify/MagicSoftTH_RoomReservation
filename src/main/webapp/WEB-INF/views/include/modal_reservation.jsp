@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <c:if test="${thisStaff != null}">
 	<div class="modal fade" id='modal-reserve-room' data-backdrop="static">
 		<div class="modal-dialog">
@@ -17,44 +18,72 @@
 						<p>
 							<b>Room : </b><i id="i-room-name"></i>
 						</p>
-						<table class='table table-responsive' id='table-reserve-form'>
-							<tbody>
-								<tr>
-									<td colspan="4">
-										<div class="row">
-											<div class="col-sm-6">*Date:<input type="date" class="form-control" id="input-reserve-date" name="reservedDate" required="required" /></div>
-											<div class="col-sm-3">*Start:<input type="time" class="form-control" id="input-reserve-start" name="accessBegin" min="08:00" max="17:00" step="1800" required="required"/></div>
-											<div class="col-sm-3">*Until:<input type="time" class="form-control" id="input-reserve-end" name="accessUntil" min="08:30" max="17:00" step="1800" required="required"/></div>
-										</div>
-										<div class="row"><div class="col-sm-12"><br/><b id="b-time-validate"></b></div></div>
-									</td>
-								</tr>
-								<tr>
-									<td>*Purpose :</td>
-									<td colspan="3"><textarea class="form-control"
-											id="input-reserve-purpose" name="purpose" required="required" ></textarea></td>
-								</tr>
-								<tr>
-									<td>Note (Optional) :</td>
-									<td colspan="3"><textarea class="form-control"
-											id="input-reserve-note" name="note" ></textarea></td>
-								</tr>
-								<tr>
-									<td>Facility :</td>
-									<td colspan="3">
-										<button type="button"  id="btn-reserve-room-facility" data-toggle="modal" data-target="#modal-reserve-room-facility" >Facility</button>
-									</td>
-								</tr>
-								<tr>
-									<td align="left"><a style="color: red; cursor: pointer;"
-										id="a-reservation-cancel" hidden="">Cancel the Reservation</a></td>
-									<td align="right" colspan="2"><input type="submit"
-										class="btn btn-success" id="btn-reservation-submit" disabled onclick="$('#modal-reserve-room').modal('hide');"/> <input type="button"
-										class="btn" id="btn-reservation-reset-restore" value=""/></td>
-								</tr>
-							</tbody>
-						</table>
-						<jsp:include page="modal_reservation_facility.jsp" flush="true"></jsp:include>
+						
+						<ul class="nav nav-tabs">
+						  <li role="presentation" class="active"><a href="#tab" id="a-tab-room">Room</a></li>
+						  <li role="presentation"><a href="#tab" id="a-tab-facilis">Facilities</a></li>
+						</ul>
+						<div class="tab-content">
+							<div  id="tab-room">
+								<table class='table table-responsive' id='table-reserve-form'>
+									<tbody>
+										<tr>
+											<td colspan="4">
+												<div class="row">
+													<div class="col-sm-6">*Date:<input type="date" class="form-control" id="input-reserve-date" name="reservedDate" required="required" /></div>
+													<div class="col-sm-3">*Start:<input type="time" class="form-control" id="input-reserve-start" name="accessBegin" min="08:00" max="17:00" step="1800" required="required"/></div>
+													<div class="col-sm-3">*Until:<input type="time" class="form-control" id="input-reserve-end" name="accessUntil" min="08:30" max="17:00" step="1800" required="required"/></div>
+												</div>
+												<div class="row"><div class="col-sm-12"><br/><b id="b-time-validate"></b></div></div>
+											</td>
+										</tr>
+										<tr>
+											<td>*Purpose :</td>
+											<td colspan="3"><textarea class="form-control"
+													id="input-reserve-purpose" name="purpose" required="required" ></textarea></td>
+										</tr>
+										<tr>
+											<td>Note (Optional) :</td>
+											<td colspan="3"><textarea class="form-control"
+													id="input-reserve-note" name="note" ></textarea></td>
+										</tr>
+										<tr>
+											<td align="left"><a style="color: red; cursor: pointer;"
+												id="a-reservation-cancel" hidden="">Cancel the Reservation</a></td>
+											<td align="right" colspan="2"><input type="submit"
+												class="btn btn-success" id="btn-reservation-submit" disabled/> <input type="button"
+												class="btn" id="btn-reservation-reset-restore" value=""/></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div id="tab-facilis" style="display:none;"><br/>
+								<table class='table table-responsive table-striped table-hover'>
+									<thead>
+										<tr>
+											<th>Facility</th>
+											<th>Quantity</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-reserve-room-facility"></tbody>
+								</table>
+								<script>
+									/* document : Certainly the Document was Loaded the Facility's Table will Load Instatiate Data.*/
+									$("document").ready(function(){
+										$.ajax({
+											"type" : "post",
+											"url" : "facility/findAll",
+											"success" : function(facilities){
+												console.log(facilities);
+												$.each(facilities, function(index, val){
+													$("#tbody-reserve-room-facility").append("<tr><td>"+val.facility+"</td><td><input class='form-control input-facilis' type='number' min='0' name='facilis$"+val.roomFacilityId+"'/></td></tr>");
+												});
+											} 
+										});
+									});
+								</script>
+							</div>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -88,10 +117,10 @@
 				displayDateTimeValidatorMsg("End-time is Invalid.", "red");
 				btnSubmit.prop("disabled", true);
 			} else {
+				if (start != "" && end != "" && date != ""){
+					 reservationDateTimeValidator(roomId, date, start, end);
+				}
 				btnSubmit.prop("disabled", false);
-			}
-			if (start != "" && end != "" && date != ""){
-				 reservationDateTimeValidator(roomId, date, start, end);
 			}
 		});
 		/* .btn-m-reserve : Listening Action Button for make Editing on Each [My] Reservation Row.*/
@@ -101,11 +130,7 @@
 		});
 		/* #modal-reserve-room on hidden.bs.modal : Clear Temporary Data on Reservation's Dialog. */
 		$("#modal-reserve-room").on("hidden.bs.modal", function() {
-			if(!isFacilityModalClose){
 				resetReservationForm(true);
-			} else {
-				isFacilityModalClose = false;
-			}
 		});
 		/* [Edit Mode] #a-reservation-cencel : Listening Delete action on Selected Resrvation. */
 		$("#a-reservation-cancel").click(function() {
@@ -123,6 +148,20 @@
 				  	}
 				}
 			});}});
+		
+		/* a-tab-room, a-tab-facilis : Swap the Tap after these Selector was Clicked.*/
+		$("#a-tab-room, #a-tab-facilis").click(function(){
+			$("#tab-facilis").css("display", "none");
+			$("#tab-room").css("display", "block");
+			$("li[role='presentation']").removeClass("active");
+			$(this).parent("li").addClass("active");
+		});
+		$("#a-tab-facilis").click(function(){
+			$("#tab-room").css("display", "none");
+			$("#tab-facilis").css("display", "block");
+			$("li[role='presentation']").removeClass("active");
+			$(this).parent("li").addClass("active");
+		});
 	</script>
 	<script>
 		/** Reservation Insert/Dialog's Functions **/

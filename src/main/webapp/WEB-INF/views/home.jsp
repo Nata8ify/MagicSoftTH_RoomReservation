@@ -263,11 +263,12 @@
 						switch($(this).val()){
 							case "name" : periodSearchInputSec.css("display", "none");
 							roomTableSec.css("display", "none");
-							nameSearchInputSec.css("display", "inline-block");
-							reservationScheduleSec.css("display", "inline-block");
+							nameSearchInputSec.css("display", "block");
+							reservationScheduleSec.css("display", "block");
+							calendar.fullCalendar('changeView', 'month');
 							break;
-							case "period" : periodSearchInputSec.css("display", "inline-block");
-							roomTableSec.css("display", "inline-block");
+							case "period" : periodSearchInputSec.css("display", "block");
+							roomTableSec.css("display", "block");
 							nameSearchInputSec.css("display", "none");
 							reservationScheduleSec.css("display", "none");
 							break; 
@@ -403,9 +404,10 @@
 							rowData = $("<tr><td>"+roomName+"</td><td> "+roomAddress+"</td><td>"+description+"</td></tr>")
 							tbodyAvailableRoomDetail.append(rowData.click(function(){
 								$("#input-reserve-date").val(date);
-								$("#input-reserve-start").val(start);
-								$("#input-reserve-end").val(end);
-								$("#modal-reserve-room").modal();
+								$("#input-reserve-start").val(start.concat(":00"));
+								$("#input-reserve-end").val(end.concat(":00"));
+								$("#btn-reservation-submit").prop("disabled", false);
+								renderReservationModal(room, false);
 							}));
 						});
 					}
@@ -426,7 +428,7 @@
 		<!-- /.available section -->
 		<div id="available">
 			<div class="container">
-				<h2>My Booking</h2>
+				<h2>My Reservation</h2>
 				<p></p>
 				<div class="row row-feat">
 					<!--Datatable content-->
@@ -568,7 +570,7 @@
 			</div>
 		</div>
 	</footer>
-	<jsp:include page="include/modal_reservation.jsp" flush="true"></jsp:include>
+	<jsp:include page="include/modal_reservation.jsp" flush="false"></jsp:include>
 	<jsp:include page="include/modal_reservation_detail.jsp"></jsp:include>
 	<jsp:include page="include/modal_mreservation_detail.jsp"></jsp:include>
 

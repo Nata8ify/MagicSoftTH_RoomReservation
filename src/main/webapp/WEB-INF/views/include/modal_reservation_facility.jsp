@@ -6,7 +6,7 @@
 					<h4 class="modal-title">Available for Reserve's Facilities.</h4>
 				</div>
 				<div class="modal-body">
-						<table class='table  table-hover'>
+						<table class='table table-hover'>
 						<thead>
 							<tr>
 								<th>Facility</th>
@@ -24,21 +24,4 @@
 		</div>
 	</div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
-	<script>
-		/* document : Certainly the Document was Loaded the Facility's Table will Load Instatiate Data.*/
-		$("document").ready(function(){
-			$.ajax({
-				"type" : "post",
-				"url" : "facility/findAll",
-				"success" : function(facilities){
-					console.log(facilities);
-					$.each(facilities, function(index, val){
-						$("#tbody-reserve-room-facility").append("<tr><td>"+val.facility+"</td><td><input class='form-control input-facilis' type='number' min='0' name='facilis$"+val.roomFacilityId+"'/></td></tr>");
-					});
-				} 
-			});
-		});
-		/* .modal-ficilis : For Closing Modal with no affect to Reservation's Modal. */
-		var isFacilityModalClose; //[GLOBAL]
-		$(".modal-ficilis").click(function(){$('#modal-reserve-room-facility').modal('hide');isFacilityModalClose=true;});
-	</script>
+	
