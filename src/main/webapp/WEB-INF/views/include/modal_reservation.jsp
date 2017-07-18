@@ -143,15 +143,16 @@
 				"data" : {usageId : usageId},
 				"success" : function(result) {
 					if (result) {
-					alert("This Reservation is Canceled Successfuly.");
-					/* Refresh Data-table*/
-					setUpMyReservationTable(rooms);
-					/* Refresh Full-calendar */
-					/* TODO */
-					refreshCalendar();
-					$("#modal-reserve-room").modal("hide");
+						alert("This Reservation is Canceled Successfuly.");
+						/* Refresh Data-table*/
+						setUpMyReservationTable(rooms);
+						/* Refresh Full-calendar */
+						calendar.fullCalendar('removeEvents', [usageId]);
+						/* refreshCalendar(true); */
+						$("#modal-reserve-room").modal("hide");
 				  	}
-				}
+				},
+				"error" : function(err){alert("Reservation couldn't be Deleted, Please check the Internet Connection.");}
 			});}});
 		
 		/* a-tab-room, a-tab-facilis : Swap the Tap after these Selector was Clicked.*/

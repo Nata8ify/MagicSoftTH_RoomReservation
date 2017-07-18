@@ -380,7 +380,6 @@
 							renderCalendar(calendar, response); 
 						}
 					});
-					console.log(val);
 					appendRoomDetail(val);
 				}
 			});
@@ -560,7 +559,6 @@
 	/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
 		function renderCalendar(calendar, roomUsages) {
 			events = []; //Empty Pervious.
-			 console.log(roomUsages); 
 			$.each(roomUsages, function(index, val) {
 				events.push({
 					id : val.usageId,
@@ -586,15 +584,17 @@
 		}
 
 		/** refreshCalendar : To Refresh new Data and push them into Full-calendar. **/
-		function refreshCalendar(){
-			$.ajax({
-				"type" : "post",
-				"url" : "reservation/all",
-				"success" : function(response) {
-					events = response;
-					renderCalendar(calendar, events);
-				}
-			});
+		function refreshCalendar(isHardRefresh){
+			if(isHardRefresh){
+				$.ajax({
+					"type" : "post",
+					"url" : "reservation/all",
+					"success" : function(response) {
+						events = response;
+						renderCalendar(calendar, events);
+					}
+				});
+			}
 		}
 	
 		/** getISODateTime : ISO8601 Format Builder for Full Calendar start-end Compatable . **/
@@ -603,7 +603,6 @@
 		}
 		/** appendRoomDetail : Display Room's Detail on Selected Room on #table-room-details. **/
 		function appendRoomDetail(room) {
-			/* console.log(room); */
 			var tableRoomDetails = $("#table-room-details");
 			var roomtableContent = $("<tr><td><b>Room</b></td><td>"
 					+ room.roomName
@@ -644,13 +643,11 @@
 		}
 		/** updateAvailableRoomTable : Make Available Room's Table Data Up to Specify Date-time. **/
 		function updateAvailableRoomTable(date, start, end, tbodyAvailableRoomDetail){
-			console.log(start+"::"+end+"::"+date);
 			if(start != "" && end != "" && date != ""){
 				$.ajax({
 					"url" : "reservation/getAvailableRoomByDateTime",
 					"data" : {date : date, start: start , end : end},
 					"success" : function(results){
-							console.log(results);
 							var roomName, roomAddress, description, rowData;
 						tbodyAvailableRoomDetail.empty();
 						$.each(results , function(index, room){
