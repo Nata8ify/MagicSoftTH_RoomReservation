@@ -79,7 +79,7 @@
 	max-width: 900px;
 	margin: 0 auto;
 }
-.fc-content{
+.fc-content, .fc-bg,  .fc-widget-content .fc-list-item-title{
 	cursor: pointer;
 }
 </style>
@@ -104,6 +104,7 @@
 						right : 'month,agendaDay,listWeek'
 					},
 					allDaySlot : false,
+					slotEventOverlap : false,
 					slotLabelFormat:"HH:mm",
 				    timeFormat: 'HH:mm',
 					defaultDate : moment(),
@@ -116,7 +117,20 @@
 
 				    }
 				});
-				renderCalendar(calendar, events);
+				//Load a List of Room Data.
+				$.ajax({
+					"type" : "post",
+					"url" : "findRoom/findAllRooms",
+					"success" : function(results){
+						$.when(addRoomUsageDetail(events, results)).then(function(events){
+							console.log(events);
+							renderCalendar(calendar, events, true);
+						});
+					},
+					"error" : function(err){
+						alert("There is No Room in the System by Now.");
+					}
+				});
 			}
 		}); //Hold a Total Room Usages.
 
@@ -281,6 +295,7 @@
 			<div class="row">
 				<!-- /.schedule image -->
 				<div class="col-md-3 intro-pic wow slideInLeft">
+					<button onclick="refreshCalendar(true);" class="btn" disabled id="btn-see-all"><i class="glyphicon glyphicon-eye-open"></i> View All</button>
 					<br />
 					<div class="form-group" id="div-form-group-search-room">
 						<label class='form-label'>Room: </label>
@@ -300,7 +315,6 @@
 					</div>
 					<input type="date" id="schedule-search-date-room"
 						class='form-control' value="{{current}}" />
-					<hr />
 					<div id="div-detail-and-reserve">
 						<c:if test="${thisStaff != null}">
 							<hr />
@@ -377,12 +391,13 @@
 							roomId : val.roomId
 						},
 						"success" : function(response) {
-							renderCalendar(calendar, response); 
+							renderCalendar(calendar, response, false); 
 						}
 					});
 					appendRoomDetail(val);
 				}
 			});
+			$("#btn-see-all").prop("disabled", false);
 		});
 		
 		/* #schedule-search-period-start, #schedule-search-period-end : When Seacrh By Period Input (start-end) Changed. */
@@ -394,8 +409,13 @@
 			var availableOnPeriodRooms = [];
 			updateAvailableRoomTable(date, start.concat(":00"), end.concat(":00"), tbodyAvailableRoomDetail);
 		});
-		
-		
+		/* #btn-see-all : When is was clicked by User the Full-calender will Refetch and Render the  Data into Full-calendar. */
+		$("#btn-see-all").click(function(){
+			refreshCalendar(true);
+			$("#schedule-search-room").val("");
+			$("#table-room-details, #btn-reserve").fadeOut();
+			$(this).prop("disabled", true);
+		});
 	</script>
 	<hr />
 
@@ -557,12 +577,13 @@
 	<script>
 
 	/** renderCalendar : Render Reservations (Events) into Full Calendar. **/
-		function renderCalendar(calendar, roomUsages) {
+		function renderCalendar(calendar, roomUsages, isRoomNameOnEvent) {
 			events = []; //Empty Pervious.
 			$.each(roomUsages, function(index, val) {
+				var title = isRoomNameOnEvent?(val.room.roomName):val.purpose;
 				events.push({
 					id : val.usageId,
-					title : val.purpose,
+					title : title,
 					reservedDate : val.reservedDate,
 					start : getISODateTime(val.reservedDate, val.accessBegin),
 					end : getISODateTime(val.reservedDate, val.accessUntil),
@@ -589,9 +610,11 @@
 				$.ajax({
 					"type" : "post",
 					"url" : "reservation/all",
-					"success" : function(response) {
-						events = response;
-						renderCalendar(calendar, events);
+					"success" : function(results) {
+						events = results;
+						$.when(addRoomUsageDetail(events, rooms)).then(function(events){
+							renderCalendar(calendar, events, true); //CONCERNED.
+						});
 					}
 				});
 			}
@@ -631,6 +654,22 @@
 			});
 			return null;
 		}
+		
+		/* addRoomUsageDetail : Seem 'addRoomUsageDetailById' But Done by 'rooms' and 'roomUsages' */
+		function addRoomUsageDetail(roomUsages, rooms){
+			//Better $.each and $.each mReservations.
+			var reservations = [];
+			$.each(roomUsages, function(index, roomUsage){
+				$.each(rooms , function(index, room){
+					if(room.roomId == roomUsage.roomId){
+						roomUsage["room"] = room;
+						reservations.push(roomUsage);
+					}
+				});
+			});
+			return reservations;
+		}
+		
 		/** getAvailableRooms : Filter the Available Rooms from a Total Rooms. **/
 		function getAvailableRooms(rooms){
 			var availableRooms = [];
@@ -641,6 +680,7 @@
 			});
 			return availableRooms;
 		}
+		
 		/** updateAvailableRoomTable : Make Available Room's Table Data Up to Specify Date-time. **/
 		function updateAvailableRoomTable(date, start, end, tbodyAvailableRoomDetail){
 			if(start != "" && end != "" && date != ""){
