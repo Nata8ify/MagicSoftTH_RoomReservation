@@ -89,7 +89,6 @@
 <script>
 	/* User Properties .. with Some Data of Session's ${EL}.[Global] */
 	var thisStaff = {staffId: "${thisStaff.staffId}" , name: "${thisStaff.name}", nameLocale: "${thisStaff.nameLocale!=null?thisStaff.email:'-'}", email: "${thisStaff.email!=null?thisStaff.email:'-'}", tel: "${thisStaff.tel!=null?thisStaff.tel:'-'}", mobileTel: "${thisStaff.mobileTel!=null?thisStaff.mobileTel:'-'}"};
-	
 	var calendar; //Holding Calendar Object.[Global]
 	var events //[Global];
 	$("document").ready(function() {
@@ -586,6 +585,18 @@
 			});
 		}
 
+		/** refreshCalendar : To Refresh new Data and push them into Full-calendar. **/
+		function refreshCalendar(){
+			$.ajax({
+				"type" : "post",
+				"url" : "reservation/all",
+				"success" : function(response) {
+					events = response;
+					renderCalendar(calendar, events);
+				}
+			});
+		}
+	
 		/** getISODateTime : ISO8601 Format Builder for Full Calendar start-end Compatable . **/
 		function getISODateTime(date, time) {
 			return $.fullCalendar.moment.utc(date + "T" + time);

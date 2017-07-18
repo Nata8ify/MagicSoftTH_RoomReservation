@@ -143,8 +143,12 @@
 				"data" : {usageId : usageId},
 				"success" : function(result) {
 					if (result) {
-					alert("This Reservation is Canceled Successfuly.")
+					alert("This Reservation is Canceled Successfuly.");
+					/* Refresh Data-table*/
 					setUpMyReservationTable(rooms);
+					/* Refresh Full-calendar */
+					/* TODO */
+					refreshCalendar();
 					$("#modal-reserve-room").modal("hide");
 				  	}
 				}
