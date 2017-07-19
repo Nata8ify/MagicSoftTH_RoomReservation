@@ -91,7 +91,7 @@
 				$("#i-adv-reserve-detail-roomname").html(detail.room.roomName);
 				$("#sp-adv-reserve-detail-rsvby").html(detail.user.name);
 				$("#sp-adv-reserve-detail-for").html(detail.purpose);
-				$("#sp-adv-reserve-detail-date").html(detail.reservedDate);
+				$("#sp-adv-reserve-detail-date").html(new moment(detail.reservedDate).format("dddd, MM Do YYYY"));
 				$("#sp-adv-reserve-detail-start").html(detail.accessBegin.substring(0,5));
 				$("#sp-adv-reserve-detail-end").html(detail.accessUntil.substring(0,5));
 				$("#sp-adv-reserve-detail-note").html(detail.note);

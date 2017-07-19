@@ -55,7 +55,7 @@
 		$("#sp-mreserve-detail-roomname").html(reservationDetail.room.roomName);
 		$("#sp-mreserve-detail-for").html(reservationDetail.purpose);
 		$("#sp-mreserve-detail-note").html(reservationDetail.note==""?"-":reservationDetail.note);
-		$("#sp-mreserve-detail-date").html(reservationDetail.reservedDate);
+		$("#sp-mreserve-detail-date").html(new moment(reservationDetail.reservedDate).format("dddd, MMMM Do YYYY"));
 		$("#sp-mreserve-detail-start").html(reservationDetail.accessBegin);
 		$("#sp-mreserve-detail-end").html(reservationDetail.accessUntil);
 		$("#sp-mreserve-detail-room").html("");
