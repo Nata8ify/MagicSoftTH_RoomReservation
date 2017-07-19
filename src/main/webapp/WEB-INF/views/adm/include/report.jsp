@@ -1,4 +1,9 @@
-	
+<style>
+	@PAGE #report-page{
+	size: 7in 9.25in;
+   	margin: 27mm 16mm 27mm 16mm;
+}
+</style>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	<c:set var="resPath" value="${pageContext.request.contextPath}/resources" />
 	<script src="${resPath}/fullcalendar/moment.min.js"></script>
@@ -175,3 +180,10 @@
     <!-- /main-inner -->
   </div>
   <!-- /main -->
+  <!-- /report-page -->
+  <!-- /report-page -->
+  <jsp:include page="modal_rep_reservation_detail.jsp"></jsp:include>
+  <script type="text/javascript">
+  	/* Listener */
+  	
+  </script>

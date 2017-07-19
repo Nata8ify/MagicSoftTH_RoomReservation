@@ -141,8 +141,12 @@ $("document").ready(function(){
 						roomUsagesTable = $("#table-room-usages").DataTable({
          					"data" : reservations,
          					"order" : [["0", "desc"]],
-         					"columns" : [{data : "reservedDate", width : "10%"}, {data : "room.roomName", width : "20%"}, {data : "purpose", width : "50%", "orderable": false}, {data : "usageId", width : "20%", "orderable": false }]
-         				});
+         					"columns" : [{data : "reservedDate", width : "10%"}, {data : "room.roomName", width : "20%"}, {data : "purpose", width : "60%", orderable: false}, {width : "10%", orderable: false }],
+							"columnDefs" : [{
+								targets : -1,
+								defaultContent : "<button class='btn btn-default btn-report-reservation-detail'>View</button>"
+							}]
+						});
 					});
 				}
 			});	
