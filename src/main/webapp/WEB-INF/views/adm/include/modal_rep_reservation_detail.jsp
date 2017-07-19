@@ -38,7 +38,7 @@
 						</tr>
 						<tr>
 							<th>Option :</th>
-							<td><button id="btn-report-usage-print" class="btn"> Print</button> &nbsp;<b>or</b> &nbsp;<button id="btn-report-usage-save" class="btn">Save Report</button></td>
+							<td><button id="btn-report-usage-print" class="btn" > Print</button> &nbsp;<b>or</b> &nbsp;<button id="btn-report-usage-save" class="btn">Save Report</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -58,7 +58,7 @@
 	});
 	/* #btn-report-usage-print : Listening User Printing Option */
 	$("#btn-report-usage-print").click(function(){
-		alert("d");
+		console.log(roomUsagesTable.rows( { filter : 'applied'} ).data());
 	});
 	/* #btn-report-usage-save : Listening User Report Saving Option */
 	$("#btn-report-usage-save").click(function(){
@@ -90,9 +90,9 @@
 				});
 				getFacilitiesUsageDetailByUsageId(detail.usageId);
 				setTimeout(function(){
-						if(selectedFacilityDetails.length > 0){
+						if(detail.faciliyUsages.length > 0){
 							var isFirst = true;
-							$.each(selectedFacilityDetails, function(index, facility){
+							$.each(detail.faciliyUsages, function(index, facility){
 								if(isFirst){
 									$("#sp-report-usage-detail-facilis").html("<b>"+facility.facility.facility+" :</b> <i>"+facility.accessedQuantity+"</i>");
 									isFirst = false;
@@ -105,7 +105,7 @@
 							}
 					
 					
-				}, 1000);
+				}, 99);
 				$("#modal-adv-reserve-detail").modal();
 	}
 </script>

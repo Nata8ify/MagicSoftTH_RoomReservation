@@ -1,9 +1,7 @@
-<style>
-	@PAGE #report-page{
-	size: 7in 9.25in;
-   	margin: 27mm 16mm 27mm 16mm;
-}
-</style>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="resPath" value="${pageContext.request.contextPath}/resources" />
+<link href="${resPath}/Print.js-1.0.18/dist/print.min.css" rel="stylesheet" />
+<script src="${resPath}/Print.js-1.0.18/dist/print.min.js"></script>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 	<c:set var="resPath" value="${pageContext.request.contextPath}/resources" />
 	<script src="${resPath}/fullcalendar/moment.min.js"></script>
@@ -44,43 +42,6 @@
                  		</script>
                  		<table>
                  			<tbody>
-                 				<tr>
-                 					<td>
-                 					<div class="form-group">
-                 						<label>Room</label>
-	                 					<select class="form-control" id="select-report-room">
-	                 						<option value="all" selected>Total Rooms</option>
-	                 						<option value="room">Specify Room</option>
-	                 						<option value="building">Room On Building</option>
-	                 					</select>
-                 					</div>
-                 					</td>
-                 					<td>
-                 					<div class="form-group hide-first"  id="div-report-section-room">	
-                 						<label>Specify a Room</label>
-                 						<input type="text" id="input-report-specify-room" class="form-control" placeholder="Room Name" />
-                 					</div>
-                 					<div class="form-group hide-first"  id="div-report-section-room-building" >	
-                 						<label>Specify a Building</label>
-                 						<input type="text" id="input-report-specify-room-bulding" class="form-control" placeholder="Room Building" />
-                 					</div>
-                 					</td>
-                 					<script type="text/javascript">
-                 						/* #select-report-room : When this Selector has Changed the Value then Check the Option and Render an Appropiated Input. */
-                 						var $selectReportRoom = $("#select-report-room");
-                 						var $divReportSectionRoom = $("#div-report-section-room");
-                 						var $divReportSectionRoomBd = $("#div-report-section-room-building");
-                 						var $inputReportSpecifyRoom  = $("#input-report-specify-room");
-                 						var $inputReportSpecifyRoomBd  = $("#input-report-specify-room-bulding");
-                 						$selectReportRoom.change(function(){
-                 							switch($(this).val()){
-                 								case "all" : $divReportSectionRoom.hide();$divReportSectionRoomBd.hide();break;
-                 								case "room" : $divReportSectionRoom.show();$divReportSectionRoomBd.hide();break;
-                 								case "building" : $divReportSectionRoom.hide();$divReportSectionRoomBd.show(); break;
-                 							}
-                 						});
-                 					</script>
-                 				</tr>
                  				<tr>
                  					<td>
                  					<div class="form-group">

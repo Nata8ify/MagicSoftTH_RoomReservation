@@ -275,18 +275,18 @@
 						var roomTableSec = $("#table-reservation-result");
 						switch($(this).val()){
 							case "name" : periodSearchInputSec.css("display", "none");
-							$("#div-detail-and-reserve").hide().fadeIn();
-							roomTableSec.css("display", "none");
-							nameSearchInputSec.css("display", "block");
-							reservationScheduleSec.css("display", "block");
-							calendar.fullCalendar('changeView', 'month');
+								$("#div-detail-and-reserve").hide().fadeIn();
+								roomTableSec.css("display", "none");
+								nameSearchInputSec.css("display", "block");
+								reservationScheduleSec.css("display", "block");
+								calendar.fullCalendar('changeView', 'month');
 							break;
 							case "period" : periodSearchInputSec.css("display", "block");
-							$("#div-detail-and-reserve").fadeOut().css("display", "none");
-							roomTableSec.css("display", "block");
-							nameSearchInputSec.css("display", "none");
-							reservationScheduleSec.css("display", "none");
-							updateAvailableRoomTable($("#schedule-search-date-room"), $("#schedule-search-period-start").val(), $("#schedule-search-period-end").val(), $("#tbody-available-room-detail"));
+								$("#div-detail-and-reserve").fadeOut().css("display", "none");
+								roomTableSec.css("display", "block");
+								nameSearchInputSec.css("display", "none");
+								reservationScheduleSec.css("display", "none");
+								updateAvailableRoomTable($("#schedule-search-date-room"), $("#schedule-search-period-start").val(), $("#schedule-search-period-end").val(), $("#tbody-available-room-detail"));
 							break; 
 						}
 					});

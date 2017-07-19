@@ -2,6 +2,7 @@
 var rooms; //Total Rooms. [GLOBAL]
 var reservations; //Total Room's Reservations by Pass, Current and Future. [GLOBAL]
 var todayReservations; //Total Reservations on TODAY. [GLOBAL]
+var facilityUsages; // Total Facility's Usages. [GLOBAL]
 var facilities; //Total Facilities which Registered on the System. [GLOBAL]
 var users; //Total User on the STFFPF System [GLOBAL]
 /* Functions */
@@ -33,6 +34,20 @@ function addRoomUsageDetail(roomUsages, rooms){
 	return reservations;
 }
 
+/* addReserverDetail : This function for Push a User Information into Each Reservation.  */
+function addReserverDetail(roomUsages, users){
+	var reservations = [];
+	$.each(roomUsages, function(index, roomUsage){
+		$.each(users, function(index, user){
+			if(user.staffId == roomUsage.byStaffId){
+				roomUsage["reserver"] = user;
+				reservations.push(roomUsage);
+			}
+		});
+	});
+	return reservations;
+}
+
 /* getFacilitiesUsageDetailByUsageId : Get Facility's Detail By Room Usage Id. */
 var selectedFacilityDetails; // Contain Current Views Facility's Detail [Supporting Asynchronous $.when [THIS IS BAD BUT WORK]]
 function getFacilitiesUsageDetailByUsageId(roomUsageId){
@@ -51,6 +66,19 @@ function getFacilitiesUsageDetailByUsageId(roomUsageId){
 		return facilityDetails;
 	}
 
+/* getFilteredReservationBydate : This Function is for Filtering the reservation By Date or Date Period. */
+function getFilteredReservationBydate(date, dateEnd){
+	if(date == null && dateEnd == null){
+		return reservations;
+	} else if (date != null && dateEnd == null) {
+		$.each(reservations , function(index, reservation){
+			
+		});
+	} else if (date != null && dateEnd != null) {
+		
+	}
+}
+
 /* getAvailableRooms : Filter the Available Rooms from a Total Rooms. */
 function getAvailableRooms(rooms){
 	var availableRooms = [];
@@ -62,12 +90,40 @@ function getAvailableRooms(rooms){
 	return availableRooms;
 }
 
-/* addFacilityDescription : Add the Facility description on Each Facility's Usages. */
+/* addFacilityDescription : Add the Facility description on Each Facility's Usages. / PUSHED IN COLLECTION - NO RETURN */
 function addFacilityDescription(facilitiyUsages){
 	$.each(facilitiyUsages, function(index, facilitiyUsage){
 		$.each(facilities, function(index, facility){
 			if(facility.roomFacilityId == facilitiyUsage.roomFacilityId){
 				facilitiyUsage["facility"] = facility;
+			}
+		});
+	});
+}
+
+/* addFacilityUsageDescription : Add the Facility description on Each Facility's Usages for Total of Them. / PUSHED IN COLLECTION - NO RETURN */
+function addFacilityDescription(facilitiyUsages, facilities){
+	$.each(facilitiyUsages, function(index, facilitiyUsage){
+		$.each(facilities, function(index, facility){
+			if(facility.roomFacilityId == facilitiyUsage.roomFacilityId){
+				facilitiyUsage["facility"] = facility;
+			}
+		});
+	});
+}
+
+/* addFacilityUsageToReservations : Add Total Facility's Usage into the Collection of Room Reservations. */
+function addFacilityUsageToReservations(roomUsages, facilityUsages){
+	log("bf");
+	log(roomUsages);
+	log(facilityUsages);
+	$.each(roomUsages, function(index, roomUsage){
+		roomUsage["faciliyUsages"] = [];
+		$.each(facilityUsages, function(index, facilityUsage){
+			if(roomUsage.usageId == facilityUsage.roomUsageId){
+				roomUsage["faciliyUsages"].push(facilityUsage);
+			} else {
+				log(roomUsage.usageId +"[]"+facilityUsage.roomUsageId);
 			}
 		});
 	});
@@ -124,19 +180,57 @@ function findUserByStaffId(staffId){
 
 /* Listener / When 'Things' was Occurred. */
 $("document").ready(function(){
-	//Get Rooms.
+	// Promise Chain by Rooms > Reservations > Users > Facility > Facility's Usages
+	//1. Get Rooms.
 	$.ajax({
 		"type" : "post",
 		"url" : "findRoom/findAllRooms",
 		"success" : function(results){
 			rooms = results;
-			//Get Room's Reservation [Pass, Current and Future].
+			//2. Get Room's Reservation [Pass, Current and Future].
 			$.ajax({
 				"type" : "post",
 				"url" : "reservation/passed",
 				"success" : function(results){
 					$.when(addRoomUsageDetail(results, rooms)).then(function(results){
 						reservations = results;
+						//3. Get Total Users.
+						$.ajax({
+							"type" : "post",
+							"url" : "utils/find/allStaffs",
+							"success" : function(results){
+								users = results;
+								$.when(addReserverDetail(reservations, users)).then(function(results){
+									reservations = results; //receiving return results is optional. 
+									console.log(reservations);
+									//4. Get Total Facilities.
+									$.ajax({
+										"type" : "post",
+										"url" : "facility/findAll",
+										"success" : function(results){
+											facilities = results;
+											//5. Get Total Facility's Usages.
+											$.ajax({
+												"type" : "post",
+												"url" : "reservation/findAllFacilisUsage",
+												"success" : function(results){
+													facilityUsages = results;
+													$.when(addFacilityDescription(facilityUsages, facilities)).then(function(noResult){
+															log(facilityUsages);
+														$.when(addFacilityUsageToReservations(reservations, facilityUsages)).then(function(noResult){
+															log("complete");
+															log(reservations);
+														});
+													});
+												}
+											});
+										}
+									});
+								});
+							}
+						});
+						
+						console.log(results);
 						//After the Data is Ready these Function will be Called.
 						roomUsagesTable = $("#table-room-usages").DataTable({
          					"data" : reservations,
@@ -152,29 +246,15 @@ $("document").ready(function(){
 			});	
 		}
 	});
-	//Get Total Users.
-	$.ajax({
-		"type" : "post",
-		"url" : "utils/find/allStaffs",
-		"success" : function(results){
-			users = results;
-		}
-	});
-	//Get Total Facilities.
-	$.ajax({
-		"type" : "post",
-		"url" : "facility/findAll",
-		"success" : function(results){
-			facilities = results;
-		}
-	});
-
 });
+
+
 
 /* Report Logic */
 function setReportProperties(){
 	
 }
+
 
 /* Useful */
 function log(thing){
