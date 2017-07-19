@@ -14,6 +14,7 @@ public interface RoomReservationInterface {
 	public boolean cancel(int roomUsageId);
 
 	public List<RoomUsage> findAll(boolean isPassInclude);
+	public List<RoomUsage> findAllPassed();
 	public List<RoomUsage> findAllByStaffId(String staffIs, boolean isPassInclude);
 	public List<RoomUsage> findByRoomId(int roomId);
 	public List<RoomUsage> findByDate(Date reservedDate);

@@ -9,7 +9,7 @@
 
 <head>
 <meta charset="utf-8" />
-<title>MST Room Reservation Admin Panel</title>
+<title>MST Room Reservation Administrator Panel</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,10 @@
 <script src="${resPath}/jslib/jquery-3.2.1.min.js"></script>
 <script src="${resPath}/datatable/jquery.dataTables.min.js"></script>
 
-
+<!-- Custom -->
+<link
+	href="${resPath}/admin_vamp/css/custom_report.css"
+	rel="stylesheet" />
 </head>
 
 <body>
@@ -117,8 +120,10 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 
 	<script src="${resPath}/admin_vamp/js/excanvas.min.js"></script>
-	<script src="${resPath}/admin_vamp/js/chart.min.js"
+	<script src="${resPath}/admin_vamp/js/velocity.min.js"
 		type="text/javascript"></script>
+	<script src="${resPath}/admin_vamp/js/velocity.ui.js"
+		type="text/javascript"></script>	
 	<script src="${resPath}/admin_vamp/js/bootstrap.js"></script>
 	<script language="javascript" type="text/javascript"
 		src="${resPath}/admin_vamp/js/full-calendar/fullcalendar.min.js"></script>

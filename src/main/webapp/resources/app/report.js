@@ -1,8 +1,7 @@
 /* Attributes / Objects */ 
 var rooms; //Total Rooms. [GLOBAL]
-var currentReservations; //Total Current Room's Reservations by Current and Future. [GLOBAL]
+var reservations; //Total Room's Reservations by Pass, Current and Future. [GLOBAL]
 var todayReservations; //Total Reservations on TODAY. [GLOBAL]
-var comingReservations; //Total Coming's Reservations. [GLOBAL]
 var facilities; //Total Facilities which Registered on the System. [GLOBAL]
 var users; //Total User on the STFFPF System [GLOBAL]
 /* Functions */
@@ -86,17 +85,19 @@ function getTodayReservations(roomUsages){
 	return todayReservations;
 }
 
-/* getComingReservations : For Filtering the Reservation by Coming's Reservation (Pass and Current Day isn't Included.)  */
-function getComingReservations(roomUsages){
-	var comingReservations = [];
+/* @Deprecated - By Using of Serve-side's Logic. */
+/* getPassedReservations : For Filtering the Reservation by Reservation that < Current Day's Reservation.  */
+function getPassedReservations(roomUsages){
+	var passedReservations = [];
 	var today = new moment().format("YYYY-MM-DD");
-	$.each(roomUsages, function(inedx, roomUsage){
-		if(roomUsage.reservedDate > today){
-			comingReservations.push(roomUsage);
+	$.each(roomUsages, function(index, roomUsage){
+		if(roomUsage.reservedDate < today){
+			todayReservations.push(roomUsage);
 		}
 	});
-	return comingReservations;
+	return todayReservations;
 }
+
 
 /* findRoomDetailById : this Function will Return the Room's Detail Object (Usage's Detail and Room Detail) which find by Usage Id.*/
 function findRoomDetailByUsageId(usageId){
@@ -120,10 +121,6 @@ function findUserByStaffId(staffId){
 	return findUser;
 }
 
-/* cancelReservationByUsage : Its Name says Anythings.*/
-function cancelReservationByUsage(){
-	
-}
 
 /* Listener / When 'Things' was Occurred. */
 $("document").ready(function(){
@@ -133,19 +130,19 @@ $("document").ready(function(){
 		"url" : "findRoom/findAllRooms",
 		"success" : function(results){
 			rooms = results;
-			//Get Room's Reservation [Current and Future].
+			//Get Room's Reservation [Pass, Current and Future].
 			$.ajax({
 				"type" : "post",
-				"url" : "reservation/all",
-				"data" : {isPassInclude : false},
+				"url" : "reservation/passed",
 				"success" : function(results){
 					$.when(addRoomUsageDetail(results, rooms)).then(function(results){
-						currentReservations = results;
-						todayReservations = getTodayReservations(currentReservations);
-						comingReservations = getComingReservations(currentReservations);
+						reservations = results;
 						//After the Data is Ready these Function will be Called.
-						setUpTodayReservationTable(todayReservations);
-						setUpComingReservationTable(comingReservations);					
+						roomUsagesTable = $("#table-room-usages").DataTable({
+         					"data" : reservations,
+         					"order" : [["0", "desc"]],
+         					"columns" : [{data : "reservedDate", width : "10%"}, {data : "room.roomName", width : "20%"}, {data : "purpose", width : "50%", "orderable": false}, {data : "usageId", width : "20%", "orderable": false }]
+         				});
 					});
 				}
 			});	
@@ -170,6 +167,10 @@ $("document").ready(function(){
 
 });
 
+/* Report Logic */
+function setReportProperties(){
+	
+}
 
 /* Useful */
 function log(thing){

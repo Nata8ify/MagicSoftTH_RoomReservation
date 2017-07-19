@@ -35,6 +35,11 @@ public class ReservationRESTController {
 		return rsvMng.findAll(isPassInclude);
 	}
 	
+	@RequestMapping(value = {"/reservation/passed", "/adm/reservation/passed"}, method = RequestMethod.POST)
+	public List<RoomUsage> getPassedReservationByAll(){
+		return rsvMng.findAllPassed();
+	}
+	
 	@RequestMapping(value = {"/reservation/getByDate", "/adm/reservation/getByDate"}, method = RequestMethod.GET) //POST, pls
 	public List<RoomUsage> getAvailableReservationByDate(@RequestParam(value = "date", defaultValue = "today")Date date){
 		logger.info(date.toString());

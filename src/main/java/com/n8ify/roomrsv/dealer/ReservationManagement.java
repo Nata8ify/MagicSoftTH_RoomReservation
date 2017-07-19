@@ -85,6 +85,12 @@ public class ReservationManagement implements RoomReservationInterface {
 	}
 
 	@Override
+	public List<RoomUsage> findAllPassed() {
+		String sqlFindAllPassed = "SELECT * FROM `RoomUsage` WHERE TIMESTAMP(`reservedDate`,`accessUntil`) <= (SELECT CURRENT_TIMESTAMP);";
+		return jdbc.query(sqlFindAllPassed, new RoomUsageMapper());
+	}
+	
+	@Override
 	public List<RoomUsage> findByDate(Date reservedDate) {
 		String sqlFindByDate = "SELECT * FROM `RoomUsage` WHERE  `reservedDate` = ?;";
 		return jdbc.query(sqlFindByDate, new Object[] { reservedDate }, new RoomUsageMapper());
