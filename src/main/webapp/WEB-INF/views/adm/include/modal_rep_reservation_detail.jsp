@@ -38,7 +38,7 @@
 						</tr>
 						<tr>
 							<th>Option :</th>
-							<td><button id="btn-report-usage-print" class="btn" onclick="printJS('print-usage-report', 'html')"> Print</button> &nbsp;<b>or</b> &nbsp;<button id="btn-report-usage-save" class="btn">Save Report</button></td>
+							<td><button id="btn-report-usage-print" class="btn"> Print</button> &nbsp;<b>or</b> &nbsp;<button disabled="disabled" id="btn-report-usage-save" class="btn">Save Report</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -49,29 +49,31 @@
 <script>
 	/** Listener **/
 	/* .btn-report-reservation-detail : When this was Clicked then the Reservation Detail's Dialog will be Fired. */
+	var selectedRomDetail;
 	$("#table-room-usages tbody").on("click", "tr .btn-report-reservation-detail", function(evt){
-		var roomDetail = roomUsagesTable.row($(this).parents("tr")).data();
-		$.when(findUserByStaffId(roomDetail.byStaffId)).then(function(user){
-				roomDetail["user"] = user;
-				viewAdvanceReservationDetail(roomDetail);
-		});
+		selectedRomDetail = roomUsagesTable.row($(this).parents("tr")).data();
+		viewAdvanceReservationDetail(selectedRomDetail);
 	});
 	/* #btn-report-usage-print : Listening User Printing Option */
 	$("#btn-report-usage-print").click(function(){
-		console.log(roomUsagesTable.rows( { filter : 'applied'} ).data());
+		console.log(selectedRomDetail);
+		renderReportPrintForm(selectedRomDetail, null);
+		printJS({printable :'print-usage-report', type : 'html', maxWidth : '800'});
 	});
 	/* #btn-report-usage-save : Listening User Report Saving Option */
 	$("#btn-report-usage-save").click(function(){
-		alert("dd");
+		renderReportPrintForm(selectedRomDetail, null);
+		printJS({printable :'print-usage-report', type : 'pdf', maxWidth : '800'});
 	});
 </script>
 <script>
 	/** Reservation Details's Function. **/
 	/* viewAdvanceReservationDetail : To Append value into the Advance Reservation's Table. */
 	function viewAdvanceReservationDetail(detail) {
+		console.log(detail);
 				$("#sp-report-usage-detail-facilis").html("Loading...");
 				$("#i-adv-reserve-detail-roomname").html(detail.room.roomName);
-				$("#sp-report-usage-detail-rsvby").html(detail.user.name);
+				$("#sp-report-usage-detail-rsvby").html(detail.reserver.name);
 				$("#sp-report-usage-detail-for").html(detail.purpose);
 				$("#sp-report-usage-detail-date").html(new moment(detail.reservedDate).format("dddd, MM Do YYYY"));
 				$("#sp-report-usage-detail-start").html(detail.accessBegin.substring(0,5));
@@ -86,7 +88,7 @@
 				});
 				/*+ #a-adv-reserve-detail-reserver : Listening the Click "[?]" for view More Reserver's Detail.*/
 				$("#a-adv-reserve-detail-reserver").click(function(){
-					$("#sp-report-usage-detail-reserver").html("</br> <b>E-mail : </b><i>"+detail.user.email+"</i></br> <b>Contact Number : </b><i>"+detail.user.tel+"</i></br> <b>Mobile No. : </b><i>"+detail.user.mobileTel)+"</i></b>";
+					$("#sp-report-usage-detail-reserver").html("</br> <b>E-mail : </b><i>"+detail.reserver.email+"</i></br> <b>Contact Number : </b><i>"+detail.reserver.tel+"</i></br> <b>Mobile No. : </b><i>"+detail.reserver.mobileTel)+"</i></b>";
 				});
 				getFacilitiesUsageDetailByUsageId(detail.usageId);
 				setTimeout(function(){

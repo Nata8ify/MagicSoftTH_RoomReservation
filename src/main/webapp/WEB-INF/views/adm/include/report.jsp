@@ -124,69 +124,65 @@
                  	</div>
                  	<!-- /Report Properties -->
                  	<!-- Report Attribute -->
-                 	<div class="tab-pane fade" id="tab-report-attr">
-						<div class="row" id="print-usage-report" >
-						  	<div class="col-xl-offset-2 col-xl-10">
+                 	<div class="tab-pane fade" id="tab-report-attr"></div>
+                 	<div class="tab-pane " id="tab-report-body">
+						<div id="print-usage-report">
+								<h1>MST Room Reservation Report<br/></h1>
 						  		<table class="table table-striped">
 						  			<tbody>
 						  				<!-- Room Usages -->
 						  				<tr class="tr-print-room-usage">
-						  					<td colspan="2"><br/><h3>Reservation Detail </h3></td>
+						  					<td colspan="4"><br/><h3>Reservation Detail </h3></td>
 						  				</tr>
 						  				<tr class="tr-print-room-usage">
 						  					<td><b>Date : </b></td>
 						  					<td><span id="span-print-room-usage-date"></span></td>
-						  				</tr>
-						  				<tr class="tr-print-room-usage">
 						  					<td><b>Period : </b></td>
 						  					<td><span id="span-print-room-usage-period"></span></td>
 						  				</tr>
 						  				<tr class="tr-print-room-usage">
 						  					<td><b>Reservation's Purpose : </b></td>
-						  					<td><span id="span-print-room-usage-purpose"></span></td>
+						  					<td colspan="3"><span id="span-print-room-usage-purpose"></span></td>
 						  				</tr>
 						  				<tr class="tr-print-room-usage">
 						  					<td><b>Reservation's Note : </b></td>
-						  					<td><span id="span-print-room-usage-note"></span></td>
+						  					<td colspan="3"><span id="span-print-room-usage-note"></span></td>
 						  				</tr>
 						  				<!-- /Room Usages -->
 						  				<!-- Room Detail -->
 						  				<tr class="tr-print-room-detail">
-						  					<td colspan="2"><br/><h3>Room Detail</h3></td>
+						  					<td colspan="4"><br/><h3>Room Detail</h3></td>
 						  					<td><span id="span-print-room-detail"></span></td>
 						  				</tr>
 						  				<tr class="tr-print-room-detail">
 						  					<td><b>Room : </b></td>
-						  					<td><span id="span-print-room-detail-room"></span></td>
-						  				</tr>
-						  				<tr class="tr-print-room-detail">
+						  					<td colspan="1"><span id="span-print-room-detail-room"></span></td>
 						  					<td><b>Room's Address : </b></td>
-						  					<td><span id="span-print-room-detail-roomaddr"></span></td>
+						  					<td colspan="1"><span id="span-print-room-detail-roomaddr"></span></td>
 						  				</tr>
 						  				<!-- /Room Detail -->
 						  				<!-- Reserver Information-->
 						  				<tr class="tr-print-reserver">
-						  					<td colspan="2"><br/><h3>Reserver's Information</h3></td>
-						  				</tr>
-						  				<tr class="tr-print-reserver">
-						  					<td><b>Staff ID : </b></td>
-						  					<td><span id="span-print-reserver-staffid"></span></td>
+						  					<td colspan="4"><br/><h3>Reserver's Information</h3></td>
 						  				</tr>
 						  				<tr class="tr-print-reserver">
 						  					<td><b>Name & Surname : </b></td>
+						  					<td><span id="span-print-reserver-name"></span></td>
+						  					<td><b>Staff ID : </b></td>
 						  					<td><span id="span-print-reserver-staffid"></span></td>
+						  				
 						  				</tr>
 						  				<tr class="tr-print-reserver">
 						  					<td><b>E-mail : </b></td>
-						  					<td><span id="span-print-reserver-email"></span></td>
+						  					<td colspan="3"><span id="span-print-reserver-email"></span></td>
 						  				</tr>
 						  				<tr class="tr-print-reserver">
 						  					<td><b>Tel. : </b></td>
-						  					<td><span id="span-print-reserver-tel"></span></td>
+						  					<td colspan="3"><span id="span-print-reserver-tel"></span></td>
 						  				</tr>
 						  				<tr class="tr-print-reserver">
 						  					<td><b>Mobile Tel. : </b></td>
-						  					<td><span id="span-print-reserver-mobile-tel"></span></td>
+						  					<td colspan="3"><span id="span-print-reserver-mobile-tel"></span></td>
 						  				</tr>
 						  				<tr class="tr-print-reserver">
 						  					<td><b>Position : </b></td>
@@ -203,7 +199,6 @@
 						  				<!-- /Room Facility -->
 						  			</tbody>
 						  		</table>
-						  	</div>
 						  </div>
                  	<!-- /Report Attribute -->
                  </div>
@@ -276,4 +271,34 @@
 	  		}
 		}, 500);
   	} */
+  	/* renderReportPrintForm : Render the Print a Page Detial  */
+  	function renderReportPrintForm(roomUsage, attrs){
+  		/* $("#tab-report-attr").find("*").css("display", "inline-block");
+  		if(true){
+  			
+  		} */
+  		$("[id^=span-print]").html("-");
+  		$("#span-print-room-usage-date").html(moment(roomUsage.reservedDate).format("dddd, MM Do YYYY"));
+  		$("#span-print-room-usage-period").html(roomUsage.accessBegin.substring(0,5).concat(" - ").concat(roomUsage.accessUntil.substring(0,5)));
+  		$("#span-print-room-usage-purpose").html(roomUsage.purpose);
+  		$("#span-print-room-usage-note").html(roomUsage.note==""?"-":roomUsage.note);
+  		$("#span-print-room-detail-room").html(roomUsage.room.roomName.concat(roomUsage.room.roomCode!=null?(" <br/>(".concat(roomUsage.room.roomCode).concat(")")):""));
+  		$("#span-print-room-detail-roomaddr").html((roomUsage.room.building!=null?("<b>Building<b/> <i>"+roomUsage.room.building+"<i/>"):"").concat(roomUsage.room.floor!=null?("<b>, Floor</b><i>"+roomUsage.room.floor)+"</i>":""));
+  		$("#span-print-reserver-staffid").html(roomUsage.reserver.staffId);
+  		$("#span-print-reserver-email").html(roomUsage.reserver.email);
+  		$("#span-print-reserver-name").html(roomUsage.reserver.name);
+  		$("#span-print-reserver-tel").html(roomUsage.reserver.tel);
+  		$("#span-print-reserver-mobile-tel").html(roomUsage.reserver.mobileTel);
+  		$("#span-print-reserver-position").html(roomUsage.reserver.position);
+  		if(roomUsage.faciliyUsages.length > 0){
+  			var facilityHTMLTemplate = "";
+  			$.each(roomUsage.faciliyUsages, function(index, facilityUsage){
+  				log(facilityUsage);
+  				facilityHTMLTemplate += ("<span>"+facilityUsage.facility.facility+" : </span><i>"+facilityUsage.accessedQuantity+"</i> "+(index!=roomUsage.faciliyUsages.length-1?", ":""));
+  			});
+  			$("#span-print-facilities").html(facilityHTMLTemplate);
+  		} else {
+  			$("#span-print-facilities").html("No Facilty's Usage");
+  		}
+  	}
   </script>
