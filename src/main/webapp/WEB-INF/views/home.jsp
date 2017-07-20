@@ -261,37 +261,49 @@
 		<div class="container">
 			<h2 class="wow fadeInLeft">Room Schedules</h2>
 			<p>Check for a Reservation's Queue.</p>
+			<div class="row">
 			<c:if test="${thisStaff != null}">
-				<select id="select-schedule-search-mode">
-					<option value="name">Room Name</option>
-					<option value="period">Time Period</option>
-				</select>
-				<script type="text/javascript">
-					/* #select-schedule-search-mode : Schedule Search's Mode Listener that Performs How Searching Input will be Displayed. */
-					$("#select-schedule-search-mode").change(function(){
-						var nameSearchInputSec = $("#div-form-group-search-room");
-						var periodSearchInputSec = $("#div-form-group-search-period");
-						var reservationScheduleSec = $("#schedule-reservation-result");
-						var roomTableSec = $("#table-reservation-result");
-						switch($(this).val()){
-							case "name" : periodSearchInputSec.css("display", "none");
-								$("#div-detail-and-reserve").hide().fadeIn();
-								roomTableSec.css("display", "none");
-								nameSearchInputSec.css("display", "block");
-								reservationScheduleSec.css("display", "block");
-								calendar.fullCalendar('changeView', 'month');
-							break;
-							case "period" : periodSearchInputSec.css("display", "block");
-								$("#div-detail-and-reserve").fadeOut().css("display", "none");
-								roomTableSec.css("display", "block");
-								nameSearchInputSec.css("display", "none");
-								reservationScheduleSec.css("display", "none");
-								updateAvailableRoomTable($("#schedule-search-date-room"), $("#schedule-search-period-start").val(), $("#schedule-search-period-end").val(), $("#tbody-available-room-detail"));
-							break; 
-						}
-					});
-				</script>
+					<div class="col-sm-3">
+						<select id="select-schedule-search-mode">
+							<option value="name">Room Name</option>
+							<option value="period">Time Period</option>
+						</select>
+						<script type="text/javascript">
+							/* #select-schedule-search-mode : Schedule Search's Mode Listener that Performs How Searching Input will be Displayed. */
+							$("#select-schedule-search-mode").change(function(){
+								var nameSearchInputSec = $("#div-form-group-search-room");
+								var periodSearchInputSec = $("#div-form-group-search-period");
+								var reservationScheduleSec = $("#schedule-reservation-result");
+								var roomTableSec = $("#table-reservation-result");
+								switch($(this).val()){
+									case "name" : periodSearchInputSec.css("display", "none");
+										$("#div-detail-and-reserve").hide().fadeIn();
+										roomTableSec.css("display", "none");
+										nameSearchInputSec.css("display", "block");
+										reservationScheduleSec.css("display", "block");
+										calendar.fullCalendar('changeView', 'month');
+										$("#btn-see-all").show();
+									break;
+									case "period" : periodSearchInputSec.css("display", "block");
+									$("#btn-see-all").hide();
+										$("#div-detail-and-reserve").fadeOut().css("display", "none");
+										roomTableSec.css("display", "block");
+										nameSearchInputSec.css("display", "none");
+										reservationScheduleSec.css("display", "none");
+										updateAvailableRoomTable($("#schedule-search-date-room"), $("#schedule-search-period-start").val(), $("#schedule-search-period-end").val(), $("#tbody-available-room-detail"));
+									break; 
+								}
+							});
+						</script>
+					</div>
+					<div class="col-sm-9">
+						<div class="alert alert-warning" hidden id="alert-validate-search-time-period">
+							   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							   <span id="span-search-time-period-msg">Indicates a warning that might need attention.</span>
+						</div>
+					</div>
 			</c:if>
+			</div>
 			<div class="row">
 				<!-- /.schedule image -->
 				<div class="col-md-3 intro-pic wow slideInLeft">
@@ -405,9 +417,28 @@
 			var start = $("#schedule-search-period-start").val();
 			var end = $("#schedule-search-period-end").val();
 			var date = $("#schedule-search-date-room").val();
+			var alertSearchTimePeriod = $("#alert-validate-search-time-period");
+			var spanSearchPeriodMsg = $("#span-search-time-period-msg");
 			var tbodyAvailableRoomDetail = $("#tbody-available-room-detail");
 			var availableOnPeriodRooms = [];
-			updateAvailableRoomTable(date, start.concat(":00"), end.concat(":00"), tbodyAvailableRoomDetail);
+			if(start == "" && end == ""){
+				alertSearchTimePeriod.fadeIn();
+				spanSearchPeriodMsg.html("Please specify a time period");
+			} /* else if(start != "" && end == "" ) {
+				alertSearchTimePeriod.fadeIn();
+				spanSearchPeriodMsg.html("Please Select the end time.");
+			} */ else if (start != "" && end != "") {
+				if(moment(start, "HH:mm").isBefore(moment(end, "HH:mm"))){
+					updateAvailableRoomTable(date, start.concat(":00"), end.concat(":00"), tbodyAvailableRoomDetail);
+					alertSearchTimePeriod.fadeOut();
+				} else {
+					alertSearchTimePeriod.fadeIn();
+					spanSearchPeriodMsg.html("End-time must be after Start-time.");
+				}
+			} else if (start == "" && end != "") {
+				alertSearchTimePeriod.fadeIn();
+				spanSearchPeriodMsg.html("Start-time is required");
+			}
 		});
 		/* #btn-see-all : When is was clicked by User the Full-calender will Refetch and Render the  Data into Full-calendar. */
 		$("#btn-see-all").click(function(){

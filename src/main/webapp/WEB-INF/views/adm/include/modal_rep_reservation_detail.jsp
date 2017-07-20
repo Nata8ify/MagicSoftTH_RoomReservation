@@ -38,7 +38,7 @@
 						</tr>
 						<tr>
 							<th>Option :</th>
-							<td><button id="btn-report-usage-print" class="btn" > Print</button> &nbsp;<b>or</b> &nbsp;<button id="btn-report-usage-save" class="btn">Save Report</button></td>
+							<td><button id="btn-report-usage-print" class="btn" onclick="printJS('print-usage-report', 'html')"> Print</button> &nbsp;<b>or</b> &nbsp;<button id="btn-report-usage-save" class="btn">Save Report</button></td>
 						</tr>
 					</tbody>
 				</table>
@@ -105,7 +105,7 @@
 							}
 					
 					
-				}, 99);
+				}, 999);
 				$("#modal-adv-reserve-detail").modal();
 	}
 </script>

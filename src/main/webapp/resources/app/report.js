@@ -1,6 +1,7 @@
 /* Attributes / Objects */ 
 var rooms; //Total Rooms. [GLOBAL]
 var reservations; //Total Room's Reservations by Pass, Current and Future. [GLOBAL]
+var filteredReservations // Temporary Collection of Total Room's Reservation. [GLOBAL]
 var todayReservations; //Total Reservations on TODAY. [GLOBAL]
 var facilityUsages; // Total Facility's Usages. [GLOBAL]
 var facilities; //Total Facilities which Registered on the System. [GLOBAL]
@@ -67,15 +68,46 @@ function getFacilitiesUsageDetailByUsageId(roomUsageId){
 	}
 
 /* getFilteredReservationBydate : This Function is for Filtering the reservation By Date or Date Period. */
-function getFilteredReservationBydate(date, dateEnd){
+function getFilteredReservationByDate(roomUsages, date, dateEnd){
+	var dateFilteredReservations = [];
 	if(date == null && dateEnd == null){
+		log(reservations);
 		return reservations;
 	} else if (date != null && dateEnd == null) {
-		$.each(reservations , function(index, reservation){
-			
+		$.when($.each(roomUsages , function(index, reservation){
+			if(reservation.reservedDate == date){
+				dateFilteredReservations.push(reservation);
+			}
+		})).then(function(noResult){
+			log(dateFilteredReservations);
+			return dateFilteredReservations;
 		});
 	} else if (date != null && dateEnd != null) {
-		
+		$.when($.each(roomUsages , function(index, reservation){
+			if(date <= reservation.reservedDate && reservation.reservedDate <= dateEnd){
+				dateFilteredReservations.push(reservation);
+			}
+		})).then(function(noResult){
+			log(dateFilteredReservations);
+			return dateFilteredReservations;
+		});
+	} else {
+		alert("No Result Cursed by Missing of Argument");
+	}
+}
+
+/* getFilteredReservationByTime : This Function for Filtering the Reservations By Specify Time Period. */
+function getFilteredReservationByTime(roomUsages , start, end){
+	var timeFilteredReservations = [];
+	if(start != null && end != null){
+		$.when($.each(roomUsages, function(index, roomUsage){
+			if(start.concat(":00") <= roomUsage.accessBegin && roomUsage.accessUntil <= end.concat(":00")){
+				timeFilteredReservations.push(roomUsage);
+			}
+		})).then(function(noResult){
+			/*filteredReservations = dateFilteredReservations; // Push into filteredReservations.
+*/			return timeFilteredReservations; //WAIT > 1000ms
+		});
 	}
 }
 
@@ -114,16 +146,11 @@ function addFacilityDescription(facilitiyUsages, facilities){
 
 /* addFacilityUsageToReservations : Add Total Facility's Usage into the Collection of Room Reservations. */
 function addFacilityUsageToReservations(roomUsages, facilityUsages){
-	log("bf");
-	log(roomUsages);
-	log(facilityUsages);
 	$.each(roomUsages, function(index, roomUsage){
 		roomUsage["faciliyUsages"] = [];
 		$.each(facilityUsages, function(index, facilityUsage){
 			if(roomUsage.usageId == facilityUsage.roomUsageId){
 				roomUsage["faciliyUsages"].push(facilityUsage);
-			} else {
-				log(roomUsage.usageId +"[]"+facilityUsage.roomUsageId);
 			}
 		});
 	});
@@ -180,7 +207,7 @@ function findUserByStaffId(staffId){
 
 /* Listener / When 'Things' was Occurred. */
 $("document").ready(function(){
-	// Promise Chain by Rooms > Reservations > Users > Facility > Facility's Usages
+	// Promise Chain (HELL) by Rooms > Reservations > Users > Facility > Facility's Usages
 	//1. Get Rooms.
 	$.ajax({
 		"type" : "post",
@@ -202,7 +229,6 @@ $("document").ready(function(){
 								users = results;
 								$.when(addReserverDetail(reservations, users)).then(function(results){
 									reservations = results; //receiving return results is optional. 
-									console.log(reservations);
 									//4. Get Total Facilities.
 									$.ajax({
 										"type" : "post",
@@ -216,10 +242,8 @@ $("document").ready(function(){
 												"success" : function(results){
 													facilityUsages = results;
 													$.when(addFacilityDescription(facilityUsages, facilities)).then(function(noResult){
-															log(facilityUsages);
 														$.when(addFacilityUsageToReservations(reservations, facilityUsages)).then(function(noResult){
-															log("complete");
-															log(reservations);
+															filteredReservations = reservations;
 														});
 													});
 												}
@@ -239,7 +263,10 @@ $("document").ready(function(){
 							"columnDefs" : [{
 								targets : -1,
 								defaultContent : "<button class='btn btn-default btn-report-reservation-detail'>View</button>"
-							}]
+							}],
+							language: {
+						        searchPlaceholder: "Search records"
+						    }
 						});
 					});
 				}

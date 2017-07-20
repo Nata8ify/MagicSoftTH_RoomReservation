@@ -40,7 +40,7 @@
                  		<script type="text/javascript">
                  			var roomUsagesTable;
                  		</script>
-                 		<table>
+                 		<!-- <table>
                  			<tbody>
                  				<tr>
                  					<td>
@@ -75,9 +75,9 @@
 	                 					/* #select-report-date : When this Selector has Changed the Value then Check the Option and Render an Appropiated Input. */
 	                 					$selectReportDate.change(function(){
 	                 						switch($(this).val()){
-             								case "date" : $divReportSectionDate.show();$divReportSectionDateUntil.hide();break;
+             								case "date" : $divReportSectionDate.show();$divReportSectionDateUntil.hide();$inputReportSpecifyDateUntil.val("");break;
              								case "date-period" :$divReportSectionDate.show();$divReportSectionDateUntil.show();break;
-             								case "date-all" :$divReportSectionDate.hide();$divReportSectionDateUntil.hide(); break;
+             								case "date-all" :$divReportSectionDate.hide();$divReportSectionDateUntil.hide(); getFilteredReservationByDate(reservations, null, null); break;
              								}
 	                 					});
 	                 				</script>	
@@ -119,13 +119,92 @@
                  					</script>
                  				</tr>
                  			</tbody>
-                 		</table>
+                 		</table> -->
                  		<br/>
                  	</div>
                  	<!-- /Report Properties -->
                  	<!-- Report Attribute -->
                  	<div class="tab-pane fade" id="tab-report-attr">
-						
+						<div class="row" id="print-usage-report" >
+						  	<div class="col-xl-offset-2 col-xl-10">
+						  		<table class="table table-striped">
+						  			<tbody>
+						  				<!-- Room Usages -->
+						  				<tr class="tr-print-room-usage">
+						  					<td colspan="2"><br/><h3>Reservation Detail </h3></td>
+						  				</tr>
+						  				<tr class="tr-print-room-usage">
+						  					<td><b>Date : </b></td>
+						  					<td><span id="span-print-room-usage-date"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-room-usage">
+						  					<td><b>Period : </b></td>
+						  					<td><span id="span-print-room-usage-period"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-room-usage">
+						  					<td><b>Reservation's Purpose : </b></td>
+						  					<td><span id="span-print-room-usage-purpose"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-room-usage">
+						  					<td><b>Reservation's Note : </b></td>
+						  					<td><span id="span-print-room-usage-note"></span></td>
+						  				</tr>
+						  				<!-- /Room Usages -->
+						  				<!-- Room Detail -->
+						  				<tr class="tr-print-room-detail">
+						  					<td colspan="2"><br/><h3>Room Detail</h3></td>
+						  					<td><span id="span-print-room-detail"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-room-detail">
+						  					<td><b>Room : </b></td>
+						  					<td><span id="span-print-room-detail-room"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-room-detail">
+						  					<td><b>Room's Address : </b></td>
+						  					<td><span id="span-print-room-detail-roomaddr"></span></td>
+						  				</tr>
+						  				<!-- /Room Detail -->
+						  				<!-- Reserver Information-->
+						  				<tr class="tr-print-reserver">
+						  					<td colspan="2"><br/><h3>Reserver's Information</h3></td>
+						  				</tr>
+						  				<tr class="tr-print-reserver">
+						  					<td><b>Staff ID : </b></td>
+						  					<td><span id="span-print-reserver-staffid"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-reserver">
+						  					<td><b>Name & Surname : </b></td>
+						  					<td><span id="span-print-reserver-staffid"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-reserver">
+						  					<td><b>E-mail : </b></td>
+						  					<td><span id="span-print-reserver-email"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-reserver">
+						  					<td><b>Tel. : </b></td>
+						  					<td><span id="span-print-reserver-tel"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-reserver">
+						  					<td><b>Mobile Tel. : </b></td>
+						  					<td><span id="span-print-reserver-mobile-tel"></span></td>
+						  				</tr>
+						  				<tr class="tr-print-reserver">
+						  					<td><b>Position : </b></td>
+						  					<td><span id="span-print-reserver-position"></span></td>
+						  				</tr>
+						  				<!-- /Reserver Information -->
+						  				<!-- Room Facility -->
+						  				<tr class="tr-print-facilities">
+						  					<td colspan="2"><br/><h3>Facility's Usages</h3></td>
+						  				</tr>
+						  				<tr class="tr-print-facilities">
+						  					<td colspan="2"><span id="span-print-facilities"></span></td>
+						  				</tr>
+						  				<!-- /Room Facility -->
+						  			</tbody>
+						  		</table>
+						  	</div>
+						  </div>
                  	<!-- /Report Attribute -->
                  </div>
               </div>
@@ -140,11 +219,61 @@
     </div>
     <!-- /main-inner -->
   </div>
+  
   <!-- /main -->
   <!-- /report-page -->
   <!-- /report-page -->
   <jsp:include page="modal_rep_reservation_detail.jsp"></jsp:include>
   <script type="text/javascript">
-  	/* Listener */
+  	/** Listener **/
+  	/* Listening Date Time Period Input Change for Filtered Data on Table */
+  	/* $("#input-report-specify-date, #input-report-specify-date-until, #input-report-specify-time, #input-report-specify-time-until").change(function(){
+  		log("F");
+  		var date = $inputReportSpecifyDate.val()==""?null:$inputReportSpecifyDate.val();
+  		var dateEnd = $inputReportSpecifyDateUntil.val()==""?null:$inputReportSpecifyDateUntil.val();
+		var start = $inputReportSpecifTime.val()==""?null:$inputReportSpecifTime.val();
+		var end =  $inputReportSpecifyTimeUntil.val()==""?null:$inputReportSpecifyTimeUntil.val();
+  		filterByDateTime(reservations, date, dateEnd, start, end);
+  		setTimeout(function(){log("CL : ");log(filteredReservations);}, 1000);
+  	}); */
   	
+  	/** Functions **/
+  	/* filterByDateTime : This Function For Filtering Reservation's Collection By Date and Time */
+  	/* ! : <= 2000ms Required for returning Value. */
+  	/* function filterByDateTime(roomUsages , date, dateEnd, start, end){
+  		filteredReservations = [];
+		if(start != null && end != null){
+			log("time");
+  			getFilteredReservationByTime(roomUsages , $inputReportSpecifTime.val(), $inputReportSpecifyTimeUntil.val());
+  		} else {
+  			log("notime");
+  			filteredReservations = roomUsages;
+  		}
+		setTimeout(function() {
+			if(date == null && dateEnd == null){
+				log("no date");
+	  			return filteredReservations;
+	  		} else if (date != null && dateEnd == null) {
+	  			log("no date-end");
+	  			$.when($.each(filteredReservations , function(index, reservation){
+	  				if(reservation.reservedDate != date){
+	  					delete filteredReservations[index];
+	  				}
+	  			})).then(function(noResult){
+	  				return filteredReservations;
+	  			});
+	  		} else if (date != null && dateEnd != null) {
+	  			log("date date-end");
+	  			$.when($.each(filteredReservations , function(index, reservation){
+	  				if(date >= reservation.reservedDate && reservation.reservedDate >= dateEnd){
+	  					delete filteredReservations[index];
+	  				}
+	  			})).then(function(noResult){
+	  				return filteredReservations;
+	  			});
+	  		} else {
+	  			alert("No Result Cursed by Missing of Argument");
+	  		}
+		}, 500);
+  	} */
   </script>
