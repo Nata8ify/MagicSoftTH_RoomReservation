@@ -545,20 +545,17 @@
 						<!-- /.contact form -->
 						<div class="col-sm-7 contact-right">
 							<form method="POST" id="contact-form" class="form-horizontal"
-								action="contactengine.php"
-								onSubmit="alert( 'Thank you for your feedback!' );">
+								action="utils/inform"
+								onSubmit="alert( 'Thank you to inform us the Problem. An Informed Message will be sent to the Administrator.' );">
+								<input type="hidden" name="byStaffId" value="${thisStaff.staffId}" />
 								<div class="form-group">
-									<input type="text" name="username" id="Name"
-										class="form-control wow fadeInUp" placeholder="Name"
+									<input type="text" name="title" id="input-inform-title"
+										class="form-control wow fadeInUp" placeholder="Title"
 										required="required" />
 								</div>
+								
 								<div class="form-group">
-									<input type="text" name="email" id="Email"
-										class="form-control wow fadeInUp" placeholder="Email"
-										required="required" />
-								</div>
-								<div class="form-group">
-									<textarea name="message" rows="20" cols="20" id="Message"
+									<textarea name="message" rows="20" cols="20" id="input-inform-message"
 										class="form-control input-message wow fadeInUp"
 										placeholder="Message" required="required"></textarea>
 								</div>
@@ -567,6 +564,7 @@
 										class="btn btn-success wow fadeInUp" />
 								</div>
 							</form>
+							
 						</div>
 					</div>
 				</div>

@@ -6,14 +6,18 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.n8ify.roomrsv.controller.UtilsRESTController;
+import com.n8ify.roomrsv.model.RoomInform;
 import com.n8ify.roomrsv.model.Staff;
 
 /** Only This Class  not have/implement Interface */
 public class Utilities { 
-	
+	private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
 	private JdbcTemplate jdbc;
 	
 	
@@ -53,4 +57,36 @@ public class Utilities {
 		}
 
 	}
+	
+	/* Inform Section */
+	public void saveInform(RoomInform roomInform){
+		String sqlInsertInform = "INSERT INTO `RoomInform`(`title`, `message`, `byStaffId`) VALUES (?, ?, ?);";
+		logger.info(roomInform.toString());
+		jdbc.update(sqlInsertInform, new Object[]{roomInform.getTitle(), roomInform.getMessage(), roomInform.getByStaffId().isEmpty()?null:roomInform.getByStaffId()});
+	}
+	
+	public List<RoomInform> getTotalInforms(){
+		String sqlFindTotalInform = "SELECT * FROM `RoomInform`;";
+		return jdbc.query(sqlFindTotalInform, new RoomInfornMapper());
+	}
+	
+	public boolean dismissInform(int informId){
+		String sqlDismissInform = "DELETE FROM `RoomInform` WHERE `informId` = ?;";
+		return jdbc.update(sqlDismissInform, new Object[]{informId}) == 1;
+	}
+	
+	public boolean truncateInforms(){
+		String sqlDismissInform = "DELETE FROM `RoomInform`;";
+		return jdbc.update(sqlDismissInform) >= 0;
+	}
+	
+	private class RoomInfornMapper implements RowMapper<RoomInform>{
+
+		@Override
+		public RoomInform mapRow(ResultSet rs, int i) throws SQLException {
+			return new RoomInform(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getString(5));
+		}
+		
+	}
+	
 }

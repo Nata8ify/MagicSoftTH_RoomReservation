@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.n8ify.roomrsv.dealer.Utilities;
+import com.n8ify.roomrsv.model.RoomInform;
 import com.n8ify.roomrsv.model.Staff;
 
 @RestController
@@ -32,5 +33,21 @@ public class UtilsRESTController {
 	@RequestMapping(value = {"/utils/find/allStaffs", "/adm/utils/find/allStaffs"}, method = RequestMethod.POST)
 	public List<Staff> findAllStaff(){
 		return utils.findAllStaff();
+	}
+	
+	/* Inform REST Section */
+	@RequestMapping(value = {"/adm/utils/find/informs"}, method = RequestMethod.POST)
+	public List<RoomInform> findAllInforms(){
+		return utils.getTotalInforms();
+	}
+	
+	@RequestMapping(value = {"/adm/utils/delete/inform"}, method = RequestMethod.POST)
+	public boolean deleteInform(@RequestParam(value = "informId", required = true)int informId){
+		return utils.dismissInform(informId);
+	}
+	
+	@RequestMapping(value = {"/adm/utils/delete/all"}, method = RequestMethod.POST)
+	public boolean deleteAll(){
+		return utils.truncateInforms();
 	}
 }
