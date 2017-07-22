@@ -15,36 +15,20 @@ public class AdminHomeController {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AdminHomeController.class);
 
-	private final String ADM_REL_PATH = "/adm/";
-
 	@RequestMapping("/adm/home")
-	public String toAdminSignIn(Model model, HttpServletRequest request) {
+	public String toAdminSignIn(HttpServletRequest request, Model model) {
 		return Attrs.ADMIN_SIGNIN;
 	}
 
 	@RequestMapping("/adm/admhome")
-	public String toAdminHome(Model model, HttpServletRequest request) {
+	public String toAdminHome$(HttpServletRequest request, Model model) {
 		model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.dashboard.toString());
 		return Attrs.ADMIN_HOME;
 	}
 
 	@RequestMapping(value = "/adm/{admTo}")
-	public String toAdminPagePart(Model model, @PathVariable(value = "admTo") Attrs.getAdminDestinationAttr to) {
+	public String toAdminPagePart$(HttpServletRequest request, Model model, @PathVariable(value = "admTo") Attrs.getAdminDestinationAttr to) {
 		model.addAttribute(Attrs.getOptionAttr.include.toString(), to.toString());
-		switch (to) {
-		case dashboard:
-			break;
-		case report:
-			break;
-		case roommng:
-			break;
-		case facilimng:
-			break;
-		case setting:
-			break;	
-		default:
-			break;
-		}
 		return Attrs.ADMIN_HOME;
 	}
 

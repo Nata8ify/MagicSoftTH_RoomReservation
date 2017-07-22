@@ -150,6 +150,14 @@
 			<artifactId>guava</artifactId>
 			<version>19.0</version>
 		</dependency>
+				<!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		    <version>4.3.0.RELEASE</version>
+		</dependency>
+				
+		
 
 	</dependencies>
 	<build>

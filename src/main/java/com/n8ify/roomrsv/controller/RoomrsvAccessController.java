@@ -40,6 +40,7 @@ public class RoomrsvAccessController {
 			@RequestParam(value = "password", required = true) String password) {
 		Staff.setStaffInstance(rsvAccess.login(staffId, password));
 		if (Staff.getStaffInstance() != null && StaffAccess.getAccessInstance() != null) {
+			request.getSession(false).setMaxInactiveInterval(60 * 60 * 8);
 			request.getSession(false).setAttribute("thisStaff", Staff.getStaffInstance());
 			logger.info(Staff.getStaffInstance().toString());
 			request.getSession(false).setAttribute("thisAccess", StaffAccess.getAccessInstance());
