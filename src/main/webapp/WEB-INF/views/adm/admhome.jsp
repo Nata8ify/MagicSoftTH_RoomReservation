@@ -69,7 +69,8 @@
 								Management</span> </a></li>
 					<li ${include != 'facilimng'?'':'class="active"'}><a href="facilimng"><i class="icon-facetime-video"></i><span>Facilities</span>
 					</a></li>
-
+					<li ${include != 'setting'?'':'class="active"'}><a href="setting"><i class="icon-setting"></i><span>Application Setting</span>
+					</a></li>
 				</ul>
 			</div>
 			<!-- /container -->

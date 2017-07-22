@@ -98,6 +98,79 @@
 					<!-- /span6 -->
 				</div>
 				<!-- /row -->
+				<div class="row">
+					<div class="span12">
+						<div class="widget">
+							<div class="widget-header">
+								<i class="icon-file"></i>
+								<h3>User's Informs <b id="b-today"></b></h3>
+							</div>
+							<!-- /widget-header -->
+							<div class="widget-content">
+								<table class="table table-striped table-responsive table-hover">
+									<tbody id="tbody-informs">
+										
+									</tbody>
+								</table>
+							</div>
+							<!-- /widget-content -->
+							<script type="text/javascript">
+								var $tbodyInform = $("#tbody-informs");
+								var informNumber = 0;
+								$("document").ready(function(){
+									buildInformTable();
+									/* Refresh Inform's Table Every 1 minute. */
+									setInterval(function() {
+										buildInformTable();
+									}, 60000);
+								});
+								
+								/* buildInformTable : Load and Render the Inform data into Inform Table. */
+								function buildInformTable(){
+									$.ajax({
+										"type" : "post",
+										"url" : "utils/find/informs",
+										"success" : function(results){
+											informNumber = results.length;
+											console.log(results);
+											var $rowData;
+											if(informNumber > 0){ 
+											$tbodyInform.empty();
+											$.each(results, function(index, inform){
+												$rowData = $("<tr><td>"+(inform.byStaffId==null?"Anonymous":inform.byStaffId)+"</td><td><b>"+inform.title+"</b> (<i>"+moment.unix(inform.timeStamp/1000).format("LLLL")+"</i>)<br/>"+inform.message+"</td><td><button class='btn-dismiss-inform' data-informid='"+inform.informId+"'>Dismiss</button></td></tr>");
+												$rowData.find("button").click(function(){
+													dismissInform($(this).data("informid"), $rowData);
+												});
+												$tbodyInform.append($rowData);	
+											});
+											 } else {
+												$rowData = "<tr><td colspan='4'><center><b>Empty</b></center></td></tr>";
+												$tbodyInform.html($rowData);
+											} 
+										}
+									});
+								}
+								
+								/* dismissInform : To Dismiss yhe Selected Inform. */
+								function dismissInform(informId, informRow){
+									$.ajax({
+										"type" : "post",
+										"url" : "utils/delete/inform",
+										"data" : {informId : informId},
+										"success" : function(isSuccess){
+											if(isSuccess){
+												if(informRow != null){
+													informRow.remove();
+												}
+											}
+										}
+									});	
+								}	
+							</script>
+						</div>
+						<!-- /widget -->
+					</div>
+				</div>
 			</div>
 			<!-- /container -->
 		</div>

@@ -40,6 +40,8 @@ public class AdminHomeController {
 			break;
 		case facilimng:
 			break;
+		case setting:
+			break;	
 		default:
 			break;
 		}

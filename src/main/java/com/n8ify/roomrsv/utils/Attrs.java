@@ -3,7 +3,7 @@ package com.n8ify.roomrsv.utils;
 public class Attrs {
 
 	public static enum getAdminDestinationAttr {
-		dashboard, report, roommng, facilimng
+		dashboard, report, roommng, facilimng, setting
 	}
 	
 	public static enum getOptionAttr {

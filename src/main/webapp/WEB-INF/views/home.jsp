@@ -209,11 +209,8 @@
 									<div class="form-group last">
 										<input type="submit" class="btn btn-warning btn-block btn-lg"
 											value="SIGN IN" />
-									</div>
-									<p class="privacy text-center">
-										We will not share your email. Read our <a href="privacy.html">privacy
-											policy</a>.
-									</p>
+									</div><br/>
+									<p class="privacy text-center"></p>
 								</form>
 							</div>
 						</c:if>
@@ -551,20 +548,20 @@
 								<div class="form-group">
 									<input type="text" name="title" id="input-inform-title"
 										class="form-control wow fadeInUp" placeholder="Title"
-										required="required" />
+										required="required" maxlength="100" />
 								</div>
 								
 								<div class="form-group">
 									<textarea name="message" rows="20" cols="20" id="input-inform-message"
 										class="form-control input-message wow fadeInUp"
-										placeholder="Message" required="required"></textarea>
+										placeholder="Message" required="required" maxlength="500"></textarea>
 								</div>
 								<div class="form-group">
 									<input type="submit" name="submit" value="Submit"
 										class="btn btn-success wow fadeInUp" />
 								</div>
 							</form>
-							
+							<!-- viJhk\rI -->
 						</div>
 					</div>
 				</div>
@@ -577,7 +574,7 @@
 		<div class="container">
 			<div class="col-sm-4 col-sm-offset-4">
 				<!-- /.social links -->
-				<div class="social text-center">
+				<!-- <div class="social text-center">
 					<ul>
 						<li><a class="wow fadeInUp" href="https://twitter.com/"><i
 								class="fa fa-twitter"></i></a></li>
@@ -588,7 +585,7 @@
 						<li><a class="wow fadeInUp" href="https://instagram.com/"
 							data-wow-delay="0.6s"><i class="fa fa-instagram"></i></a></li>
 					</ul>
-				</div>
+				</div> -->
 				<div class="text-center wow fadeInUp" style="font-size: 14px;">
 					Copyright Backyard 2015 - Template by <a
 						href="http://bootstrapthemes.co/" target="_blank">BootstrapThemes</a>
