@@ -17,4 +17,7 @@ public class Attrs {
 	public static String ADMIN_SIGNIN = "adm/admlogin";
 	public static String ADMIN_HOME = "adm/admhome";
 	public static String HOME = "redirect:/";
+	
+	public static String ROLE_ADMIN = "a";
+	public static String ROLE_NO = null;
 }

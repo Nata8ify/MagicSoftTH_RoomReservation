@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.n8ify.roomrsv.dealer.Utilities;
 import com.n8ify.roomrsv.model.RoomInform;
 import com.n8ify.roomrsv.model.Staff;
+import com.n8ify.roomrsv.utils.Attrs;
 
 @RestController
 public class UtilsRESTController {
@@ -49,5 +50,14 @@ public class UtilsRESTController {
 	@RequestMapping(value = {"/adm/utils/delete/all"}, method = RequestMethod.POST)
 	public boolean deleteAll(){
 		return utils.truncateInforms();
+	}
+	
+	/* Setting REST Section */	
+	
+	@RequestMapping(value = {"/adm/utils/setting/role"}, method = RequestMethod.POST)
+	public boolean assignSystemRole(@RequestParam(value = "staffId", required = true)String staffId, @RequestParam(value = "option", required = true)String option){
+		if(option.equals("g")){return utils.updateAdministratorRole(staffId, Attrs.ROLE_ADMIN);}
+		if(option.equals("r")){return utils.updateAdministratorRole(staffId, Attrs.ROLE_NO);}
+		return false;
 	}
 }

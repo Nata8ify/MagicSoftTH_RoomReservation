@@ -89,4 +89,10 @@ public class Utilities {
 		
 	}
 	
+	/* Setting REST Section */
+	public boolean updateAdministratorRole(String staffId, String permissionType){
+		String sqlGrantPermission = "UPDATE `StaffAccess` SET `rmreservRole`= ? WHERE `staffId` = ?;";
+		return jdbc.update(sqlGrantPermission, new Object[]{permissionType, staffId}) == 1;
+	}
+	
 }
