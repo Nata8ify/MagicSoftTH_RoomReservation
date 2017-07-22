@@ -12,8 +12,8 @@ import com.n8ify.roomrsv.excp.UnauthorizedAccessException;
 public class ApplicationAdviceController {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ApplicationAdviceController.class);
 	
-	@ExceptionHandler({UnauthorizedAccessException.class})
-	public ModelAndView caugthException(UnauthorizedAccessException uaexp){
+	@ExceptionHandler({UnauthorizedAccessException.class, NullPointerException.class})
+	public ModelAndView caugthException(UnauthorizedAccessException uaexp, NullPointerException nexp){
 		return new ModelAndView("result/error_unauthorize");
 	}
 }

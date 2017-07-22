@@ -38,7 +38,7 @@
 						</tr>
 						<tr>
 							<th>Option :</th>
-							<td><button id="btn-report-usage-print" class="btn"> Print</button> &nbsp;<b>or</b> &nbsp;<button disabled="disabled" id="btn-report-usage-save" class="btn">Save Report</button></td>
+							<td><button class="btn-report-usage-print" class="btn"> Print</button> &nbsp;<b>or</b> &nbsp;<a href="#tab-report-body" data-toggle="tab" data-dismiss="modal"><button id="btn-report-usage-full" class="btn" >Full Usage Report</button></a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -55,15 +55,17 @@
 		viewAdvanceReservationDetail(selectedRomDetail);
 	});
 	/* #btn-report-usage-print : Listening User Printing Option */
-	$("#btn-report-usage-print").click(function(){
+	$(".btn-report-usage-print").click(function(){
 		console.log(selectedRomDetail);
 		renderReportPrintForm(selectedRomDetail, null);
 		printJS({printable :'print-usage-report', type : 'html', maxWidth : '800'});
 	});
 	/* #btn-report-usage-save : Listening User Report Saving Option */
-	$("#btn-report-usage-save").click(function(){
+	$("#btn-report-usage-full").click(function(){
+		$("#li-report-usages").removeClass("active");
+		$('#li-report-body').addClass("active");
+		$('#li-report-body').prop('hidden', false);
 		renderReportPrintForm(selectedRomDetail, null);
-		printJS({printable :'print-usage-report', type : 'pdf', maxWidth : '800'});
 	});
 </script>
 <script>

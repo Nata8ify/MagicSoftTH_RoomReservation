@@ -19,12 +19,12 @@
               <div class="widget-content">
                  <!--TODO Content-->
                  <ul class="nav nav-tabs">
-                 	<li class="active"><a href="#tab-report-prop" data-toggle="tab">Properties</a></li>
-                 	<li><a href="#tab-report-attr" data-toggle="tab">Report Attributes</a></li>
+                 	<li class="active" id="li-report-usages"><a href="#tab-report-usages" data-toggle="tab">Usage's Overview</a></li>
+                 	<li hidden="" id="li-report-body"><a href="#tab-report-body" data-toggle="tab"  > > Report Body</a></li>
                  </ul>
                  <div class="tab-content">
                  	<!-- Report Properties -->
-                 	<div class="tab-pane fade in active" id="tab-report-prop">
+                 	<div class="tab-pane fade in active" id="tab-report-usages">
                  		<table id="table-room-usages">
                  			<thead>
                  				<tr>
@@ -37,90 +37,6 @@
                  			<tbody>
                  			</tbody>
                  		</table>
-                 		<script type="text/javascript">
-                 			var roomUsagesTable;
-                 		</script>
-                 		<!-- <table>
-                 			<tbody>
-                 				<tr>
-                 					<td>
-                 					<div class="form-group">
-                 						<label>Date</label>
-	                 					<select class="form-control" id="select-report-date">
-	                 						<option disabled selected>Select a Date Option</option>
-	                 						<option value="date">Date Specify</option>
-	                 						<option value="date-period">On Date Period Specify</option>
-	                 						<option value="date-all">Since from Beginning</option>
-	                 					</select>
-                 					</div>
-                 					</td>
-                 					<td>
-	                 					<div class="form-group hide-first"  id="div-report-section-date">	
-	                 						<label>Specify a Date</label>
-	                 						<input type="date" id="input-report-specify-date" class="form-control"/>
-	                 					</div>
-                 					</td>
-                 					<td>
-	                 					<div class="form-group hide-first"  id="div-report-section-date-until">	
-	                 						<label>Until Date...</label>
-	                 						<input type="date" id="input-report-specify-date-until" class="form-control"/>
-	                 					</div>
-	                 				</td>
-	                 				<script type="text/javascript">
-	                 					var $selectReportDate = $("#select-report-date");
-	                 					var $divReportSectionDate = $("#div-report-section-date");
-	                 					var $divReportSectionDateUntil = $("#div-report-section-date-until");
-	                 					var $inputReportSpecifyDate = $("#input-report-specify-date");
-	                 					var $inputReportSpecifyDateUntil = $("#input-report-specify-date-until");
-	                 					/* #select-report-date : When this Selector has Changed the Value then Check the Option and Render an Appropiated Input. */
-	                 					$selectReportDate.change(function(){
-	                 						switch($(this).val()){
-             								case "date" : $divReportSectionDate.show();$divReportSectionDateUntil.hide();$inputReportSpecifyDateUntil.val("");break;
-             								case "date-period" :$divReportSectionDate.show();$divReportSectionDateUntil.show();break;
-             								case "date-all" :$divReportSectionDate.hide();$divReportSectionDateUntil.hide(); getFilteredReservationByDate(reservations, null, null); break;
-             								}
-	                 					});
-	                 				</script>	
-                 				</tr>
-                 				<tr>
-                 					<td>
-                 					<div class="form-group">
-                 						<label>Time</label>
-	                 					<select class="form-control" id="select-report-time">
-	                 						<option value="time-no">No Time Specify</option>
-	                 						<option value="time-period">On Time Period Specify</option>
-	                 					</select>
-                 					</div>
-                 					</td>
-                 					<td>
-	                 					<div class="form-group hide-first"  id="div-report-section-time">
-	                 						<label>Specify a Time</label>
-	                 						<input type="time" id="input-report-specify-time" class="form-control"/>
-	                 					</div>
-                 					</td>
-                 					<td>
-	                 					<div class="form-group hide-first"  id="div-report-section-time-until">
-	                 						<label>Until Time...</label>
-	                 						<input type="time" id="input-report-specify-time-until" class="form-control"/>
-	                 					</div>
-                 					</td>
-                 					<script type="text/javascript">
-	                 					var $selectReportTime = $("#select-report-time");
-	                 					var $divReportSectionTime = $("#div-report-section-time");
-	                 					var $divReportSectionTimeUntil = $("#div-report-section-time-until");
-	                 					var $inputReportSpecifTime = $("#input-report-specify-time");
-	                 					var $inputReportSpecifyTimeUntil = $("#input-report-specify-time-until");
-	                 					$selectReportTime.change(function(){
-                 							switch($(this).val()){
-                 								case "time-no" : $divReportSectionTime.hide();$divReportSectionTimeUntil.hide();break;
-                 								case "time-period" : $divReportSectionTime.show();$divReportSectionTimeUntil.show();break;
-                 							}
-                 						});
-                 					</script>
-                 				</tr>
-                 			</tbody>
-                 		</table> -->
-                 		<br/>
                  	</div>
                  	<!-- /Report Properties -->
                  	<!-- Report Attribute -->
@@ -201,6 +117,11 @@
 						  		</table>
 						  </div>
                  	<!-- /Report Attribute -->
+					<div class="row">
+						<div class="span 2">
+							<button class="btn-report-usage-print" class="btn"> Print</button>
+						</div>	  	
+					</div>
                  </div>
               </div>
               <!-- /widget-content -->
@@ -214,7 +135,7 @@
     </div>
     <!-- /main-inner -->
   </div>
-  
+  </div>
   <!-- /main -->
   <!-- /report-page -->
   <!-- /report-page -->
@@ -278,7 +199,7 @@
   			
   		} */
   		$("[id^=span-print]").html("-");
-  		$("#span-print-room-usage-date").html(moment(roomUsage.reservedDate).format("dddd, MM Do YYYY"));
+  		$("#span-print-room-usage-date").html(moment(roomUsage.reservedDate).format("dddd, Do MMMM YYYY"));
   		$("#span-print-room-usage-period").html(roomUsage.accessBegin.substring(0,5).concat(" - ").concat(roomUsage.accessUntil.substring(0,5)));
   		$("#span-print-room-usage-purpose").html(roomUsage.purpose);
   		$("#span-print-room-usage-note").html(roomUsage.note==""?"-":roomUsage.note);
