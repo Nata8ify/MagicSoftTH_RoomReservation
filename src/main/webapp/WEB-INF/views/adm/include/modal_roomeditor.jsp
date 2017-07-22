@@ -13,7 +13,7 @@
 							<tr>
 								<td>Room's Code :</td>
 								<td><input type="text" class="form-control"
-									id="input-edit-room-code" name="roomCode" /></td>
+									id="input-edit-room-code" name="roomCode" placeholder="Empty" /></td>
 							</tr>
 							<tr>
 								<td>Room's Name :</td>
@@ -32,7 +32,7 @@
 							</tr>
 							<tr>
 								<td>Description :</td>
-								<td><textarea class="form-control"
+								<td><textarea class="form-control" placeholder="Empty"
 										id="input-edit-room-desc" name="description"></textarea></td>
 							</tr>
 							<tr>

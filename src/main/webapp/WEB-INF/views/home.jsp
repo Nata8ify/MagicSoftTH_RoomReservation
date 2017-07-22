@@ -529,13 +529,11 @@
 								<span class="highlight">Get</span> in touch
 							</h2>
 							<ul class="ul-address">
-								<li><i class="pe-7s-map-marker"></i>1600 Amphitheatre
-									Parkway, Mountain View<br /> California 55000</li>
-								<li><i class="pe-7s-phone"></i>+1 (123) 456-7890<br /> +2
-									(123) 456-7890</li>
+								<li><i class="pe-7s-map-marker"></i>Reservation Operating Location</li>
+								<li><i class="pe-7s-phone"></i>Operating Officer Tel.</li>
 								<li><i class="pe-7s-mail"></i><a
-									href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-								<li><i class="pe-7s-look"></i><a href="#">www.yoursite.com</a></li>
+									href="mailto:info@yoursite.com">operatinOfficer@mail.com</a></li>
+								
 							</ul>
 						</div>
 

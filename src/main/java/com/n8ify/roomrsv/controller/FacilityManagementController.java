@@ -26,7 +26,7 @@ public class FacilityManagementController {
 	private FacilityManagement faciliMng;
 	
 	@RequestMapping(value = "/adm/addfacili", method = RequestMethod.POST)
-	public String roomMngAddFacility(Model model, HttpServletRequest request, RoomFacilitiy roomFacilitiy) {
+	public String roomMngAddFacility$(HttpServletRequest request, Model model, RoomFacilitiy roomFacilitiy) {
 		if(faciliMng.addFacility(roomFacilitiy)){
 			model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.facilimng.toString());
 			return Attrs.ADMIN_HOME;
@@ -35,7 +35,7 @@ public class FacilityManagementController {
 	}
 	
 	@RequestMapping(value = "/adm/updatefacili", method = RequestMethod.POST)
-	public String roomMngUpdateFacility(Model model, HttpServletRequest request, RoomFacilitiy roomFacilitiy) {
+	public String roomMngUpdateFacility$(HttpServletRequest request, Model model,  RoomFacilitiy roomFacilitiy) {
 		logger.info(roomFacilitiy.toString());
 		if(faciliMng.updateFacility(roomFacilitiy)){
 			model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.facilimng.toString());
@@ -45,7 +45,7 @@ public class FacilityManagementController {
 	}
 	
 	@RequestMapping(value = "/adm/updatefaciliQuan", method = RequestMethod.POST)
-	public String roomMngUpdateQuantityFacility(Model model, HttpServletRequest request,
+	public String roomMngUpdateQuantityFacility$(HttpServletRequest request, Model model, 
 			@RequestParam(value="facilitiyId")int facilitiyId,
 			@RequestParam(value="quantity")int quantity) {
 		if(faciliMng.updateFacilityQuantity(facilitiyId, quantity)){
@@ -56,7 +56,7 @@ public class FacilityManagementController {
 	}
 	
 	@RequestMapping(value = "/adm/deletefacili", method = RequestMethod.POST)
-	public String roomMngDeleteFacility(Model model, HttpServletRequest request, 
+	public String roomMngDeleteFacility$(HttpServletRequest request,  Model model, 
 			@RequestParam(value="facilityId")int facilitiyId) {
 		if(faciliMng.deleteFacility(facilitiyId)){
 			model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.facilimng.toString());
@@ -64,8 +64,8 @@ public class FacilityManagementController {
 		}
 		return "";
 	}
-	
+	/*
 	private void setIncludeFacilityMng(Model model){
 		model.addAttribute(Attrs.getOptionAttr.include.toString(), Attrs.getAdminDestinationAttr.facilimng.toString());
-	}
+	}*/
 }

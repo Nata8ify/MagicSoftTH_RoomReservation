@@ -29,7 +29,7 @@ public class RoomManagementController {
 	private RoomManagement roomMng;
 
 	@RequestMapping(value = "/adm/addroom", method = RequestMethod.POST)
-	public String roomMngAddRoom(Model model, HttpServletRequest request, Room room) {
+	public String roomMngAddRoom$(HttpServletRequest request, Model model, Room room) {
 		logger.info(room.toString());
 		if (roomMng.addRoom(room)) {
 			model.addAttribute(Attrs.getOptionAttr.include.toString(),
@@ -40,7 +40,7 @@ public class RoomManagementController {
 	}
 
 	@RequestMapping(value = "/adm/updateroom", method = RequestMethod.POST)
-	public String roomMngUpdateRoom(Model model, HttpServletRequest request, Room room) {
+	public String roomMngUpdateRoom$(HttpServletRequest request,Model model, Room room) {
 		logger.info(room.toString() + "");
 		if (roomMng.updateRoom(room)) {
 			model.addAttribute(Attrs.getOptionAttr.include.toString(),
@@ -51,7 +51,7 @@ public class RoomManagementController {
 	}
 
 	@RequestMapping(value = "/adm/deleteroom", method = RequestMethod.POST)
-	public String roomMngDeleteRoom(Model model, HttpServletRequest request,
+	public String roomMngDeleteRoom$(HttpServletRequest request, Model model,
 			@RequestParam(value = "roomId", required = true) int roomId) throws PrimaryIdNotFoundException {
 		if (roomMng.deleteRoom(roomId)) {
 			model.addAttribute(Attrs.getOptionAttr.include.toString(),
