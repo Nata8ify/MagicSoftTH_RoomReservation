@@ -90,7 +90,7 @@ public class RoomrsvAccess implements RoomsrvAccessInterface {
 
 		@Override
 		public StaffAccess mapRow(ResultSet rs, int arg1) throws SQLException {
-			return new StaffAccess(rs.getString("staffId"), rs.getString("password"), rs.getString("stffpsRole"));
+			return new StaffAccess(rs.getString("staffId"), rs.getString("password"), rs.getString("rmreservRole"));
 		}
 	}
 

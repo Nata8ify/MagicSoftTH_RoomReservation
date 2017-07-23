@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.n8ify.roomrsv.excp.UnauthorizedAccessException;
 import com.n8ify.roomrsv.model.Staff;
+import com.n8ify.roomrsv.model.StaffAccess;
+import com.n8ify.roomrsv.utils.Attrs;
 
 @Aspect 
 public class AccessControl {
@@ -24,12 +26,14 @@ public class AccessControl {
 	
 	@Before("adminAccessPoint(request)")
 	public void isAdministratorAccessForPanel(HttpServletRequest request) throws UnauthorizedAccessException{
-		Staff thisStaff = (Staff)(request.getSession(false).getAttribute("thisStaff"));
-		if(thisStaff == null){
-			throw new UnauthorizedAccessException();
-		} else {
-			logger.info("request : "+thisStaff.getEmail());
+		
+		if(request.getSession(false) != null){
+			StaffAccess thisStaffAccess = (StaffAccess)(request.getSession(false).getAttribute("thisAccess"));
+			if(thisStaffAccess.getRoomrsvRole().equals(Attrs.ROLE_ADMIN)){
+				return;
+			}
 		}
+			throw new UnauthorizedAccessException();
 	}
 	
 	

@@ -179,7 +179,7 @@
 
 						<!-- /.header button -->
 						<div class="head-btn wow fadeInLeft">
-							<a href="#schedule" class="btn-primary">Schedules</a>
+							<a href="#schedule" class="btn-primary">Scheduler</a>
 							<c:if test="${thisStaff != null}">
 								<a href="#available" class="btn-default">My Reservation</a>
 							</c:if>
@@ -256,8 +256,8 @@
 	<!-- /.schedule section -->
 	<div id="schedule" ng-app="reservationScheduler" ng-controller="contRs">
 		<div class="container">
-			<h2 class="wow fadeInLeft">Room Schedules</h2>
-			<p>Check for a Reservation's Queue.</p>
+			<h2 class="wow fadeInLeft">Reservation Scheduler</h2>
+			<p>Check for a Reservation's Queues.</p>
 			<div class="row">
 			<c:if test="${thisStaff != null}">
 					<div class="col-sm-3">
