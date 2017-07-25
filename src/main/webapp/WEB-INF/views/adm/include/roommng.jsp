@@ -11,16 +11,22 @@
 						<!-- /widget-header -->
 						<div class="widget-content">
 							<!-- <button class="btn btn-default" id="btn-add-room">Add</button> -->
-							<form method='post' action="addroom" accept-charset="UTF-8">
+							<fieldset>
+								<legend>Register a Room for Reservation</legend>
+								<form method='post' action="addroom" accept-charset="UTF-8">
 								<input name="roomCode" type="text" placeholder="Room Code (Optional)" /> 
 								<input name="roomName" type="text" placeholder="Room Name" required /> 
-								<input name="description" type="text" placeholder="Description" /> 
 								<input name="floor" type="number" placeholder="Floor" required /> 
 								<input name="building" type="text" placeholder="Building" required />
-								Available? : <input type="checkbox" name="isAvailable" /> <br />
-								<input type="submit" />
+								<input name="description" type="text" placeholder="Description (Optional)" /> 
+								Available <a href="javascript:alert('If this you want to make this room available for reserve then this option should be checked.');">[?]</a> : <input type="checkbox" name="isAvailable" /> <br/><br />
+								<input type="submit" value="Register" />
 							</form>
+							</fieldset>
+							
 							<hr />
+							<fieldset>
+								<legend>Room Explorer</legend>
 							<div>
 								<table id="table-room"
 									class="table table-responsive table-stripted">
@@ -36,7 +42,7 @@
 									<tbody></tbody>
 								</table>
 							</div>
-							<jsp:include page="modal_room_insert.jsp"></jsp:include>
+							</fieldset>
 							<jsp:include page="modal_roomeditor.jsp" flush="true"></jsp:include>
 						</div>
 						<!-- /widget-content -->

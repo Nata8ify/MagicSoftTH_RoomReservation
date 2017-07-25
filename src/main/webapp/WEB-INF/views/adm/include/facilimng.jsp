@@ -12,19 +12,23 @@
 						</div>
 						<!-- /widget-header -->
 						<div class="widget-content">
+						<fieldset>
+								<legend>Register a Facility for Room's Reservation</legend>
 							<form method='post' action="addfacili">
-								<input type="text" name="facility" placeholder="Facility"
-									maxlength="30" required /> <input type="text" name="description"
-									placeholder="Description" maxlength="100"  /><input 
-									type="number" name="quantity" placeholder="Quantity" value="0"
-									maxlength="5" /> Is a Device : <input type="checkbox"
-									name="isDevice" /> <input type="submit" />
+								<input type="text" name="facility" placeholder="Facility" maxlength="30" required /> 
+								<input type="text" name="description" placeholder="Description" maxlength="100"  />
+								<input type="number" name="quantity" placeholder="Quantity" maxlength="5" />
+								<br/>Is a Device <a href="javascript:alert('If this Facility can be reusable like a Projector, Digital Pen, Multiple plug socket and so on, then this option is eligible.');">[?]</a> : <input type="checkbox" name="isDevice" />
+								<br/><br/><input type="submit" value="Register" />
 							</form>
-						</div>
+						</fieldset>
+						
 						<hr />
+						<fieldset>
+								<legend>Facility Explorer</legend>
 							<div>
 								<table id="table-facility"
-									class="table table-responsive table-stripted">
+									class="">
 									<thead>
 										<tr>
 											<th>Facility</th>
@@ -36,6 +40,8 @@
 									<tbody></tbody>
 								</table>
 							</div>
+						</fieldset>	
+						</div>
 						<!-- /widget-content -->
 					</div>
 					<!-- /widget -->

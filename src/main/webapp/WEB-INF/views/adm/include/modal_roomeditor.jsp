@@ -1,4 +1,4 @@
-<div class="modal fade" id='modal-room-editor' hidden>
+<div class="modal fade" id='modal-room-editor' hidden data-backdrop="static">
 	<div class="modal-dialog">
 		<form method="post" action="updateroom">
 			<div class="modal-content">
@@ -41,8 +41,8 @@
 									id="input-edit-room-available" name="isAvailable" /></td>
 							</tr>
 							<tr>
-								<td>Danger Zone :</td>
-								<td><input type="button" value="Delete"
+								<td>Option <a href="javascript:alert('Option \n\nUnregister : Remove the Selected Room from the System. Hence, a User will no longer see and reserve this room');">[?]</a> :</td>
+								<td><input type="button" value="Unregister"
 									class="btn btn-danger" id="btn-edit-room-delete" /></td>
 							</tr>
 						</tbody>
@@ -62,7 +62,7 @@
 	$("#btn-edit-room-delete")
 			.click(
 					function() {
-						if (confirm("This Room will be permantly deleted, Select \"YES\" to continue this action.")) {
+						if (confirm("This Room will be permantly deleted, Select \"YES\" to continue this action  \n\nATTENTION! : If there are any room's usage or current reservation on the database, then the room will not be unregistered. So you have to empty these data before unregister the room'.")) {
 							$.post({
 								"url" : "deleteroom",
 								"data" : {

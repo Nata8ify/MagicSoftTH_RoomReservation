@@ -1,4 +1,4 @@
-<div class="modal fade" id='modal-facility-editor' >
+<div class="modal fade" id='modal-facility-editor' data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -31,20 +31,16 @@
 									id="input-edit-facility-device" name="isDevice" /></td>
 							</tr>
 							<tr>
-								<td>Danger Zone :</td>
-								<td><input type="button" value="Delete"
+								<td>Option <a href="javascript:alert('Option \n\nUnregister : Remove the Selected Facility from the System. Hence, a User will no longer see and reserve this facility.');">[?]</a> :</td>
+								<td><input type="button" value="Unregister"
 									class="btn btn-danger" id="btn-edit-facility-delete" /></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td align="right"><input type="submit"
-									class="btn btn-success" id="btn-edit-facility-submit" /></td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
 			</div>
 			<div class="modal-footer">
+				<input type="submit" class="btn btn-success" id="btn-edit-facility-submit" />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -52,7 +48,7 @@
 </div>
 <script type="text/javascript">
 $("#btn-edit-facility-delete").click(function(){
-	if(confirm("This Facility will be permantly deleted, Select \"YES\" to continue this action.")){
+	if(confirm("This Facility will be permantly deleted, Select \"YES\" to continue this action. \n\nATTENTION! : If there are any facility's usage on room's usage or current reservation's usage on the database, then the facility will not be unregistered. So you have to empty room's usage data which involed on this facility before unregister it'.")){
 		$.post({"url" : "deletefacili",
 				"data" : {facilityId : $("#input-edit-facility-id").val()},
 				"success" : function(response){
