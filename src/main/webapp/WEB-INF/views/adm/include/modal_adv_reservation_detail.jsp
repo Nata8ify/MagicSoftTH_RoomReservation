@@ -123,7 +123,7 @@
 							}
 					
 					
-				}, 1000);
+				}, 2000);
 				$("#modal-adv-reserve-detail").modal();
 	}
 </script>

@@ -40,9 +40,9 @@ public class AccessControl {
 	}
 	
 	
-	@AfterThrowing(pointcut = "adminAccessPoint(request)", throwing = "exp")
+/*	@AfterThrowing(pointcut = "adminAccessPoint(request)", throwing = "exp")
 	public void aException(HttpServletRequest request, Exception exp){
 		logger.info("ECEPTION : "+exp.toString());
-	}
+	}*/
 	
 }

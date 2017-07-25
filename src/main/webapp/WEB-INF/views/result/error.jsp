@@ -7,7 +7,8 @@
 <title>Oops!</title>
 </head>
 <body>
-There is an Error! Please Check you mistake! :D
+There is an Unexpected Error!
+<p>Please contact to Developer if you have faced <u>this error page.</u></p>
 <p>${title}</p>
 </body>
 </html>
