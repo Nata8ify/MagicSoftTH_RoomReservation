@@ -48,7 +48,7 @@
 </div>
 <script type="text/javascript">
 $("#btn-edit-facility-delete").click(function(){
-	if(confirm("This Facility will be permantly deleted, Select \"YES\" to continue this action. \n\nATTENTION! : If there are any facility's usage on room's usage or current reservation's usage on the database, then the facility will not be unregistered. So you have to empty room's usage data which involed on this facility before unregister it'.")){
+	if(confirm("This Facility will be permantly deleted, Select \"YES\" to continue this action. \n\nATTENTION! : If there are any facility's usage on a room's usage or current reservation's usage on the database, then the facility will not be unregistered. So you have to empty room's usage data which involed on this facility before unregister it'.")){
 		$.post({"url" : "deletefacili",
 				"data" : {facilityId : $("#input-edit-facility-id").val()},
 				"success" : function(response){

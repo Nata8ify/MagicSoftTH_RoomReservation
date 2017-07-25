@@ -94,6 +94,15 @@
 
 		/* Angular */
 
+		/* #input-reserve-date : If Date was Selected, then check if it not be a passed day.  */
+		$("#input-reserve-date").change(function(){
+			$("#btn-reservation-submit").prop("disabled", false);
+			if(!moment($(this).val()).isSameOrAfter(moment().format("YYYY-MM-DD"))){
+				alert("The Reservation Date Shouldn't be a Previous Times");
+				$("#btn-reservation-submit").prop("disabled", true);
+			}
+		});
+		
 		/* #input-reserve-end, #input-reserve-start : For Converting Input Date's format and Push Spring Acceptable time's format (Not return 400 After form is Submited) */
 		$("#input-reserve-end, #input-reserve-start").change(function() {
 			$(this).val($(this).val() + ":00");

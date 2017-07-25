@@ -320,9 +320,9 @@
 					<div class="form-group" id="div-form-group-search-period" style="display: none;">
 						<label class='form-label'>Period: </label>
 							<div class="row">
-								<div class="col-sm-5"><input class='form-control' id='schedule-search-period-start' type="time" /></div>
+								<div class="col-sm-5"><input class='form-control' id='schedule-search-period-start' type="time" min="08:00" max="17:00" step="1800" /></div>
 								<div class="col-sm-2">To</div>
-								<div class="col-sm-5"><input class='form-control' id='schedule-search-period-end' type="time" /></div>
+								<div class="col-sm-5"><input class='form-control' id='schedule-search-period-end' type="time" min="08:00" max="17:00" step="1800" /></div>
 						</div>
 					</div>
 					<input type="date" id="schedule-search-date-room"
