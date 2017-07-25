@@ -5,18 +5,22 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.n8ify.roomrsv.controller.RoomrsvAccessController;
 import com.n8ify.roomrsv.intf.RoomsrvAccessInterface;
 import com.n8ify.roomrsv.model.Staff;
 import com.n8ify.roomrsv.model.StaffAccess;
+import com.n8ify.roomrsv.utils.Generator;
 
 public class RoomrsvAccess implements RoomsrvAccessInterface {
 
 	private JdbcTemplate jdbc;
-
+	private static final Logger logger = LoggerFactory.getLogger(RoomrsvAccess.class);
 	public RoomrsvAccess(DataSource dataSource) {
 		this.jdbc = new JdbcTemplate(dataSource);
 	}
@@ -25,15 +29,13 @@ public class RoomrsvAccess implements RoomsrvAccessInterface {
 	public Staff login(String staffId, String password) {
 		try {
 			String sqlQueryStaff = "SELECT * FROM `Staff` WHERE staffId = ?;";
-			String sqlQueryAccess = "SELECT `rmreservRole` FROM `StaffAccess` WHERE `staffId` = ?;";
-
-			StaffAccess.setAccessInstance(new StaffAccess(staffId, password,
-					jdbc.queryForObject(sqlQueryAccess, new Object[] { staffId }, String.class)));
-			if (StaffAccess.getAccessInstance() == null) {
-				return null;
-			}
-			return jdbc.queryForObject(sqlQueryStaff, new Object[] { staffId }, new StaffMapper());
-		} catch (EmptyResultDataAccessException erex) {
+			String sqlQueryAccess = "SELECT `staffId`, `password`, `rmreservRole` FROM `StaffAccess` WHERE `staffId` = ? AND `password` = ?;";
+			StaffAccess.setAccessInstance(jdbc.queryForObject(sqlQueryAccess, new Object[] { staffId,  Generator.getInstance().genMd5(password) }, new StaffAccessMapper()));
+			if(StaffAccess.getAccessInstance() != null){
+				return jdbc.queryForObject(sqlQueryStaff, new Object[] { staffId }, new StaffMapper());
+			} 
+			return null;
+			} catch (EmptyResultDataAccessException erex) {
 			return null; // <-- Please Change Handle Thing.
 		}
 	}
@@ -53,7 +55,7 @@ public class RoomrsvAccess implements RoomsrvAccessInterface {
 				return true;
 			}
 		} catch (EmptyResultDataAccessException erex) {
-			 // <-- Please Change Handle Thing.
+			// <-- Please Change Handle Thing.
 		}
 		return false;
 	}

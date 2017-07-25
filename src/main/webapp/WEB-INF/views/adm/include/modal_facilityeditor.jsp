@@ -1,4 +1,4 @@
-<div class="modal fade" id='modal-facility-editor'>
+<div class="modal fade" id='modal-facility-editor' >
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -13,12 +13,12 @@
 							<tr>
 								<td>Facility's Name:</td>
 								<td><input type="text" class="form-control"
-									id="input-edit-facility-name" name="facility" /></td>
+									id="input-edit-facility-name" name="facility" required /></td>
 							</tr>
 							<tr>
 								<td>Quantity :</td>
 								<td><input type="number" class="form-control"
-									id="input-edit-facility-quantity" name="quantity" /></td>
+									id="input-edit-facility-quantity" name="quantity" required /></td>
 							</tr>
 							<tr>
 								<td>Description :</td>

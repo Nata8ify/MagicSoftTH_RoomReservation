@@ -46,7 +46,10 @@
 										defaultContent : "<button class='btn btn-default btn-adv-reservation-detail'>View</button>"
 									}],
 									"searching": false,
-									"bLengthChange": false
+									"bLengthChange": false, 
+			 						"language": {
+			 						      "emptyTable": "There are no reservation on this day"
+			 					    }
 								});$("#b-today").html(" ("+new moment().format("LL")+")");}
 							</script>
 						</div>
@@ -88,7 +91,10 @@
 										defaultContent : "<button class='btn btn-default btn-adv-reservation-detail'>View</button>"
 									}],
 									"searching": false,
-									"bLengthChange": false
+									"bLengthChange": false, 
+			 						"language": {
+			 						      "emptyTable": "There are no reservation in upconing days"
+			 					    }
 								});}
 							</script>
 						</div>

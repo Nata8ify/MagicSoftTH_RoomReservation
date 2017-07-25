@@ -30,7 +30,7 @@ public class RoomManagement implements RoomManagementInterface {
 	@Override
 	public boolean addRoom(Room room) {
 		String sqlAddRoom = "INSERT INTO `Room` (`roomName`, `roomCode`, `description`, `floor`, `building`, `isAvailable`) VALUES (?, ?, ?, ?, ?, ?);";
-		return jdbc.update(sqlAddRoom, new Object[] { room.getRoomName(), room.getRoomCode(), room.getDescription(),
+		return jdbc.update(sqlAddRoom, new Object[] { room.getRoomName(), room.getRoomCode().isEmpty()?null:room.getRoomCode(), room.getDescription(),
 				room.getFloor(), room.getBuilding(), room.getIsAvailable() }) == 1;
 
 	}
@@ -38,7 +38,7 @@ public class RoomManagement implements RoomManagementInterface {
 	@Override
 	public boolean updateRoom(Room room) {
 		String sqlUpdateRoom = "UPDATE `Room` SET `roomName`= ?,`roomCode`= ?,`description`= ?,`floor`= ?,`building`= ?,`isAvailable`= ? WHERE `roomId`= ?;";
-		return jdbc.update(sqlUpdateRoom, new Object[] { room.getRoomName(), room.getRoomCode(), room.getDescription(),
+		return jdbc.update(sqlUpdateRoom, new Object[] { room.getRoomName(), room.getRoomCode().isEmpty()?null:room.getRoomCode(), room.getDescription(),
 				room.getFloor(), room.getBuilding(), room.getIsAvailable(), room.getRoomId() }) == 1;
 	}
 

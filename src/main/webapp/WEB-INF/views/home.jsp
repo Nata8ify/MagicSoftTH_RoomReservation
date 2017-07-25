@@ -209,8 +209,11 @@
 									<div class="form-group last">
 										<input type="submit" class="btn btn-warning btn-block btn-lg"
 											value="SIGN IN" />
-									</div><br/>
-									<p class="privacy text-center"></p>
+									</div>
+									<p  class="privacy text-center" style="color:red"><b hidden id="b-invalid-login-msg">${loginMsg}</b></p>
+									<script type="text/javascript">setTimeout(() => {
+										$("#b-invalid-login-msg").fadeIn();
+									}, 1800);</script>
 								</form>
 							</div>
 						</c:if>
@@ -501,7 +504,10 @@
 	 							render : function(url, type, row, meta){
 									return (row.accessBegin.substring(0,5) + " - " + row.accessUntil.substring(0,5)); 
 								}
-	 						}]
+	 						}], 
+	 						"language": {
+	 						      "emptyTable": "Reservation is Empty"
+	 					    }
 	 					});
  					} else  {
  						mReserveTable.clear().draw();

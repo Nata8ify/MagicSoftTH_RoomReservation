@@ -39,14 +39,15 @@ public class RoomrsvAccessController {
 			@RequestParam(value = "staffId", required = true) String staffId,
 			@RequestParam(value = "password", required = true) String password) {
 		Staff.setStaffInstance(rsvAccess.login(staffId, password));
-		if (Staff.getStaffInstance() != null && StaffAccess.getAccessInstance() != null) {
+		if (Staff.getStaffInstance() != null) {
 			request.getSession(false).setMaxInactiveInterval(60 * 60 * 8);
 			request.getSession(false).setAttribute("thisStaff", Staff.getStaffInstance());
-			logger.info(Staff.getStaffInstance().toString());
 			request.getSession(false).setAttribute("thisAccess", StaffAccess.getAccessInstance());
-			logger.error("Staff.getStaffInstance() : " + Staff.getStaffInstance().toString());
+		} else {
+			model.addAttribute("loginMsg", "Incorrect Staff ID or Password");
+			return "home";
 		}
-		model.addAttribute("dump", Staff.getStaffInstance());
+		/*model.addAttribute("dump", Staff.getStaffInstance());*/
 		return Attrs.HOME;
 	}
 
@@ -58,6 +59,7 @@ public class RoomrsvAccessController {
 		//Session Purge
 		
 		if (!rsvAccess.isRoomReservationAdmin(staffId)) {
+			model.addAttribute("loginMsg", "Invalid Administrator's Staff ID");
 			return Attrs.ADMIN_SIGNIN;
 		}
 		Staff.setStaffInstance(rsvAccess.login(staffId, password));
@@ -66,6 +68,8 @@ public class RoomrsvAccessController {
 			request.getSession(false).setAttribute("thisAccess", StaffAccess.getAccessInstance());
 			logger.error("Staff.getStaffInstance() : " + Staff.getStaffInstance().toString());
 			return "redirect:/"+Attrs.ADMIN_HOME;
+		} else {
+			model.addAttribute("loginMsg", "Incorrect Administrator's Staff ID or Password");
 		}
 		model.addAttribute("dump", Staff.getStaffInstance());
 		return Attrs.ADMIN_SIGNIN;

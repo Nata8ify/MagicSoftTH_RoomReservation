@@ -29,6 +29,9 @@ public class AccessControl {
 		
 		if(request.getSession(false) != null){
 			StaffAccess thisStaffAccess = (StaffAccess)(request.getSession(false).getAttribute("thisAccess"));
+			if(thisStaffAccess == null){
+				throw new UnauthorizedAccessException();
+			}
 			if(thisStaffAccess.getRoomrsvRole().equals(Attrs.ROLE_ADMIN)){
 				return;
 			}

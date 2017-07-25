@@ -56,8 +56,8 @@
 		$("#sp-mreserve-detail-for").html(reservationDetail.purpose);
 		$("#sp-mreserve-detail-note").html(reservationDetail.note==""?"-":reservationDetail.note);
 		$("#sp-mreserve-detail-date").html(new moment(reservationDetail.reservedDate).format("dddd, MMMM Do YYYY"));
-		$("#sp-mreserve-detail-start").html(reservationDetail.accessBegin);
-		$("#sp-mreserve-detail-end").html(reservationDetail.accessUntil);
+		$("#sp-mreserve-detail-start").html(reservationDetail.accessBegin.substring(0,5));
+		$("#sp-mreserve-detail-end").html(reservationDetail.accessUntil.substring(0,5));
 		$("#sp-mreserve-detail-room").html("");
 		/*+ #a-mreserve-detail-room : Listening the Click "[?]" for view More Room's Detail.*/
 		$("#a-mreserve-detail-room").click(function(){

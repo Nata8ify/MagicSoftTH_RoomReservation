@@ -10,13 +10,13 @@
 						</div>
 						<!-- /widget-header -->
 						<div class="widget-content">
-
+							<!-- <button class="btn btn-default" id="btn-add-room">Add</button> -->
 							<form method='post' action="addroom" accept-charset="UTF-8">
-								<input name="roomCode" type="text" placeholder="Room Code (Optional)" /> <input
-									name="roomName" type="text" placeholder="Room Name" required /> <input
-									name="description" type="text" placeholder="Description" /> <input
-									name="floor" type="number" placeholder="Floor" required /> <input
-									name="building" type="text" placeholder="Building" required />
+								<input name="roomCode" type="text" placeholder="Room Code (Optional)" /> 
+								<input name="roomName" type="text" placeholder="Room Name" required /> 
+								<input name="description" type="text" placeholder="Description" /> 
+								<input name="floor" type="number" placeholder="Floor" required /> 
+								<input name="building" type="text" placeholder="Building" required />
 								Available? : <input type="checkbox" name="isAvailable" /> <br />
 								<input type="submit" />
 							</form>
@@ -36,6 +36,8 @@
 									<tbody></tbody>
 								</table>
 							</div>
+							<jsp:include page="modal_room_insert.jsp"></jsp:include>
+							<jsp:include page="modal_roomeditor.jsp" flush="true"></jsp:include>
 						</div>
 						<!-- /widget-content -->
 					</div>
@@ -48,7 +50,7 @@
 	</div>
 	<!-- /main-inner -->
 </div>
-<jsp:include page="modal_roomeditor.jsp"></jsp:include>
+
 <!-- /main -->
 <script>
 	var rooms;
@@ -83,10 +85,13 @@
 							"data" : "",
 							"searchable" : false,
 							"defaultContent" : "<button class='btnEditRoom btn btn-default'><i class='glyphicon glyphicon-pencil'></i>Edit</button>"
-						} ]
+						} ], 
+ 						"language": {
+						      "emptyTable": "Empty"
+					    }
 					});
-
 	$("table tbody").on("click", "tr .btnEditRoom", function(evt) {
+		$("#modal-room-editor").prop("hidden")?$("#modal-room-editor").prop("hidden", false):""; //Fix unclickable last two options's nav.
 		var rowData = roomDataTable.row($(this).parents("tr")).data();
 		console.log(rowData.roomId);
 		$("#input-edit-room-id").val(rowData.roomId);
@@ -101,5 +106,9 @@
 			$("#input-edit-room-available").prop("checked", false);
 		}
 		$("#modal-room-editor").modal();
+	});
+	$("#btn-add-room").click(function(){
+		$("#modal-room-insert").prop("hidden", false);
+		$("#modal-room-insert").modal("show");
 	});
 </script>

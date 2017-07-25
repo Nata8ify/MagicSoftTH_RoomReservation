@@ -80,7 +80,10 @@
 							"data" : "",
 							"searchable" : false,
 							"defaultContent" : "<button class='btnEditFacility btn btn-default'>Edit</button>"
-						} ]
+						} ], 
+ 						"language": {
+						      "emptyTable": "Empty"
+					    }
 					});
 
 	$("table tbody").on("click", "tr .btnEditFacility", function(evt) {
