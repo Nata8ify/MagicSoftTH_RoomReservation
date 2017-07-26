@@ -62,7 +62,7 @@
 	$("#btn-edit-room-delete")
 			.click(
 					function() {
-						if (confirm("This Room will be permantly deleted, Select \"YES\" to continue this action  \n\nATTENTION! : If there are any room's usage or current reservation on the database, then the room will not be unregistered. So you have to empty these data before unregister the room'.")) {
+						if (confirm("This Room will be permantly deleted, Select \"YES\" to continue this action  \n\nATTENTION! : This action will permantly remove all reservations (upcoming, current day and passed) which involed by this room from the database'.")) {
 							$.post({
 								"url" : "deleteroom",
 								"data" : {

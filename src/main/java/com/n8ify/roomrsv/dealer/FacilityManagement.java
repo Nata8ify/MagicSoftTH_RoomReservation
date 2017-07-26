@@ -45,7 +45,9 @@ public class FacilityManagement implements RoomFacilityManagementInterface{
 
 	@Override
 	public boolean deleteFacility(int facilitiyId) {
-		String  sqlDeleteFacili= "DELETE FROM `RoomFacilitiy` WHERE `roomFacilityId` = ?;";
+		String  sqlDeleteFacili = "DELETE FROM `RoomFacilitiy` WHERE `roomFacilityId` = ?;";
+		String  sqlDeleteFaciliUsage = "DELETE FROM `roomfacilitiyusage` WHERE `roomFacilityId` = ?;";
+		jdbc.update(sqlDeleteFaciliUsage, new Object[]{facilitiyId});
 		return jdbc.update(sqlDeleteFacili, new Object[]{facilitiyId})
 				== 1;
 	}

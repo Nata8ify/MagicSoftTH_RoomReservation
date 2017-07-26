@@ -128,7 +128,7 @@
 						});
 					},
 					"error" : function(err){
-						alert("There is No Room in the System by Now.");
+						alert("No Room Data Available.");
 					}
 				});
 			}

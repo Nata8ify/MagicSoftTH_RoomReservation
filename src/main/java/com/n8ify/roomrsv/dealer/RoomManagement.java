@@ -44,8 +44,10 @@ public class RoomManagement implements RoomManagementInterface {
 
 	@Override
 	public boolean deleteRoom(int roomId) {
-		String sqlDelete = "DELETE FROM `Room` WHERE `roomId` = ?";
-		return jdbc.update(sqlDelete, roomId) == 1;
+		String sqlDeleteRoom = "DELETE FROM `Room` WHERE `roomId` = ?";
+		String sqlDeleteRoomUsage = "DELETE FROM `RoomUsage` WHERE `roomId` = ?";
+		jdbc.update(sqlDeleteRoomUsage, roomId);
+		return jdbc.update(sqlDeleteRoom, roomId) == 1;
 	}
 
 	@Override
