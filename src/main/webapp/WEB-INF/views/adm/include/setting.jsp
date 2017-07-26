@@ -13,7 +13,7 @@
 							<div class="row">
 								<div class="span6">
 									<fieldset>
-										<legend>Wipe Reservation Data <a href="javascript:alert('Truncate the Reservation data from the System.\n\n If you want to wipe ENTIRELY data \(Present Reservation amd Upcoming Reservation\), then check \'Include Now and Future\' option. ');">[?]</a></legend>
+										<legend>Wipe Reservation Data <a href="javascript:alert('Wipe old reservation data from the System.\n\n *If you want to wipe ENTIRELY data \(Present Reservation and Upcoming Reservation\), then check \'Include Now and Future\' option. ');">[?]</a></legend>
 										<table>
 											<tr>
 												<td valign="bottom">
