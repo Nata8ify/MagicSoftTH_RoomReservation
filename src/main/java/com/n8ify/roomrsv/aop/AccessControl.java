@@ -1,19 +1,12 @@
 package com.n8ify.roomrsv.aop;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.n8ify.roomrsv.excp.UnauthorizedAccessException;
-import com.n8ify.roomrsv.model.Staff;
 import com.n8ify.roomrsv.model.StaffAccess;
 import com.n8ify.roomrsv.utils.Attrs;
 

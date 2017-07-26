@@ -90,6 +90,14 @@ public class ReservationRESTController {
 		return rsvMng.cancel(usageId);
 	}
 
+	@RequestMapping(value = {"/adm/manageReservation/empty"}, method = RequestMethod.POST)
+	public void emptyUsage(@RequestParam(value = "isUpcommingInclude", required = true)boolean isUpcommingInclude){
+		if(isUpcommingInclude){
+			rsvMng.emptyTotalUsage();
+		} else {
+			logger.info(rsvMng.emptyOldUsage()+""); 
+		}
+	}
 
 	
 	@InitBinder

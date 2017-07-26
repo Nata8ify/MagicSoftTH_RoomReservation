@@ -12,6 +12,8 @@ public interface RoomReservationInterface {
 	public boolean modify(RoomUsage roomUsage);
 
 	public boolean cancel(int roomUsageId);
+	public boolean emptyOldUsage();
+	public void emptyTotalUsage();
 
 	public List<RoomUsage> findAll(boolean isPassInclude);
 	public List<RoomUsage> findAllPassed();

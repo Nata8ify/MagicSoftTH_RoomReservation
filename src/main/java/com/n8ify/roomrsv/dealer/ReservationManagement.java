@@ -150,4 +150,21 @@ public class ReservationManagement implements RoomReservationInterface {
 		}
 	}
 
+
+	@Override
+	public boolean emptyOldUsage() {
+		String sqlDeletePreviouslyUsages = "DELETE FROM `roomusage` WHERE TIMESTAMP(`reservedDate`, `accessUntil`) <= (SELECT CURRENT_TIMESTAMP);";
+		String sqlDeletePreviouslyFacilisUsages = "DELETE FROM `roomfacilitiyusage` WHERE roomfacilitiyusage.roomUsageId IN (SELECT ru.usageId FROM `roomusage` ru WHERE TIMESTAMP(ru.`reservedDate`, ru.`accessUntil`) <= (SELECT CURRENT_TIMESTAMP));";
+		return jdbc.batchUpdate(new String[]{sqlDeletePreviouslyFacilisUsages, sqlDeletePreviouslyUsages})[1] >= 0;
+	}
+
+	@Override
+	public void emptyTotalUsage() {
+		String sqlDisableFk = "SET FOREIGN_KEY_CHECKS=0;";
+		String sqlEnableFk = "SET FOREIGN_KEY_CHECKS=1;";
+		String sqlTruncateFacilisUsage = "TRUNCATE TABLE `RoomFacilitiyUsage`;";
+		String sqlTruncateRoomUsage = "TRUNCATE TABLE `RoomUsage`;";
+		jdbc.batchUpdate(new String[]{sqlDisableFk, sqlTruncateFacilisUsage, sqlTruncateRoomUsage, sqlEnableFk});
+	}
+
 }

@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
-import com.n8ify.roomrsv.config.Configuration;
 import com.n8ify.roomrsv.excp.UnauthorizedAccessException;
 
 @ControllerAdvice

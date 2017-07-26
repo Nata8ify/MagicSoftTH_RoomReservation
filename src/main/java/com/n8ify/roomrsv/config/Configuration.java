@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-
 import com.n8ify.roomrsv.dealer.FacilityManagement;
 import com.n8ify.roomrsv.dealer.ReservationManagement;
 import com.n8ify.roomrsv.dealer.RoomManagement;
