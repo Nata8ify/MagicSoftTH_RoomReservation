@@ -99,6 +99,7 @@
 			$("#btn-reservation-submit").prop("disabled", false);
 			if(!moment($(this).val()).isSameOrAfter(moment().format("YYYY-MM-DD"))){
 				alert("The Reservation Date Shouldn't be a Previous Times");
+				$(this).val(moment().format("YYYY-MM-DD"));
 				$("#btn-reservation-submit").prop("disabled", true);
 			}
 		});

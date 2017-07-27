@@ -25,6 +25,9 @@ public class AccessControl {
 			if(thisStaffAccess == null){
 				throw new UnauthorizedAccessException();
 			}
+			if(thisStaffAccess.getRoomrsvRole() == null){
+				throw new UnauthorizedAccessException();
+			}
 			if(thisStaffAccess.getRoomrsvRole().equals(Attrs.ROLE_ADMIN)){
 				return;
 			}

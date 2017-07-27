@@ -64,12 +64,12 @@
 				
 				<div class="field">
 					<label for="username">Staff ID</label>
-					<input type="text" id="username" name="staffId" value="M00000" placeholder="Staff Id" class="login username-field" required />
+					<input type="text" id="username" name="staffId" placeholder="Staff Id" class="login username-field" required />
 				</div> <!-- /field -->
 				
 				<div class="field">
 					<label for="password">Password:</label>
-					<input type="password" id="password" name="password" value="kogy9i8u" placeholder="Password" class="login password-field" required />
+					<input type="password" id="password" name="password" placeholder="Password" class="login password-field" required />
 				</div> <!-- /password -->
 				
 			</div> <!-- /login-fields -->

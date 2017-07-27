@@ -133,7 +133,7 @@
 				});
 			}
 		}); //Hold a Total Room Usages.
-
+		$("#input-reserve-date").val(moment().format("YYYY-MM-DD"));
 	});
 </script>
 <!-- /Initial Script -->
@@ -199,12 +199,12 @@
 									<div class="form-group">
 										<input class="form-control input-lg" name="staffId"
 											id="input-signin-staffid" type="text" placeholder="Staff ID"
-											required="required" value="M00000" />
+											required="required"/>
 									</div>
 									<div class="form-group">
 										<input class="form-control input-lg" name="password"
 											id="input-signin-password" type="password"
-											placeholder="Password" required="required" value="kogy9i8u" />
+											placeholder="Password" required="required" />
 									</div>
 									<div class="form-group last">
 										<input type="submit" class="btn btn-warning btn-block btn-lg"

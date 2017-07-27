@@ -92,7 +92,7 @@
 								<li> Fatally Error on System Database. (This case may be possible if there are no problem on which one of two cases before.)</li>
 							</ul>
 						<br/>
-						<a href="${appPath}/adm/home"><button style="color:black;">Back</button></a>
+						<a href="javascript:history.back();"><button style="color:black;">Back</button></a>
 						</div>
 					</div>
 				</div>
