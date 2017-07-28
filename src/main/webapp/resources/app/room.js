@@ -34,6 +34,8 @@ function addRoomUsageDetail(roomUsages, rooms){
 	return reservations;
 }
 
+
+
 /* getFacilitiesUsageDetailByUsageId : Get Facility's Detail By Room Usage Id. */
 var selectedFacilityDetails; // Contain Current Views Facility's Detail [Supporting Asynchronous $.when [THIS IS BAD BUT WORK]]
 function getFacilitiesUsageDetailByUsageId(roomUsageId){
@@ -167,7 +169,11 @@ $("document").ready(function(){
 			facilities = results;
 		}
 	});
-
+	
+	//set Today Reservation's Data Table refresh Every 3 secs
+	/*setInterval(() => {
+		updateReservationForCurrentDayTime();
+	}, 3000);*/
 });
 
 

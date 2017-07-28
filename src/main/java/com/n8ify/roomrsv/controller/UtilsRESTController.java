@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.n8ify.roomrsv.dealer.Utilities;
 import com.n8ify.roomrsv.model.RoomInform;
 import com.n8ify.roomrsv.model.Staff;
+import com.n8ify.roomrsv.model.extra.ServiceContract;
 import com.n8ify.roomrsv.utils.Attrs;
 
 @RestController
@@ -59,5 +60,17 @@ public class UtilsRESTController {
 		if(option.equals("g")){return utils.updateAdministratorRole(staffId, Attrs.ROLE_ADMIN);}
 		if(option.equals("r")){return utils.updateAdministratorRole(staffId, Attrs.ROLE_NO);}
 		return false;
+	}
+	
+	/* Service Contract Section */
+	@Autowired
+	@Qualifier("servContract")
+	private ServiceContract contract;
+	@RequestMapping(value = {"/adm/utils/setting/contract/update"}, method = RequestMethod.POST)
+	public ServiceContract setServiceContract$(ServiceContract serviceContract){
+		contract.setLocation(serviceContract.getLocation());
+		contract.setOfficerTel(serviceContract.getOfficerTel());
+		contract.setEmail(serviceContract.getEmail());
+		return contract;
 	}
 }

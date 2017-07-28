@@ -1,5 +1,6 @@
 package com.n8ify.roomrsv.config;
 
+import javax.inject.Scope;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import com.n8ify.roomrsv.dealer.ReservationManagement;
 import com.n8ify.roomrsv.dealer.RoomManagement;
 import com.n8ify.roomrsv.dealer.RoomrsvAccess;
 import com.n8ify.roomrsv.dealer.Utilities;
+import com.n8ify.roomrsv.model.extra.ServiceContract;
 
 @org.springframework.context.annotation.Configuration
 @PropertySource("classpath:properties.properties")
@@ -57,6 +59,13 @@ public class Configuration {
 	@Bean(name = "utils")
 	public Utilities utils(){
 		return new Utilities(dataSource());
+	}
+	
+	
+	@Bean(name = "servContract")
+	@org.springframework.context.annotation.Scope("application")
+	public ServiceContract serviceContract(){
+		return new ServiceContract();
 	}
 	
 }

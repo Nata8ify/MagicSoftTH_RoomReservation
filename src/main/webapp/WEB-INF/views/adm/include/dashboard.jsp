@@ -51,6 +51,30 @@
 			 						      "emptyTable": "There are no reservation on this day"
 			 					    }
 								});$("#b-today").html(" ("+new moment().format("LL")+")");}
+							/* Deal with DataTable Function */
+							/* updateReservationForCurrentDayTime : Get Reservation that Filtered Passed Reservation form the Day by Time on todayReservations*/
+							function updateReservationForCurrentDayTime(){ //#
+								var now = moment().format("HH:mm:ss");
+								var filteredReservations = [];
+								
+								$.each(todayReservations, function(index, reservation){
+									console.log(now+" :: "+reservation.accessUntil);
+									if(reservation.accessUntil.localeCompare(now) == 1){
+										filteredReservations.push(reservation);
+									}
+								});
+								setTimeout(() => {
+									console.log(filteredReservations);
+									refetchTodayReservationTable(filteredReservations);
+								}, 2000); 
+							}
+
+							/* refetchTodayReservationTable : The Function for refetch Today Reservation's Data table */
+							function refetchTodayReservationTable(reservations){
+								todayReservationTable.clear().draw();
+								todayReservationTable.rows.add(reservations);
+								todayReservationTable.columns.adjust().draw();
+							} // /#
 							</script>
 						</div>
 						<!-- /widget -->

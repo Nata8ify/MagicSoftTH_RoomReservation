@@ -535,10 +535,9 @@
 								<span class="highlight">Get</span> in touch
 							</h2>
 							<ul class="ul-address">
-								<li><i class="pe-7s-map-marker"></i>Reservation Operating Location</li>
-								<li><i class="pe-7s-phone"></i>Operating Officer Tel.</li>
-								<li><i class="pe-7s-mail"></i><a
-									href="mailto:info@yoursite.com">operatinOfficer@mail.com</a></li>
+								<li><i class="pe-7s-map-marker"></i>${servContract.location}</li>
+								<li><i class="pe-7s-phone"></i>${servContract.officerTel}</li>
+								<li><i class="pe-7s-mail"></i>${servContract.email}</li>
 								
 							</ul>
 						</div>

@@ -11,7 +11,43 @@
 						<!-- /widget-header -->
 						<div class="widget-content">
 							<div class="row">
-								<div class="span6">
+								<div class="span12">
+									<fieldset>
+										<legend>Service Contract's Information <a href="javascript:alert('This Setting will allow you to change the Service Contract\'s Information which will be displayed on the footer of index page.');">[?]</a></legend>
+										<table cellpadding="10px">
+											<tr valign="top">
+												<td>
+													<div class="form-group">
+														<label>Operating Place</label>
+														<textarea rows="3" cols="10" placeholder="Operating Place" id="input-contract-op-place">${servContract.location}</textarea>
+													</div></td><td>
+													<div class="form-group">
+														<label>Officer Telephone No.</label>
+														<input type="tel" placeholder="Officer Tel" id="input-contract-op-offtel" value="${servContract.officerTel}"/>
+													</div></td><td>
+													<div class="form-group">
+														<label>Contact E-mail</label>
+														<input type="email" placeholder="Contact E-mail" id="input-contract-op-email" value="${servContract.email}"/>
+													</div>
+												</td>
+												<td ><br/><div class="form-group">&emsp;<input type="button" class="btn btn-info" value="Update Service Contract Info" id="btn-contract-update" /></div></td>
+												</tr>
+										</table>
+									</fieldset>
+										<script>
+											$("#btn-contract-update").click(function(){
+												$.ajax({
+													"type" : "post",
+													"url" : "utils/setting/contract/update",
+													"data" : {location : $("#input-contract-op-place").val(), officerTel : $("#input-contract-op-offtel").val(), email : $("#input-contract-op-email").val()},
+													"success" : function(response){
+														alert("You have changed a service contract\'s information to \n\nLocation : ".concat(response.location).concat("\n\nOfficer Tel. : ").concat(response.officerTel).concat("\n\nE-mail : ").concat(response.email));
+													}
+												});
+											});
+										</script>
+									</div>	
+									<div class="span6">		
 									<fieldset>
 										<legend>Wipe Reservation Data <a href="javascript:alert('Wipe old reservation data from the System.\n\n *If you want to wipe ENTIRELY data \(Present Reservation and Upcoming Reservation\), then check \'Include Now and Future\' option. ');">[?]</a></legend>
 										<table>

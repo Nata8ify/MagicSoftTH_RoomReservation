@@ -8,11 +8,14 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.n8ify.roomrsv.model.RoomInform;
 import com.n8ify.roomrsv.model.Staff;
+import com.n8ify.roomrsv.model.extra.ServiceContract;
 
 /** Only This Class  not have/implement Interface */
 public class Utilities { 
