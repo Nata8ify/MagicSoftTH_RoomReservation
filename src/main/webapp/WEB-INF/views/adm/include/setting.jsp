@@ -23,11 +23,11 @@
 													</div></td><td>
 													<div class="form-group">
 														<label>Officer Telephone No.</label>
-														<input type="tel" placeholder="Officer Tel" id="input-contract-op-offtel" value="${servContract.officerTel}"/>
+														<input type="tel" placeholder="Officer Tel" id="input-contract-op-offtel" value="${servContract.officerTel}" maxlength="14" />
 													</div></td><td>
 													<div class="form-group">
 														<label>Contact E-mail</label>
-														<input type="email" placeholder="Contact E-mail" id="input-contract-op-email" value="${servContract.email}"/>
+														<input type="email" placeholder="Contact E-mail" id="input-contract-op-email" value="${servContract.email}" maxlength="50"/>
 													</div>
 												</td>
 												<td ><br/><div class="form-group">&emsp;<input type="button" class="btn btn-info" value="Update Service Contract Info" id="btn-contract-update" /></div></td>

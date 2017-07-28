@@ -72,9 +72,9 @@ public class Utilities {
 		return jdbc.query(sqlFindTotalInform, new RoomInfornMapper());
 	}
 	
-	public boolean dismissInform(int informId){
+	public void dismissInform(int informId){
 		String sqlDismissInform = "DELETE FROM `RoomInform` WHERE `informId` = ?;";
-		return jdbc.update(sqlDismissInform, new Object[]{informId}) == 1;
+		jdbc.update(sqlDismissInform, informId);
 	}
 	
 	public boolean truncateInforms(){

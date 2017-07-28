@@ -43,6 +43,7 @@ public class ReservationRESTController {
 	@RequestMapping(value = {"/reservation/getByDate", "/adm/reservation/getByDate"}, method = RequestMethod.GET) //POST, pls
 	public List<RoomUsage> getAvailableReservationByDate(@RequestParam(value = "date", defaultValue = "today")Date date){
 		logger.info(date.toString());
+		logger.info(rsvMng.findByDate(date).toString());
 		return rsvMng.findByDate(date);
 	}
 	

@@ -55,17 +55,15 @@
 							/* updateReservationForCurrentDayTime : Get Reservation that Filtered Passed Reservation form the Day by Time on todayReservations*/
 							function updateReservationForCurrentDayTime(){ //#
 								var now = moment().format("HH:mm:ss");
-								var filteredReservations = [];
 								
 								$.each(todayReservations, function(index, reservation){
 									console.log(now+" :: "+reservation.accessUntil);
 									if(reservation.accessUntil.localeCompare(now) == 1){
-										filteredReservations.push(reservation);
+										console.log(reservation.accessUntil.localeCompare(now));
 									}
 								});
 								setTimeout(() => {
-									console.log(filteredReservations);
-									refetchTodayReservationTable(filteredReservations);
+									console.log("F");
 								}, 2000); 
 							}
 
@@ -133,7 +131,7 @@
 						<div class="widget">
 							<div class="widget-header">
 								<i class="icon-file"></i>
-								<h3>User's Informs <b id="b-today"></b></h3>
+								<h3>User's Reports <b id="b-today"></b></h3>
 							</div>
 							<!-- /widget-header -->
 							<div class="widget-content">
@@ -170,6 +168,10 @@
 												$rowData = $("<tr><td>"+(inform.byStaffId==null?"Anonymous":inform.byStaffId)+"</td><td><b>"+inform.title+"</b> (<i>"+moment.unix(inform.timeStamp/1000).format("LLLL")+"</i>)<br/>"+inform.message+"</td><td><button class='btn-dismiss-inform' data-informid='"+inform.informId+"'>Dismiss</button></td></tr>");
 												$rowData.find("button").click(function(){
 													dismissInform($(this).data("informid"), $rowData);
+													$(this).closest("tr").remove();
+													if($tbodyInform.find("tr").length == 0){
+														$tbodyInform.html("<tr><td colspan='4'><center><b>Empty</b></center></td></tr>");
+													}
 												});
 												$tbodyInform.append($rowData);	
 											});
@@ -183,16 +185,13 @@
 								
 								/* dismissInform : To Dismiss yhe Selected Inform. */
 								function dismissInform(informId, informRow){
+									
 									$.ajax({
 										"type" : "post",
 										"url" : "utils/delete/inform",
 										"data" : {informId : informId},
 										"success" : function(isSuccess){
-											if(isSuccess){
-												if(informRow != null){
-													informRow.remove();
-												}
-											}
+											
 										}
 									});	
 								}	

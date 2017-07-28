@@ -44,8 +44,9 @@ public class UtilsRESTController {
 	}
 	
 	@RequestMapping(value = {"/adm/utils/delete/inform"}, method = RequestMethod.POST)
-	public boolean deleteInform(@RequestParam(value = "informId", required = true)int informId){
-		return utils.dismissInform(informId);
+	public void deleteInform(@RequestParam(value = "informId", required = true)int informId){
+		logger.info("informId : "+informId);
+		utils.dismissInform(informId);
 	}
 	
 	@RequestMapping(value = {"/adm/utils/delete/all"}, method = RequestMethod.POST)

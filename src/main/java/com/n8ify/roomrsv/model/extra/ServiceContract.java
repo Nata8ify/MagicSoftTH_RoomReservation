@@ -6,7 +6,7 @@ public class ServiceContract {
 	private String email;
 	
 	public ServiceContract() {
-		this("Operating Address", "+66548044577", "example@mail.com");
+		this("Operating Address", "+066000000000", "contact@mail.com");
 	}
 
 	public ServiceContract(String location, String officerTel, String email) {
