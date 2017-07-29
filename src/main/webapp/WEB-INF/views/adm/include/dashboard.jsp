@@ -33,6 +33,7 @@
 							/* setUpTodayReservationTable : This is a Function for Initialize Today Reservation's Data Table. */
 							var todayReservationTable; //[GLOBAL]
 							function setUpTodayReservationTable(todayReservationData){
+								if(todayReservationTable ==  undefined){
 								todayReservationTable = $("#table-view-reservation-today").DataTable({
 									"data" : todayReservationData,
 									"columns" : [{width : "20%"},{width : "70%", data : "room.roomName"}, {width : "10%"}],
@@ -47,19 +48,26 @@
 									}],
 									"searching": false,
 									"bLengthChange": false, 
+									"autoWidth": false,
 			 						"language": {
 			 						      "emptyTable": "There are no reservation on this day"
 			 					    }
-								});$("#b-today").html(" ("+new moment().format("LL")+")");}
+								});$("#b-today").html(" ("+new moment().format("LL")+")");
+								} else {
+									refetchDataTable(todayReservationTable ,todayReservationData);
+								}
+								
+							}
+								
 							/* Deal with DataTable Function */
-							/* updateReservationForCurrentDayTime : Get Reservation that Filtered Passed Reservation form the Day by Time on todayReservations*/
-							function updateReservationForCurrentDayTime(){ //#
+							/* highlightPassed : Highligh a Passed Reservation form the Day by Time on Today Reservations's Table. */
+							function highlightPassed(){ //#
 								var now = moment().format("HH:mm:ss");
 								
 								$.each(todayReservations, function(index, reservation){
 									console.log(now+" :: "+reservation.accessUntil);
 									if(reservation.accessUntil.localeCompare(now) == 1){
-										console.log(reservation.accessUntil.localeCompare(now));
+										console.log("Upcomming > "+reservation.accessUntil);
 									}
 								});
 								setTimeout(() => {
@@ -67,12 +75,7 @@
 								}, 2000); 
 							}
 
-							/* refetchTodayReservationTable : The Function for refetch Today Reservation's Data table */
-							function refetchTodayReservationTable(reservations){
-								todayReservationTable.clear().draw();
-								todayReservationTable.rows.add(reservations);
-								todayReservationTable.columns.adjust().draw();
-							} // /#
+							
 							</script>
 						</div>
 						<!-- /widget -->
@@ -105,6 +108,7 @@
 							/* setUpTodayReservationTable : This is a Function for Initialize Today Reservation's Data Table. */
 							var comingReservationTable; //[GLOBAL]
 							function setUpComingReservationTable(comingReservationData){
+								if(comingReservationTable ==  undefined){
 								comingReservationTable = $("#table-view-reservation-coming").DataTable({
 									"data" : comingReservationData,
 									"columns" : [{width : "20%", data : "reservedDate"},{width : "70%", data : "room.roomName"}, {width : "10%"}],
@@ -114,10 +118,14 @@
 									}],
 									"searching": false,
 									"bLengthChange": false, 
+									 "autoWidth": false,
 			 						"language": {
 			 						      "emptyTable": "There are no reservation in upconing days"
 			 					    }
-								});}
+								});} else {
+									// UNCOMMENT FOR UpComming's Reservation Table Refetch Table for Changed -->  /* refetchDataTable(todayReservationTable ,todayReservationData); */
+								}
+							}
 							</script>
 						</div>
 

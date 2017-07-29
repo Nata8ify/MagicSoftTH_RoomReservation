@@ -122,14 +122,8 @@ function findUserByStaffId(staffId){
 	return findUser;
 }
 
-/* cancelReservationByUsage : Its Name says Anythings.*/
-function cancelReservationByUsage(){
-	
-}
-
-/* Listener / When 'Things' was Occurred. */
-$("document").ready(function(){
-	//Get Rooms.
+/* getReservationData : Get and Push the Room's Info into each of Reservation Data.*/
+function getReservationData(){
 	$.ajax({
 		"type" : "post",
 		"url" : "findRoom/findAllRooms",
@@ -141,6 +135,8 @@ $("document").ready(function(){
 				"url" : "reservation/all",
 				"data" : {isPassInclude : false},
 				"success" : function(results){
+					todayReservations = undefined;
+					comingReservations = undefined;
 					$.when(addRoomUsageDetail(results, rooms)).then(function(results){
 						currentReservations = results;
 						todayReservations = getTodayReservations(currentReservations);
@@ -153,6 +149,16 @@ $("document").ready(function(){
 			});	
 		}
 	});
+}
+
+/* Listener / When 'Things' was Occurred. */
+$("document").ready(function(){
+	//Get Rooms.
+	getReservationData();
+	setInterval(function(){
+		getReservationData();
+		highlightPassed();
+	}, 3000);
 	//Get Total Users.
 	$.ajax({
 		"type" : "post",
@@ -176,6 +182,12 @@ $("document").ready(function(){
 	}, 3000);*/
 });
 
+/* refetchDataTable : The Function for refetch the Reservation's Data table */
+function refetchDataTable(dataTable ,reservations){
+	dataTable.clear().draw();
+	dataTable.rows.add(reservations);
+	dataTable.columns.adjust().draw();
+} // /#
 
 /* Useful */
 function log(thing){
