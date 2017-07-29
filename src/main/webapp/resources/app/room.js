@@ -157,7 +157,6 @@ $("document").ready(function(){
 	getReservationData();
 	setInterval(function(){
 		getReservationData();
-		highlightPassed();
 	}, 3000);
 	//Get Total Users.
 	$.ajax({

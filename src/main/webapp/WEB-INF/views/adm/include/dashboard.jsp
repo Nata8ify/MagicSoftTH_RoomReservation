@@ -36,6 +36,17 @@
 								if(todayReservationTable ==  undefined){
 								todayReservationTable = $("#table-view-reservation-today").DataTable({
 									"data" : todayReservationData,
+									"fnRowCallback" : function(nRow, aData, iDisplayIndex, iDisplayIndexFull ){
+										console.log(nRow);
+										if(!(aData.accessUntil.localeCompare(moment().format("HH:mm:ss")) == 1)){
+											console.log("Passed > "+aData.accessUntil);
+											$("td", nRow).css("background-color", "#ccc");
+											$("td", nRow).eq(1).html(aData.room.roomName.concat(" <b>(Finished)</b>"));
+										} else if(aData.accessBegin.localeCompare(moment().format("HH:mm:ss")) == -1 && aData.accessUntil.localeCompare(moment().format("HH:mm:ss")) == 1){
+											$("td", nRow).css("background-color", "#dfd");
+											$("td", nRow).eq(1).html(aData.room.roomName.concat(" (<b>During use...</b>)"));
+										}
+									},
 									"columns" : [{width : "20%"},{width : "70%", data : "room.roomName"}, {width : "10%"}],
 									"columnDefs" : [{
 										targets : 0,
@@ -58,24 +69,6 @@
 								}
 								
 							}
-								
-							/* Deal with DataTable Function */
-							/* highlightPassed : Highligh a Passed Reservation form the Day by Time on Today Reservations's Table. */
-							function highlightPassed(){ //#
-								var now = moment().format("HH:mm:ss");
-								
-								$.each(todayReservations, function(index, reservation){
-									console.log(now+" :: "+reservation.accessUntil);
-									if(reservation.accessUntil.localeCompare(now) == 1){
-										console.log("Upcomming > "+reservation.accessUntil);
-									}
-								});
-								setTimeout(() => {
-									console.log("F");
-								}, 2000); 
-							}
-
-							
 							</script>
 						</div>
 						<!-- /widget -->
