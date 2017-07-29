@@ -36,10 +36,8 @@
 								if(todayReservationTable ==  undefined){
 								todayReservationTable = $("#table-view-reservation-today").DataTable({
 									"data" : todayReservationData,
-									"fnRowCallback" : function(nRow, aData, iDisplayIndex, iDisplayIndexFull ){
-										console.log(nRow);
+									"fnRowCallback" : function(nRow, aData){
 										if(!(aData.accessUntil.localeCompare(moment().format("HH:mm:ss")) == 1)){
-											console.log("Passed > "+aData.accessUntil);
 											$("td", nRow).css("background-color", "#ccc");
 											$("td", nRow).eq(1).html(aData.room.roomName.concat(" <b>(Finished)</b>"));
 										} else if(aData.accessBegin.localeCompare(moment().format("HH:mm:ss")) == -1 && aData.accessUntil.localeCompare(moment().format("HH:mm:ss")) == 1){

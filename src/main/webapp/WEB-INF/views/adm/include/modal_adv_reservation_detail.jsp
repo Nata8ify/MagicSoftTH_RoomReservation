@@ -53,7 +53,6 @@
 		var roomDetail = todayReservationTable.row($(this).parents("tr")).data();
 		$.when(findUserByStaffId(roomDetail.byStaffId)).then(function(user){
 				roomDetail["user"] = user;
-				log(roomDetail);
 				viewAdvanceReservationDetail(roomDetail);
 		});
 	});
@@ -61,7 +60,6 @@
 		var roomDetail = comingReservationTable.row($(this).parents("tr")).data();
 		$.when(findUserByStaffId(roomDetail.byStaffId)).then(function(user){
 				roomDetail["user"] = user;
-				log(roomDetail);
 				viewAdvanceReservationDetail(roomDetail);
 		});
 	});
