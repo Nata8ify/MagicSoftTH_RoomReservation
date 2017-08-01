@@ -1,0 +1,4 @@
+/* Custom */
+#tbody-available-room-detail tr:hover{
+	cursor: pointer;
+}
